@@ -10,6 +10,6 @@ public class Immortality implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        net.hempflingclub.immortality.item.UsableItems.registerModItems();//
+        net.hempflingclub.immortality.item.UsableItems.registerModItems();
     }
 }
