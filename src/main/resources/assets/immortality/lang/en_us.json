@@ -1,4 +1,6 @@
 {
   "item.immortality.heart_of_immortality": "Heart Of Immortality",
-  "item.immortality.void_heart": "Void Heart"
+  "item.immortality.void_heart": "Void Heart",
+
+  "itemGroup.immortality.immortality": "Immortality"
 }
