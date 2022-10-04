@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -27,23 +28,21 @@ public class HeartOfImmortality extends Item {
             ImmortalityData.setImmortality(((IPlayerDataSaver) player), !ImmortalityData.getImmortality((IPlayerDataSaver) player));
             boolean status = ImmortalityData.getImmortality((IPlayerDataSaver) player);
             if (status) {
-                player.sendMessage(Text.literal("You have achieved Immortality."));
+                ((PlayerEntity) player).sendMessage(Text.literal("You have achieved Immortality."), true);
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
                 player.setHealth(player.getMaxHealth());
             } else {
-                player.sendMessage(Text.literal("You have given up your Immortality."));
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
                 player.setHealth(1);
-                player.damage(DamageSource.OUT_OF_WORLD, 2000000000);
+                player.damage(new DamageSource(Text.translatable("immortality", player.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
+                        2000000000);
+                ImmortalityData.setImmortalDeaths((IPlayerDataSaver) player, 0);
             }
-            player.sendMessage(Text.literal("You have eaten heart" + Math.floor(Math.random() * 10)));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50));
         } else {
             //Client
-            if (ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
-                MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.HeartOfImmortality));
-            }
+            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.HeartOfImmortality));
         }
         return super.finishUsing(stack, world, player);
     }

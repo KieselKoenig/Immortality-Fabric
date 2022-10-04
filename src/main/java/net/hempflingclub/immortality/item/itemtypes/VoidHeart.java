@@ -27,25 +27,22 @@ public class VoidHeart extends Item {
             ImmortalityData.setVoidHeart(((IPlayerDataSaver) player), !ImmortalityData.getVoidHeart((IPlayerDataSaver) player));
             boolean status = ImmortalityData.getVoidHeart((IPlayerDataSaver) player);
             if (status) {
-                player.sendMessage(Text.literal("You consume the Void."));
+                ((PlayerEntity) player).sendMessage(Text.literal("You consume the Void."), true);
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
                 player.setHealth(player.getMaxHealth());
             } else {
-                player.sendMessage(Text.literal("You have forsaken the Void."));
+                ((PlayerEntity) player).sendMessage(Text.literal("You have forsaken the Void."), true);
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
                 player.setHealth(1);
                 ((PlayerEntity) player).getHungerManager().setFoodLevel(0);
                 ((PlayerEntity) player).getHungerManager().setSaturationLevel(0);
                 player.tick();
             }
-            player.sendMessage(Text.literal("You have eaten heart" + Math.floor(Math.random() * 10)));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50));
         } else {
             //Client
-            if (ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
-                MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.VoidHeart));
-            }
+            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.VoidHeart));
         }
         return super.finishUsing(stack, world, player);
     }

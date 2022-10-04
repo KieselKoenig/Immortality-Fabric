@@ -22,14 +22,14 @@ public abstract class PlayerDataSaverMixin implements IPlayerDataSaver {
     }
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
-    protected void injectWriteMethod(NbtCompound nbt, CallbackInfoReturnable info) {
+    protected void immortality$injectWriteMethod(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         if (this.persistentData != null) {
             nbt.put("immortality.data", this.persistentData);
         }
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
-    protected void injectReadMethod(NbtCompound nbt, CallbackInfo info) {
+    protected void immortality$injectReadMethod(NbtCompound nbt, CallbackInfo info) {
         if (nbt.contains("immortality.data", 10)) {
             this.persistentData = nbt.getCompound("immortality.data");
         }

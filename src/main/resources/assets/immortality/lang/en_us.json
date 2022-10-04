@@ -2,5 +2,6 @@
   "item.immortality.heart_of_immortality": "Heart Of Immortality",
   "item.immortality.void_heart": "Void Heart",
 
-  "itemGroup.immortality.immortality": "Immortality"
+  "itemGroup.immortality.immortality": "Immortality",
+  "death.attack.immortality": "%s has given up their Immortality"
 }

@@ -13,6 +13,16 @@ public class ImmortalityData {
         return nbt.getBoolean("immortal");
     }
 
+    public static void setImmortalDeaths(IPlayerDataSaver playerdata, int deaths) {
+        NbtCompound nbt = playerdata.getPersistentData();
+        nbt.putInt("immortalDeaths", deaths);
+    }
+
+    public static int getImmortalDeaths(IPlayerDataSaver playerdata) {
+        NbtCompound nbt = playerdata.getPersistentData();
+        return nbt.getInt("immortalDeaths");
+    }
+
     public static void setVoidHeart(IPlayerDataSaver playerdata, boolean status) {
         NbtCompound nbt = playerdata.getPersistentData();
         nbt.putBoolean("voidheart", status);
