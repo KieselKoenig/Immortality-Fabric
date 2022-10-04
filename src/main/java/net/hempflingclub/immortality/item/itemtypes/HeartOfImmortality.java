@@ -38,8 +38,8 @@ public class HeartOfImmortality extends Item {
                         2000000000);
                 ImmortalityData.setImmortalDeaths((IPlayerDataSaver) player, 0);
             }
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
         } else {
             //Client
             MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.HeartOfImmortality));

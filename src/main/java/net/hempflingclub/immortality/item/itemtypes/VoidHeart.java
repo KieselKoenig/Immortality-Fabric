@@ -38,8 +38,8 @@ public class VoidHeart extends Item {
                 ((PlayerEntity) player).getHungerManager().setSaturationLevel(0);
                 player.tick();
             }
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
         } else {
             //Client
             MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.VoidHeart));
