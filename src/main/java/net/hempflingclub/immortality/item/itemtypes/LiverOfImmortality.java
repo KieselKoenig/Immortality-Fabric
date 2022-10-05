@@ -1,9 +1,10 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
-import net.hempflingclub.immortality.item.UsableItems;
+import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -17,7 +18,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Objects;
 
 public class LiverOfImmortality extends Item {
     public LiverOfImmortality(Settings settings) {
@@ -31,7 +36,7 @@ public class LiverOfImmortality extends Item {
             ImmortalityData.setLiverImmortality(((IPlayerDataSaver) player), !ImmortalityData.getLiverImmortality((IPlayerDataSaver) player));
             boolean status = ImmortalityData.getLiverImmortality((IPlayerDataSaver) player);
             if (status) {
-                ((PlayerEntity) player).sendMessage(Text.literal("You have achieved Immortality by eating an Immortal Liver."), true);
+                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.achieve.liver_of_immortality"), true);
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
                 player.setHealth(player.getMaxHealth());
             } else {
@@ -39,7 +44,7 @@ public class LiverOfImmortality extends Item {
                 EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
                 assert maxHealth != null;
                 for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
-                    if (entityModifier.getName().equals("immortalityHearts")) {
+                    if (entityModifier.getName().equals("immortalityHearts") || entityModifier.getName().equals("negativeImmortalityHearts")) {
                         maxHealth.removeModifier(entityModifier);
                     }
                 }
@@ -50,10 +55,40 @@ public class LiverOfImmortality extends Item {
             }
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
+        } else if (!world.isClient() &&
+                ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player) >= 30 &&
+                ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) &&
+                ImmortalityData.getVoidHeart((IPlayerDataSaver) player) &&
+                ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
+            //User has Trilogy
+            player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
+            if (ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && Objects.requireNonNull(player.getServer()).getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300)) {
+                //Remove Debuff
+                ImmortalityData.setLiverExtractionTime((IPlayerDataSaver) player, 0);
+                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
+            } else {
+                //Give Buff
+                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
+                EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+                EntityAttributeModifier healthAddition = new EntityAttributeModifier("immortalityAbsorbedLiver", 10, EntityAttributeModifier.Operation.ADDITION);
+                assert maxHealth != null;
+                maxHealth.addPersistentModifier(healthAddition);
+                player.setHealth(player.getMaxHealth());
+            }
         } else {
             //Client
-            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.LiverOfImmortality));
+            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));
         }
         return super.finishUsing(stack, world, player);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(Text.translatable("immortality.tooltip.item.liver_of_immortality_1").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.liver_of_immortality_2").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.liver_of_immortality_3").formatted(Formatting.DARK_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.liver_of_immortality_4").formatted(Formatting.DARK_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.liver_of_immortality_5").formatted(Formatting.DARK_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.liver_of_immortality_6").formatted(Formatting.DARK_PURPLE));
     }
 }

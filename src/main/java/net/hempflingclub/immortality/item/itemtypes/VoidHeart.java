@@ -1,9 +1,10 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
-import net.hempflingclub.immortality.item.UsableItems;
+import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,7 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class VoidHeart extends Item {
     public VoidHeart(Settings settings) {
@@ -42,8 +46,14 @@ public class VoidHeart extends Item {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
         } else {
             //Client
-            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(UsableItems.VoidHeart));
+            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.VoidHeart));
         }
         return super.finishUsing(stack, world, player);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(Text.translatable("immortality.tooltip.item.void_heart_1").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.void_heart_2").formatted(Formatting.LIGHT_PURPLE));
     }
 }

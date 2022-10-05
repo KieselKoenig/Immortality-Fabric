@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "immortality",
   "version": "${version}",
-
   "name": "Immortality",
   "description": "This mod will add a System regarding Immortality into the game.",
   "authors": [
@@ -11,10 +10,8 @@
   "contact": {
     "homepage": "https://heleno.tk/"
   },
-
   "license": "MIT License",
-  "icon": "assets/modid/icon.png",
-
+  "icon": "assets/immortality/textures/item/heart_of_immortality.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -27,7 +24,6 @@
   "mixins": [
     "immortality.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric-api": "*",

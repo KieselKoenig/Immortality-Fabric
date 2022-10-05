@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "immortality:heart_of_immortality"
+    },
+    "title": {
+      "translate": "advancements.immortality.root.title"
+    },
+    "description": {
+      "translate": "advancements.immortality.root.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true,
+    "background": "immortality:textures/gui/advancements/backgrounds/background.png"
+  },
+  "criteria": {
+    "consume_item": {
+      "conditions": {
+        "item": {
+          "items": [
+            "immortality:heart_of_immortality",
+            "immortality:void_heart",
+            "immortality:liver_of_immortality"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "rewards": {
+    "experience": 1000
+  }
+}

@@ -8,5 +8,5 @@ public class ItemGroup {
             .build(
             new Identifier(net.hempflingclub.immortality.Immortality.MOD_ID,
                     "immortality"),
-            () -> new ItemStack(UsableItems.HeartOfImmortality));
+            () -> new ItemStack(ImmortalityItems.HeartOfImmortality));
 }

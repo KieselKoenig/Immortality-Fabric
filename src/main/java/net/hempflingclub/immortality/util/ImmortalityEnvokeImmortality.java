@@ -1,7 +1,7 @@
 package net.hempflingclub.immortality.util;
 
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
-import net.hempflingclub.immortality.item.UsableItems;
+import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -9,6 +9,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -27,7 +28,8 @@ public class ImmortalityEnvokeImmortality {
                 && entity.isPlayer()) {
             // This is Server, Player is Immortal and would've Died
             PlayerEntity playerEntity = (PlayerEntity) entity;
-            playerEntity.playSound(SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 1, 1);
+            playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 1, 1);
+            playerEntity.getWorld().addFireworkParticle(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0, 0, 0, new NbtCompound());
             if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
                 FabricDimensions.teleport(playerEntity
@@ -40,6 +42,12 @@ public class ImmortalityEnvokeImmortality {
                         ));
                 playerEntity.fallDistance = 0;
             } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
+                //Extinguish and refill Air
+                playerEntity.setAir(playerEntity.getMaxAir());
+                if (playerEntity.isOnFire()) {
+                    playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
+                    playerEntity.setOnFire(false);
+                }
                 //Increase Immortals Death Counter, if DamageType is not Void Damage
                 ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1);
                 //Increase Death Counter in Statistics
@@ -53,7 +61,7 @@ public class ImmortalityEnvokeImmortality {
                     maxHealth.addPersistentModifier(healthAddition);
                     playerEntity.setHealth(playerEntity.getMaxHealth());
                     if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) % 25 == 0) {
-                        playerEntity.giveItemStack(new ItemStack(UsableItems.VoidHeart));
+                        playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
                         playerEntity.sendMessage(Text.literal("You have trained a VoidHeart"), true);
                     }
                 } else if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) playerEntity)) {

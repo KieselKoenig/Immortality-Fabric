@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CEC",
+    "ELE",
+    "CEC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "L": {
+      "item": "immortality:liver_of_immortality"
+    }
+  },
+  "result": {
+    "item": "immortality:void_heart",
+    "count": 1
+  }
+}

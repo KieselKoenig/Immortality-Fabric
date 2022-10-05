@@ -1,0 +1,54 @@
+{
+  "display": {
+    "icon": {
+      "item": "immortality:trilogy"
+    },
+    "title": {
+      "translate": "advancements.immortality.trilogy"
+    },
+    "description": {
+      "translate": "advancements.immortality.trilogy.description"
+    },
+    "background": "immortality:textures/gui/advancements/backgrounds/background.png",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "immortality:immortality/heart_of_immortality",
+  "criteria": {
+    "consume_item1": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "immortality:heart_of_immortality"
+          ]
+        }
+      }
+    },
+    "consume_item2": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "immortality:void_heart"
+          ]
+        }
+      }
+    },
+    "item_durability_changed": {
+      "conditions": {
+        "item": {
+          "items": [
+            "immortality:holy_dagger"
+          ]
+        }
+      },
+      "trigger": "minecraft:item_durability_changed"
+    }
+  },
+  "rewards": {
+    "experience": 1000
+  }
+}

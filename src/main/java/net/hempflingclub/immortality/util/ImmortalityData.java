@@ -33,6 +33,16 @@ public class ImmortalityData {
         return nbt.getBoolean("immortalLiverExtracted");
     }
 
+    public static void setLiverOnceExtracted(IPlayerDataSaver playerdata, boolean status) {
+        NbtCompound nbt = playerdata.getPersistentData();
+        nbt.putBoolean("immortalLiverOnceExtracted", status);
+    }
+
+    public static boolean getLiverOnceExtracted(IPlayerDataSaver playerdata) {
+        NbtCompound nbt = playerdata.getPersistentData();
+        return nbt.getBoolean("immortalLiverOnceExtracted");
+    }
+
     public static void setLiverExtractionTime(IPlayerDataSaver playerdata, int time) {
         NbtCompound nbt = playerdata.getPersistentData();
         nbt.putInt("immortalLiverExtractionTime", time);
