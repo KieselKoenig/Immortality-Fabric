@@ -3,6 +3,8 @@ package net.hempflingclub.immortality.item;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.item.itemtypes.HeartOfImmortality;
+import net.hempflingclub.immortality.item.itemtypes.HolyDagger;
+import net.hempflingclub.immortality.item.itemtypes.LiverOfImmortality;
 import net.hempflingclub.immortality.item.itemtypes.VoidHeart;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
@@ -15,6 +17,7 @@ public class UsableItems {
                     new FabricItemSettings()
                             .group(net.hempflingclub.immortality.item.ItemGroup.Immortality)
                             .maxCount(1)
+                            .fireproof()
                             .food(
                                     new FoodComponent.Builder()
                                             .hunger(0)
@@ -25,8 +28,9 @@ public class UsableItems {
     public static final Item VoidHeart = registerItem("void_heart",
             new VoidHeart(
                     new FabricItemSettings()
-                            .group(net.hempflingclub.immortality.item.ItemGroup.Immortality)
+                            .group(ItemGroup.Immortality)
                             .maxCount(1)
+                            .fireproof()
                             .food(
                                     new FoodComponent.Builder()
                                             .hunger(0)
@@ -34,6 +38,27 @@ public class UsableItems {
                                             .alwaysEdible()
                                             .meat()
                                             .build())));
+
+    public static final Item LiverOfImmortality = registerItem("liver_of_immortality"
+            , new LiverOfImmortality(
+                    new FabricItemSettings()
+                            .group(ItemGroup.Immortality)
+                            .maxCount(1)
+                            .fireproof()
+                            .food(
+                                    new FoodComponent.Builder()
+                                            .hunger(0)
+                                            .saturationModifier(0)
+                                            .alwaysEdible()
+                                            .meat()
+                                            .build())));
+    public static final Item HolyDagger = registerItem("holy_dagger",
+            new HolyDagger(
+                    new FabricItemSettings()
+                            .group(ItemGroup.Immortality)
+                            .maxCount(1)
+                            .fireproof()
+                            .maxDamage(1)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Immortality.MOD_ID, name), item);

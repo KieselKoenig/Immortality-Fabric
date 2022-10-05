@@ -1,8 +1,13 @@
 {
   "item.immortality.heart_of_immortality": "Heart Of Immortality",
   "item.immortality.void_heart": "Void Heart",
+  "item.immortality.holy_dagger": "Holy Dagger",
+  "item.immortality.liver_of_immortality": "Liver Of Immortality",
   "itemGroup.immortality.immortality": "Immortality",
   "death.attack.immortality": "%s has given up their Immortality",
+  "death.attack.immortality.last.death": "%s has lost their immortality",
+  "death.attack.immortality.last.death.player.player": "%s has lost their immortality because of %s",
   "effect.immortality.immortality": "Immortality",
-  "effect.immortality.void_heart": "Void Heart"
+  "effect.immortality.void_heart": "Void Heart",
+  "effect.immortality.liver_immortality": "Void Heart"
 }

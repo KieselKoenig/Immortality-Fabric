@@ -2,6 +2,7 @@ package net.hempflingclub.immortality.statuseffect;
 
 import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.statuseffect.effects.ImmortalityEffect;
+import net.hempflingclub.immortality.statuseffect.effects.LiverImmortalityEffect;
 import net.hempflingclub.immortality.statuseffect.effects.VoidHeartEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.util.Identifier;
@@ -11,6 +12,7 @@ import java.lang.reflect.Field;
 
 public class ModEffectRegistry {
     public static ModStatusEffect immortality = new ImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
+    public static ModStatusEffect liver_immortality = new LiverImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
     public static ModStatusEffect void_heart = new VoidHeartEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
 
     public static void registerAll() {
