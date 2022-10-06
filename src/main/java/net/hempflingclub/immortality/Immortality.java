@@ -2,6 +2,7 @@ package net.hempflingclub.immortality;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.hempflingclub.immortality.event.PlayerOnKillEntity;
 import net.hempflingclub.immortality.event.PlayerTickHandler;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.statuseffect.ModEffectRegistry;
@@ -17,5 +18,6 @@ public class Immortality implements ModInitializer {
         ImmortalityItems.registerModItems();
         ServerTickEvents.START_SERVER_TICK.register(new PlayerTickHandler());
         ModEffectRegistry.registerAll();
+        PlayerOnKillEntity.initialize();
     }
 }

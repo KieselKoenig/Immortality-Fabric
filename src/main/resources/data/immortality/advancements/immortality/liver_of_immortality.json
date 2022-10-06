@@ -17,7 +17,7 @@
     "background": "immortality:textures/gui/advancements/backgrounds/background.png"
   },
   "criteria": {
-    "consume_item1": {
+    "1": {
       "conditions": {
         "item": {
           "items": [
@@ -27,7 +27,7 @@
       },
       "trigger": "minecraft:consume_item"
     },
-    "consume_item2": {
+    "2": {
       "conditions": {
         "item": {
           "items": [

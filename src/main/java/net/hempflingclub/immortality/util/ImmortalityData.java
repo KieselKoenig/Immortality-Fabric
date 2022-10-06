@@ -72,4 +72,12 @@ public class ImmortalityData {
         NbtCompound nbt = playerdata.getPersistentData();
         return nbt.getBoolean("voidheart");
     }
+
+//    public static void setMobKillCounter(int amount) throws Exception {
+//        GlobalDataSaver.writeIntToJson("dragonKills", amount);
+//    }
+//
+//    public static int getMobKillCounter() throws Exception {
+//        return GlobalDataSaver.readIntFromJson("dragonKills");
+//    }
 }
