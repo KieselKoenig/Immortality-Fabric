@@ -53,6 +53,16 @@ public class ImmortalityData {
         return nbt.getInt("immortalLiverExtractionTime");
     }
 
+    public static void setHeartExtractionAmount(IPlayerDataSaver playerdata, int amount) {
+        NbtCompound nbt = playerdata.getPersistentData();
+        nbt.putInt("immortalHeartExtractionAmount", amount);
+    }
+
+    public static int getHeartExtractionAmount(IPlayerDataSaver playerdata) {
+        NbtCompound nbt = playerdata.getPersistentData();
+        return nbt.getInt("immortalHeartExtractionAmount");
+    }
+
     public static void setImmortalDeaths(IPlayerDataSaver playerdata, int deaths) {
         NbtCompound nbt = playerdata.getPersistentData();
         nbt.putInt("immortalDeaths", deaths);

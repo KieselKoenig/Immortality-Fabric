@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,14 +32,9 @@ public class LiverOfImmortality extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity player) {
         if (!world.isClient() && !ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
             //Server
-            ImmortalityData.setLiverImmortality(((IPlayerDataSaver) player), !ImmortalityData.getLiverImmortality((IPlayerDataSaver) player));
             boolean status = ImmortalityData.getLiverImmortality((IPlayerDataSaver) player);
+            ImmortalityData.setLiverImmortality(((IPlayerDataSaver) player), true);
             if (status) {
-                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.achieve.liver_of_immortality"), true);
-                world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
-                player.setHealth(player.getMaxHealth());
-            } else {
-                world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
                 EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
                 assert maxHealth != null;
                 for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
@@ -48,10 +42,11 @@ public class LiverOfImmortality extends Item {
                         maxHealth.removeModifier(entityModifier);
                     }
                 }
-                player.setHealth(1);
-                player.damage(new DamageSource(Text.translatable("immortality", player.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
-                        2000000000);
                 ImmortalityData.setImmortalDeaths((IPlayerDataSaver) player, 0);
+            } else {
+                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.achieve.liver_of_immortality"), true);
+                world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
+                player.setHealth(player.getMaxHealth());
             }
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));

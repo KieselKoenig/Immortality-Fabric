@@ -1,10 +1,15 @@
 package net.hempflingclub.immortality.event;
 
 import net.hempflingclub.immortality.Immortality;
+import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.IImmortalityWorldComponent;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import java.util.Objects;
 
 public class PlayerOnKillEntity {
     public static void initialize() {
@@ -19,15 +24,11 @@ public class PlayerOnKillEntity {
                 recipes[1] = new Identifier(Immortality.MOD_ID, "holy_dagger");
                 playerEntity.unlockRecipes(recipes);
                 levelcomponent.setDragonKills(levelcomponent.getDragonKills() + 1);
-                for (ServerPlayerEntity player : playerEntity.getWorld().getPlayers()) {
-                    player.sendMessage(Text.literal("Mob killed by " +
-                            playerEntity.getName().getString() +
-                            " Total Kills: " +
-                            levelcomponent.getDragonKills()));
-                }
-            } else {
-                for (ServerPlayerEntity player : playerEntity.getWorld().getPlayers()) {
-                    player.sendMessage(Text.literal("Mob killed by " + playerEntity.getName().getString() + " But not target Mob"));
+                if (levelcomponent.getDragonKills() == 1 || levelcomponent.getDragonKills() % 5 == 0) {
+                    for (PlayerEntity player : Objects.requireNonNull(playerEntity.getServer()).getPlayerManager().getPlayerList()) {
+                        player.sendMessage(Text.translatable("immortality.heart_dropped"));
+                    }
+                    killedEntity.getWorld().spawnEntity(new ItemEntity(killedEntity.getWorld(), killedEntity.getX(), killedEntity.getY(), killedEntity.getZ(), new ItemStack(ImmortalityItems.HeartOfImmortality)));
                 }
             }
         });
