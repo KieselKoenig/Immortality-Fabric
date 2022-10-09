@@ -19,14 +19,23 @@
     ],
     "client": [
       "net.hempflingclub.immortality.ImmortalityClient"
+    ],
+    "cardinal-components": [
+      "net.hempflingclub.immortality.util.ImmortalityComponents"
     ]
   },
   "mixins": [
     "immortality.mixins.json"
   ],
+  "custom": {
+    "cardinal-components": [
+      "immortality:world-data"
+    ]
+  },
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric-api": "*",
+    "cardinal-components-base": ">=5.0.0",
     "minecraft": "~1.19",
     "java": ">=17"
   }
