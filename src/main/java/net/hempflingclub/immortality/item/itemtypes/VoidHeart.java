@@ -28,19 +28,12 @@ public class VoidHeart extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity player) {
         if (!world.isClient()) {
             //Server
-            ImmortalityData.setVoidHeart(((IPlayerDataSaver) player), !ImmortalityData.getVoidHeart((IPlayerDataSaver) player));
             boolean status = ImmortalityData.getVoidHeart((IPlayerDataSaver) player);
-            if (status) {
+            ImmortalityData.setVoidHeart(((IPlayerDataSaver) player), true);
+            if (!status) {
                 ((PlayerEntity) player).sendMessage(Text.literal("You consume the Void."), true);
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
                 player.setHealth(player.getMaxHealth());
-            } else {
-                ((PlayerEntity) player).sendMessage(Text.literal("You have forsaken the Void."), true);
-                world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
-                player.setHealth(1);
-                ((PlayerEntity) player).getHungerManager().setFoodLevel(0);
-                ((PlayerEntity) player).getHungerManager().setSaturationLevel(0);
-                player.tick();
             }
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));

@@ -7,6 +7,8 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -28,7 +30,7 @@ public class ImmortalityEnvokeImmortality {
                 && entity.isPlayer()) {
             // This is Server, Player is Immortal and would've Died
             PlayerEntity playerEntity = (PlayerEntity) entity;
-            playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 1, 1);
+            playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
             playerEntity.getWorld().addFireworkParticle(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0, 0, 0, new NbtCompound());
             if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
@@ -44,10 +46,9 @@ public class ImmortalityEnvokeImmortality {
             } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
                 //Extinguish and refill Air
                 playerEntity.setAir(playerEntity.getMaxAir());
-                if (playerEntity.isOnFire()) {
-                    playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
-                    playerEntity.setOnFire(false);
-                }
+                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
+                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
+                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 30 * 20, 2, false, false));
                 //Increase Immortals Death Counter, if DamageType is not Void Damage
                 ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1);
                 //Increase Death Counter in Statistics
@@ -79,7 +80,7 @@ public class ImmortalityEnvokeImmortality {
                         ImmortalityData.setLiverImmortality((IPlayerDataSaver) playerEntity, false);
                         ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, 0);
                         playerEntity.sendMessage(Text.literal("You have lost your liver Immortality"), true);
-                        if (dmgSource.getAttacker() != null) {
+                        if (dmgSource.getAttacker() != null || dmgSource.getAttacker() == playerEntity) {
                             playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), Objects.requireNonNull(playerEntity.getAttacker()).getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
                                     2000000000);
                         } else {
