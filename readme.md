@@ -12,7 +12,7 @@
 ### New Achievment for Double Heartedness
 ### Adding Particles (levelUP)
 ### Custom NameTag color?
-### Show Deaths in (Inventory) Effect
+### Show Deaths with Command, with Feedback How many Hearts Added/Removed (Because of)
 # Bonus (WIP)
 ## Usage of Applying
 ### Heart/Liver of Immortality on Entitys not being Players

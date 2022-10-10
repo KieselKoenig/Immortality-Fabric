@@ -84,6 +84,10 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     } else if (immortalDeaths >= 5) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 0, false, false));
                     }
+                    //Change Name Color
+//                        player.setCustomName(Text.literal("§e"+player.getName().getString()));
+//                        player.setCustomNameVisible(true);
+
                     player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     if (player.isOnFire()) {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
