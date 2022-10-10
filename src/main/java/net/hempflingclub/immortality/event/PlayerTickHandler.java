@@ -4,9 +4,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.hempflingclub.immortality.statuseffect.ModEffectRegistry;
 import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.entity.effect.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -34,14 +32,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
                         if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300)) { // After 5mins Liver has regrown
-                            EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-                            assert maxHealth != null;
-                            for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
-                                if (entityModifier.getName().equals("regrowingImmortalityLiver")) {
-                                    maxHealth.removeModifier(entityModifier);
-                                    player.setHealth(player.getHealth() + 10);
-                                }
-                            }
+                            ImmortalityStatus.removeRegrowing(player);
                             ImmortalityData.setLiverExtracted((IPlayerDataSaver) player, false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
                         }
@@ -84,9 +75,6 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     } else if (immortalDeaths >= 5) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 0, false, false));
                     }
-                    //Change Name Color
-//                        player.setCustomName(Text.literal("§e"+player.getName().getString()));
-//                        player.setCustomNameVisible(true);
 
                     player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     if (player.isOnFire()) {

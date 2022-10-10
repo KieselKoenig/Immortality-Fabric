@@ -3,9 +3,6 @@ package net.hempflingclub.immortality.util;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -50,36 +47,25 @@ public class ImmortalityInvokeImmortality {
                 playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
                 playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 30 * 20, 2, false, false));
                 //Increase Immortals Death Counter, if DamageType is not Void Damage
-                ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1);
+                ImmortalityStatus.incrementImmortalityDeath(playerEntity);
                 //Increase Death Counter in Statistics
                 playerEntity.incrementStat(Stats.DEATHS);
-                EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
                 if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity)) {
                     //If real Immortality not LiverImmortality then use Leveling Mechanic
-                    assert maxHealth != null;
                     //Add 1 Heart per Immortal Death
-                    EntityAttributeModifier healthAddition = new EntityAttributeModifier("immortalityHearts", 2, EntityAttributeModifier.Operation.ADDITION);
-                    maxHealth.addPersistentModifier(healthAddition);
+                    ImmortalityStatus.addImmortalityArmor(playerEntity);
                     playerEntity.setHealth(playerEntity.getMaxHealth());
-                    if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) % 25 == 0) {
+                    if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) == 25) {
                         playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
                         playerEntity.sendMessage(Text.literal("You have trained a VoidHeart"), true);
                     }
                 } else if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) playerEntity)) {
                     //If LiverImmortality then use Degrading Mechanic
-                    assert maxHealth != null;
                     //Remove 1 Heart per Death
                     if (playerEntity.getMaxHealth() <= 2) {
                         //0 Hearts then remove LiverImmortality
-                        for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
-                            if (entityModifier.getName().equals("negativeImmortalityHearts")) {
-                                maxHealth.removeModifier(entityModifier);
-                            }
-                        }
+                        ImmortalityStatus.removeFalseImmortality(playerEntity);
                         playerEntity.setHealth(playerEntity.getMaxHealth());
-                        ImmortalityData.setLiverImmortality((IPlayerDataSaver) playerEntity, false);
-                        ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, 0);
-                        playerEntity.sendMessage(Text.literal("You have lost your liver Immortality"), true);
                         if (dmgSource.getAttacker() != null || dmgSource.getAttacker() == playerEntity) {
                             playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), Objects.requireNonNull(playerEntity.getAttacker()).getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
                                     2000000000);
@@ -89,8 +75,7 @@ public class ImmortalityInvokeImmortality {
                         }
                         return 0;
                     } else {
-                        EntityAttributeModifier healthSubtraction = new EntityAttributeModifier("negativeImmortalityHearts", -2, EntityAttributeModifier.Operation.ADDITION);
-                        maxHealth.addPersistentModifier(healthSubtraction);
+                        ImmortalityStatus.addNegativeHearts(playerEntity);
                         playerEntity.setHealth(playerEntity.getMaxHealth());
                     }
 

@@ -3,12 +3,10 @@ package net.hempflingclub.immortality.item.itemtypes;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
+import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,14 +33,9 @@ public class LiverOfImmortality extends Item {
             boolean status = ImmortalityData.getLiverImmortality((IPlayerDataSaver) player);
             ImmortalityData.setLiverImmortality(((IPlayerDataSaver) player), true);
             if (status) {
-                EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-                assert maxHealth != null;
-                for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
-                    if (entityModifier.getName().equals("immortalityHearts") || entityModifier.getName().equals("negativeImmortalityHearts")) {
-                        maxHealth.removeModifier(entityModifier);
-                    }
+                if (player.isPlayer()) {
+                    ImmortalityStatus.removeNegativeHearts((PlayerEntity) player);
                 }
-                ImmortalityData.setImmortalDeaths((IPlayerDataSaver) player, 0);
             } else {
                 ((PlayerEntity) player).sendMessage(Text.translatable("immortality.achieve.liver_of_immortality"), true);
                 world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
@@ -64,11 +57,10 @@ public class LiverOfImmortality extends Item {
             } else {
                 //Give Buff
                 ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
-                EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-                EntityAttributeModifier healthAddition = new EntityAttributeModifier("immortalityAbsorbedLiver", 10, EntityAttributeModifier.Operation.ADDITION);
-                assert maxHealth != null;
-                maxHealth.addPersistentModifier(healthAddition);
-                player.setHealth(player.getMaxHealth());
+                if (player.isPlayer()) {
+                    ImmortalityStatus.addImmortalityHearts((PlayerEntity) player);
+                    player.setHealth(player.getMaxHealth());
+                }
             }
         } else {
             //Client
