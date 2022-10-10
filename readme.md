@@ -9,7 +9,10 @@
 #### Holy Dagger
 #### Triology
 ## Devs
-### Add Heart Of Immortality Drop to FIRST Ender Dragon killed
+### New Achievment for Double Heartedness
+### Adding Particles (levelUP)
+### Custom NameTag color?
+### Show Deaths in (Inventory) Effect
 # Bonus (WIP)
 ## Usage of Applying
 ### Heart/Liver of Immortality on Entitys not being Players
