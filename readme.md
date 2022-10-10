@@ -13,6 +13,7 @@
 ### Adding Particles (levelUP)
 ### Custom NameTag color?
 ### Show Deaths with Command, with Feedback How many Hearts Added/Removed (Because of)
+### Limit Heart Farming to Absorbing Liver, and changing base mechanic to adding Armor, to solve UI problems without Health Overlay
 # Bonus (WIP)
 ## Usage of Applying
 ### Heart/Liver of Immortality on Entitys not being Players
