@@ -22,7 +22,7 @@ import net.minecraft.world.TeleportTarget;
 
 import java.util.Objects;
 
-public class ImmortalityEnvokeImmortality {
+public class ImmortalityInvokeImmortality {
     public static float damageManager(LivingEntity entity, DamageSource dmgSource, float damageAmount) {
         if (!entity.world.isClient
                 && (ImmortalityData.getImmortality((IPlayerDataSaver) entity) || ImmortalityData.getLiverImmortality((IPlayerDataSaver) entity))

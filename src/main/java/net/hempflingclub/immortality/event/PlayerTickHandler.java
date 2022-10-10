@@ -31,7 +31,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         ImmortalityData.setImmortality((IPlayerDataSaver) player, false);
                     }
                     if (ImmortalityData.getLiverExtracted((IPlayerDataSaver) player)) {
-                        //Give Extraction Debuffs
+                        //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
                         if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300)) { // After 5mins Liver has regrown
                             EntityAttributeInstance maxHealth = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);

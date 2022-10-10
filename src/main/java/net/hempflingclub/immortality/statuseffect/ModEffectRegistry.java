@@ -12,10 +12,10 @@ import net.minecraft.util.registry.Registry;
 import java.lang.reflect.Field;
 
 public class ModEffectRegistry {
-    public static ModStatusEffect immortality = new ImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
-    public static ModStatusEffect liver_immortality = new LiverImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
-    public static ModStatusEffect void_heart = new VoidHeartEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
-    public static ModStatusEffect trilogy = new TrilogyEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
+    public static final ModStatusEffect immortality = new ImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
+    public static final ModStatusEffect liver_immortality = new LiverImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
+    public static final ModStatusEffect void_heart = new VoidHeartEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
+    public static final ModStatusEffect trilogy = new TrilogyEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
 
     public static void registerAll() {
         try {

@@ -1,7 +1,7 @@
 package net.hempflingclub.immortality.mixin;
 
 
-import net.hempflingclub.immortality.util.ImmortalityEnvokeImmortality;
+import net.hempflingclub.immortality.util.ImmortalityInvokeImmortality;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -20,7 +20,7 @@ public abstract class PlayerImmortalityMixin extends LivingEntity {
     //Inject in applied Damage
     @ModifyVariable(method = "applyDamage", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/player/PlayerEntity;getHealth()F"), ordinal = 0, argsOnly = true)
     protected float immortality$immortality(float damageAmount, DamageSource dmgSource) {
-        //Determine if Player should die / get yeeted to their Bed/WorldSpawn and also to envoke Immortality rightly
-        return ImmortalityEnvokeImmortality.damageManager(this, dmgSource, damageAmount);
+        //Determine if Player should die / get yeeted to their Bed/WorldSpawn and also to invoke Immortality rightly
+        return ImmortalityInvokeImmortality.damageManager(this, dmgSource, damageAmount);
     }
 }
