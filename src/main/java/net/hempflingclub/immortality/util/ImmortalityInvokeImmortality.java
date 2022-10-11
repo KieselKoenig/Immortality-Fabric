@@ -53,11 +53,15 @@ public class ImmortalityInvokeImmortality {
                 if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity)) {
                     //If real Immortality not LiverImmortality then use Leveling Mechanic
                     //Add 1 Heart per Immortal Death
-                    ImmortalityStatus.addImmortalityArmor(playerEntity);
+                    ImmortalityStatus.addImmortalityArmorT(playerEntity);
                     playerEntity.setHealth(playerEntity.getMaxHealth());
                     if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) == 25) {
                         playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
-                        playerEntity.sendMessage(Text.literal("You have trained a VoidHeart"), true);
+                        playerEntity.sendMessage(Text.translatable("immortality.status.trainedVoidHeart"), true);
+                    }
+                    if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1 % 5 == 0 && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) < 50) {
+                        ImmortalityStatus.addImmortalityArmor(playerEntity);
+                        playerEntity.sendMessage(Text.translatable("immortality.status.skinHardened"), true);
                     }
                 } else if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) playerEntity)) {
                     //If LiverImmortality then use Degrading Mechanic

@@ -27,6 +27,8 @@
   "immortality.tooltip.item.liver_of_immortality_1": "Consuming this Liver of an Immortal,",
   "immortality.tooltip.item.liver_of_immortality_2": "will grant you False Immortality",
   "immortality.tooltip.item.liver_of_immortality_3": "As a False Immortal, dying",
+  "immortality.status.trainedVoidHeart": "You have trained a VoidHeart",
+  "immortality.status.skinHardened": "Your Skin has hardened",
   "immortality.tooltip.item.liver_of_immortality_4": "will remove 1 of your Hearts",
   "immortality.tooltip.item.liver_of_immortality_5": "Will not have an Effect,",
   "immortality.tooltip.item.liver_of_immortality_6": "on Immortals, unless?",

@@ -11,7 +11,6 @@
 ## Devs
 ### New Achievment for Double Heartedness
 ### Adding Particles (levelUP)
-### Show Deaths with Command, with Feedback How many Hearts Added/Removed (Because of)
 # Bonus (WIP)
 ## Usage of Applying
 ### Heart/Liver of Immortality on Entitys not being Players
