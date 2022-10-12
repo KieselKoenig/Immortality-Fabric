@@ -28,7 +28,7 @@ public class ImmortalityInvokeImmortality {
             // This is Server, Player is Immortal and would've Died
             PlayerEntity playerEntity = (PlayerEntity) entity;
             playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
-            playerEntity.getWorld().addParticle(ParticleTypes.TOTEM_OF_UNDYING,playerEntity.getX(),playerEntity.getY(),playerEntity.getZ(),0,-2,0);
+            playerEntity.getWorld().addParticle(ParticleTypes.TOTEM_OF_UNDYING, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0, -2, 0);
             if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
                 FabricDimensions.teleport(playerEntity
@@ -59,7 +59,7 @@ public class ImmortalityInvokeImmortality {
                         playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
                         playerEntity.sendMessage(Text.translatable("immortality.status.trainedVoidHeart"), true);
                     }
-                    if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1 % 5 == 0 && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) < 50) {
+                    if ((ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1) % 5 == 0 && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) < 50) {
                         ImmortalityStatus.addImmortalityArmor(playerEntity);
                         playerEntity.sendMessage(Text.translatable("immortality.status.skinHardened"), true);
                     }
