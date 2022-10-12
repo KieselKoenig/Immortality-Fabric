@@ -8,7 +8,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -28,7 +28,7 @@ public class ImmortalityInvokeImmortality {
             // This is Server, Player is Immortal and would've Died
             PlayerEntity playerEntity = (PlayerEntity) entity;
             playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
-            playerEntity.getWorld().addFireworkParticle(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0, 0, 0, new NbtCompound());
+            playerEntity.getWorld().addParticle(ParticleTypes.TOTEM_OF_UNDYING,playerEntity.getX(),playerEntity.getY(),playerEntity.getZ(),0,-2,0);
             if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
                 FabricDimensions.teleport(playerEntity
