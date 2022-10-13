@@ -19,7 +19,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Objects;
 
 public class LiverOfImmortality extends Item {
     public LiverOfImmortality(Settings settings) {
@@ -43,21 +42,20 @@ public class LiverOfImmortality extends Item {
             }
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
-        } else if (!world.isClient() && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) && ImmortalityData.getVoidHeart((IPlayerDataSaver) player) && ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
-            //User has Trilogy
-            player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
-            if (!(ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && Objects.requireNonNull(player.getServer()).getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300))) {
-                //Give Buff
-                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
-                if (player.isPlayer()) {
-                    ImmortalityStatus.addImmortalityHearts((PlayerEntity) player);
-                    player.setHealth(player.getMaxHealth());
-                }
-            }
-        } else if (ImmortalityData.getImmortality((IPlayerDataSaver) player) && !ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && !world.isClient()) {
+        } else if (ImmortalityData.getImmortality((IPlayerDataSaver) player) && ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && !world.isClient()) {
             //Remove Debuff
             ImmortalityData.setLiverExtractionTime((IPlayerDataSaver) player, 0);
             ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
+
+        } else if (!world.isClient() && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) && ImmortalityData.getVoidHeart((IPlayerDataSaver) player) && ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
+            //User has Trilogy
+            player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
+            //Give Buff
+            ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
+            if (player.isPlayer()) {
+                ImmortalityStatus.addImmortalityHearts((PlayerEntity) player);
+                player.setHealth(player.getMaxHealth());
+            }
         } else if (world.isClient()) {
             //Client
             MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));

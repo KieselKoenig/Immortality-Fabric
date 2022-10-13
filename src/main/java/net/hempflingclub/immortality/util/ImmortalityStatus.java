@@ -168,7 +168,7 @@ public final class ImmortalityStatus {
         int regeneratingHearts = 0;
         for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
             if (entityModifier.getName().equals("regrowingImmortalityLiver")) {
-                regeneratingHearts += immortalityHearts;
+                regeneratingHearts += regeneratingHearts;
             }
         }
         return regeneratingHearts;
@@ -191,7 +191,7 @@ public final class ImmortalityStatus {
         assert armorT != null;
         int bonusArmorT = 0;
         for (EntityAttributeModifier entityModifier : armorT.getModifiers()) {
-            if (entityModifier.getName().equals("immortalityBaseArmor")) {
+            if (entityModifier.getName().equals("immortalityHardening")) {
                 bonusArmorT += immortalityHardening;
             }
         }

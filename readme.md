@@ -21,7 +21,6 @@
 
 ## Devs
 
-### Fix Bug of Command not giving enough Info
 ### Fix Bug of Particles not working at all
 ### New Achievment for Double Heartedness
 
