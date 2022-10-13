@@ -31,3 +31,5 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         path: build/libs/*.jar
+    - name: Clean Workspace
+      uses: AutoModality/action-clean@v1.1.0
