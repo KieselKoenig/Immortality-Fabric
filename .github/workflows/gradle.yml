@@ -24,6 +24,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Setup AdoptOpenJDK
+      uses: joschi/setup-jdk@v2.5.1
+      with:
+        java-version: 17
+        architecture: aarch64
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
