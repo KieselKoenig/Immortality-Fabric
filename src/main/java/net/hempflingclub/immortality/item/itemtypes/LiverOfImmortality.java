@@ -43,18 +43,10 @@ public class LiverOfImmortality extends Item {
             }
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
-        } else if (!world.isClient() &&
-                ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player) >= 30 &&
-                ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) &&
-                ImmortalityData.getVoidHeart((IPlayerDataSaver) player) &&
-                ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
+        } else if (!world.isClient() && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) && ImmortalityData.getVoidHeart((IPlayerDataSaver) player) && ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
             //User has Trilogy
             player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
-            if (ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && Objects.requireNonNull(player.getServer()).getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300)) {
-                //Remove Debuff
-                ImmortalityData.setLiverExtractionTime((IPlayerDataSaver) player, 0);
-                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
-            } else {
+            if (!(ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && Objects.requireNonNull(player.getServer()).getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300))) {
                 //Give Buff
                 ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
                 if (player.isPlayer()) {
@@ -62,6 +54,10 @@ public class LiverOfImmortality extends Item {
                     player.setHealth(player.getMaxHealth());
                 }
             }
+        } else if (ImmortalityData.getImmortality((IPlayerDataSaver) player) && !ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && !world.isClient()) {
+            //Remove Debuff
+            ImmortalityData.setLiverExtractionTime((IPlayerDataSaver) player, 0);
+            ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
         } else if (world.isClient()) {
             //Client
             MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));
