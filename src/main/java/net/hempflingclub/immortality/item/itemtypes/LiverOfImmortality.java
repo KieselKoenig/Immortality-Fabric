@@ -62,7 +62,7 @@ public class LiverOfImmortality extends Item {
                     player.setHealth(player.getMaxHealth());
                 }
             }
-        } else {
+        } else if (world.isClient()) {
             //Client
             MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));
         }
