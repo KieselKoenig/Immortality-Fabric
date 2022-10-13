@@ -32,4 +32,4 @@ jobs:
       with:
         path: build/libs/*.jar
     - name: Clean Workspace
-      uses: AutoModality/action-clean@v1.1.0
+      run: rm -rf ./*
