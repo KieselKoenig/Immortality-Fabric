@@ -71,7 +71,7 @@ public class ImmortalityInvokeImmortality {
                         //0 Hearts then remove LiverImmortality
                         ImmortalityStatus.removeFalseImmortality(playerEntity);
                         if (dmgSource.getAttacker() != null && dmgSource.getAttacker() != playerEntity) {
-                            playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), Objects.requireNonNull(playerEntity.getAttacker()).getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
+                            playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), dmgSource.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
                                     2000000000);
                         } else {
                             playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death", playerEntity.getName().getString()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),

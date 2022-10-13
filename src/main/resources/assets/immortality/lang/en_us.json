@@ -8,7 +8,7 @@
   "itemGroup.immortality.immortality": "Immortality",
   "death.attack.immortality": "%s has given up their Immortality",
   "death.attack.immortality.last.death": "%s has lost their immortality",
-  "death.attack.immortality.last.death.player.player": "%s has lost their immortality because of %s",
+  "death.attack.immortality.last.death.player": "%s has lost their immortality because of %s",
   "effect.immortality.immortality": "Immortality",
   "effect.immortality.void_heart": "Void Heart",
   "effect.immortality.liver_immortality": "False Immortality",
