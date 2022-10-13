@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -28,7 +29,7 @@ public class ImmortalityInvokeImmortality {
             // This is Server, Player is Immortal and would've Died
             PlayerEntity playerEntity = (PlayerEntity) entity;
             playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
-            playerEntity.getWorld().addParticle(ParticleTypes.TOTEM_OF_UNDYING, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 0, -2, 0);
+            ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 8, 0, 5, 0, 1);
             if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
                 FabricDimensions.teleport(playerEntity
@@ -69,8 +70,7 @@ public class ImmortalityInvokeImmortality {
                     if (playerEntity.getMaxHealth() <= 2) {
                         //0 Hearts then remove LiverImmortality
                         ImmortalityStatus.removeFalseImmortality(playerEntity);
-                        playerEntity.setHealth(playerEntity.getMaxHealth());
-                        if (dmgSource.getAttacker() != null || dmgSource.getAttacker() == playerEntity) {
+                        if (dmgSource.getAttacker() != null && dmgSource.getAttacker() != playerEntity) {
                             playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), Objects.requireNonNull(playerEntity.getAttacker()).getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
                                     2000000000);
                         } else {

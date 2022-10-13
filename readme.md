@@ -21,7 +21,6 @@
 
 ## Devs
 
-### Fix Bug of Particles not working at all
 ### New Achievment for Double Heartedness
 
 # Bonus (WIP)
