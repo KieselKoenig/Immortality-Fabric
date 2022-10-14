@@ -3,9 +3,7 @@
 
 ## Artists
 
-### Fix Liver of Immortality(Holy Dagger) Achievment Requirements
-
-### Fix/Check False Immortality Achievment
+### Fix Liver of Immortality(Holy Dagger) Achievment Requirements (Console Error)
 
 ### Rework Textures / Models
 
