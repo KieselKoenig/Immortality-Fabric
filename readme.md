@@ -18,7 +18,7 @@ You can download the mod here
 
 # Devs
 ## Fix Bugs
-### Player data Saver needs to be completely reworked to Components, as using End Portal breaks saving of ImmortalityData
+### Holy Dagger Achievment not gettable when already True Immortal
 ## New Achievment
 ### New Achievment for Double Heartedness
 

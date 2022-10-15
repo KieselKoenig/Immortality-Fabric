@@ -30,7 +30,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
-                        if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300)) { // After 5mins Liver has regrown
+                        if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
                             ImmortalityStatus.removeRegrowing(player);
                             ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(player), false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
