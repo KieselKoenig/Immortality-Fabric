@@ -22,75 +22,77 @@ import java.util.Objects;
 
 public class ImmortalityInvokeImmortality {
     public static float damageManager(LivingEntity entity, DamageSource dmgSource, float damageAmount) {
-        if (!entity.world.isClient
-                && (ImmortalityData.getImmortality((IPlayerDataSaver) entity) || ImmortalityData.getLiverImmortality((IPlayerDataSaver) entity))
-                && (entity.getHealth() - damageAmount) <= 0
-                && entity.isPlayer()) {
-            // This is Server, Player is Immortal and would've Died
+        if (entity.isPlayer()) {
             PlayerEntity playerEntity = (PlayerEntity) entity;
-            playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
-            ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 8, 0, 5, 0, 1);
-            if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
-                //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
-                FabricDimensions.teleport(playerEntity
-                        , Objects.requireNonNull(playerEntity.world.getServer()).getWorld(((ServerPlayerEntity) playerEntity).getSpawnPointDimension())
-                        , new TeleportTarget(
-                                Vec3d.of((((ServerPlayerEntity) playerEntity).getSpawnPointPosition()) == null ?
-                                        Objects.requireNonNull(playerEntity.getWorld().getServer()).getOverworld().getSpawnPos() :
-                                        (((ServerPlayerEntity) playerEntity).getSpawnPointPosition()))
-                                , Vec3d.ZERO, playerEntity.headYaw, playerEntity.getPitch()
-                        ));
-                playerEntity.fallDistance = 0;
-            } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
-                //Extinguish and refill Air
-                playerEntity.setAir(playerEntity.getMaxAir());
-                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
-                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
-                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 30 * 20, 2, false, false));
-                //Increase Immortals Death Counter, if DamageType is not Void Damage
-                ImmortalityStatus.incrementImmortalityDeath(playerEntity);
-                //Increase Death Counter in Statistics
-                playerEntity.incrementStat(Stats.DEATHS);
-                if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity)) {
-                    //If real Immortality not LiverImmortality then use Leveling Mechanic
-                    //Add 1 Heart per Immortal Death
-                    ImmortalityStatus.addImmortalityArmorT(playerEntity);
-                    playerEntity.setHealth(playerEntity.getMaxHealth());
-                    if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) == 25) {
-                        playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
-                        playerEntity.sendMessage(Text.translatable("immortality.status.trainedVoidHeart"), true);
-                    }
-                    if ((ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1) % 5 == 0 && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) < 50) {
-                        ImmortalityStatus.addImmortalityArmor(playerEntity);
-                        playerEntity.sendMessage(Text.translatable("immortality.status.skinHardened"), true);
-                    }
-                } else if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) playerEntity)) {
-                    //If LiverImmortality then use Degrading Mechanic
-                    //Remove 1 Heart per Death
-                    if (playerEntity.getMaxHealth() <= 2) {
-                        //0 Hearts then remove LiverImmortality
-                        ImmortalityStatus.removeFalseImmortality(playerEntity);
-                        if (dmgSource.getAttacker() != null && dmgSource.getAttacker() != playerEntity) {
-                            playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), dmgSource.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
-                                    2000000000);
-                        } else {
-                            playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death", playerEntity.getName().getString()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
-                                    2000000000);
-                        }
-                        return 0;
-                    } else {
-                        ImmortalityStatus.addNegativeHearts(playerEntity);
+            if (!entity.world.isClient
+                    && (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity))
+                    && (entity.getHealth() - damageAmount) <= 0
+                    && entity.isPlayer()) {
+                // This is Server, Player is Immortal and would've Died
+                playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
+                ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 8, 0, 5, 0, 1);
+                if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
+                    //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
+                    FabricDimensions.teleport(playerEntity
+                            , Objects.requireNonNull(playerEntity.world.getServer()).getWorld(((ServerPlayerEntity) playerEntity).getSpawnPointDimension())
+                            , new TeleportTarget(
+                                    Vec3d.of((((ServerPlayerEntity) playerEntity).getSpawnPointPosition()) == null ?
+                                            Objects.requireNonNull(playerEntity.getWorld().getServer()).getOverworld().getSpawnPos() :
+                                            (((ServerPlayerEntity) playerEntity).getSpawnPointPosition()))
+                                    , Vec3d.ZERO, playerEntity.headYaw, playerEntity.getPitch()
+                            ));
+                    playerEntity.fallDistance = 0;
+                } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
+                    //Extinguish and refill Air
+                    playerEntity.setAir(playerEntity.getMaxAir());
+                    playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
+                    playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
+                    playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 30 * 20, 2, false, false));
+                    //Increase Immortals Death Counter, if DamageType is not Void Damage
+                    ImmortalityStatus.incrementImmortalityDeath(playerEntity);
+                    //Increase Death Counter in Statistics
+                    playerEntity.incrementStat(Stats.DEATHS);
+                    if (ImmortalityStatus.getImmortality(playerEntity)) {
+                        //If real Immortality not LiverImmortality then use Leveling Mechanic
+                        //Add 1 Heart per Immortal Death
+                        ImmortalityStatus.addImmortalityArmorT(playerEntity);
                         playerEntity.setHealth(playerEntity.getMaxHealth());
+                        if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) == 25) {
+                            playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
+                            playerEntity.sendMessage(Text.translatable("immortality.status.trainedVoidHeart"), true);
+                        }
+                        if ((ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) + 1) % 5 == 0 && ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) < 50) {
+                            ImmortalityStatus.addImmortalityArmor(playerEntity);
+                            playerEntity.sendMessage(Text.translatable("immortality.status.skinHardened"), true);
+                        }
+                    } else if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
+                        //If LiverImmortality then use Degrading Mechanic
+                        //Remove 1 Heart per Death
+                        if (playerEntity.getMaxHealth() <= 2) {
+                            //0 Hearts then remove LiverImmortality
+                            ImmortalityStatus.removeFalseImmortality(playerEntity);
+                            if (dmgSource.getAttacker() != null && dmgSource.getAttacker() != playerEntity) {
+                                playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death.player", playerEntity.getName(), dmgSource.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
+                                        2000000000);
+                            } else {
+                                playerEntity.damage(new DamageSource(Text.translatable("immortality.last.death", playerEntity.getName().getString()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(),
+                                        2000000000);
+                            }
+                            return 0;
+                        } else {
+                            ImmortalityStatus.addNegativeHearts(playerEntity);
+                            playerEntity.setHealth(playerEntity.getMaxHealth());
+                        }
+
+
                     }
-
-
                 }
+                //Prevent Death
+                playerEntity.setHealth(playerEntity.getMaxHealth());
+                return 0;
             }
-            //Prevent Death
-            playerEntity.setHealth(playerEntity.getMaxHealth());
-            return 0;
+            //Can Survive Damage or ain't immortal
         }
-        //Can Survive Damage or ain't immortal
         return damageAmount;
     }
 }

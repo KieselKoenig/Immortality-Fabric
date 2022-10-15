@@ -22,6 +22,7 @@ public final class ImmortalityStatus {
         assert maxHealth != null;
         EntityAttributeModifier healthAddition = new EntityAttributeModifier("immortalityHearts", immortalityHearts, EntityAttributeModifier.Operation.ADDITION);
         maxHealth.addPersistentModifier(healthAddition);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void addNegativeHearts(PlayerEntity playerEntity) {
@@ -29,6 +30,7 @@ public final class ImmortalityStatus {
         assert maxHealth != null;
         EntityAttributeModifier healthSubtraction = new EntityAttributeModifier("negativeImmortalityHearts", negativeImmortalityHearts, EntityAttributeModifier.Operation.ADDITION);
         maxHealth.addPersistentModifier(healthSubtraction);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void addRegrowingLiver(PlayerEntity playerEntity) {
@@ -36,14 +38,17 @@ public final class ImmortalityStatus {
         assert maxHealth != null;
         EntityAttributeModifier healthSubtraction = new EntityAttributeModifier("regrowingImmortalityLiver", regrowingImmortalityLiver, EntityAttributeModifier.Operation.ADDITION);
         maxHealth.addPersistentModifier(healthSubtraction);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void incrementImmortalityDeath(PlayerEntity playerEntity) {
-        ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) + 1);
+        ImmortalityData.setImmortalDeaths(getPlayerComponent(playerEntity), ImmortalityData.getImmortalDeaths(getPlayerComponent(playerEntity)) + 1);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void resetImmortalityDeath(PlayerEntity playerEntity) {
-        ImmortalityData.setImmortalDeaths((IPlayerDataSaver) playerEntity, 0);
+        ImmortalityData.setImmortalDeaths(getPlayerComponent(playerEntity), 0);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void addImmortalityArmorT(PlayerEntity playerEntity) {
@@ -51,6 +56,7 @@ public final class ImmortalityStatus {
         assert armorT != null;
         EntityAttributeModifier addArmorTough = new EntityAttributeModifier("immortalityHardening", immortalityHardening, EntityAttributeModifier.Operation.ADDITION);
         armorT.addPersistentModifier(addArmorTough);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void removeImmortalityArmorT(PlayerEntity playerEntity) {
@@ -61,6 +67,7 @@ public final class ImmortalityStatus {
                 armorT.removeModifier(entityModifier);
             }
         }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
 
@@ -72,9 +79,9 @@ public final class ImmortalityStatus {
     public static void removeEverything(PlayerEntity playerEntity) {
         EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         assert maxHealth != null;
-        ImmortalityData.setImmortality((IPlayerDataSaver) playerEntity, false);
-        ImmortalityData.setLiverImmortality((IPlayerDataSaver) playerEntity, false);
-        ImmortalityData.setVoidHeart((IPlayerDataSaver) playerEntity, false);
+        ImmortalityData.setImmortality(getPlayerComponent(playerEntity), false);
+        ImmortalityData.setLiverImmortality(getPlayerComponent(playerEntity), false);
+        ImmortalityData.setVoidHeart(getPlayerComponent(playerEntity), false);
         resetImmortalityDeath(playerEntity);
         removeImmortalityArmorT(playerEntity);
         removeImmortalityArmor(playerEntity);
@@ -86,6 +93,7 @@ public final class ImmortalityStatus {
                 maxHealth.removeModifier(entityModifier);
             }
         }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void removeRegrowing(PlayerEntity playerEntity) {
@@ -96,6 +104,7 @@ public final class ImmortalityStatus {
                 maxHealth.removeModifier(entityModifier);
             }
         }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void removeNegativeHearts(PlayerEntity playerEntity) {
@@ -107,18 +116,20 @@ public final class ImmortalityStatus {
                 maxHealth.removeModifier(entityModifier);
             }
         }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void removeFalseImmortality(PlayerEntity playerEntity) {
         EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         assert maxHealth != null;
-        ImmortalityData.setLiverImmortality((IPlayerDataSaver) playerEntity, false);
+        ImmortalityData.setLiverImmortality(getPlayerComponent(playerEntity), false);
         resetImmortalityDeath(playerEntity);
         for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
             if (entityModifier.getName().equals("negativeImmortalityHearts")) {
                 maxHealth.removeModifier(entityModifier);
             }
         }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void addImmortalityArmor(PlayerEntity playerEntity) {
@@ -126,6 +137,7 @@ public final class ImmortalityStatus {
         assert armor != null;
         EntityAttributeModifier addArmor = new EntityAttributeModifier("immortalityBaseArmor", immortalityBaseArmor, EntityAttributeModifier.Operation.ADDITION);
         armor.addPersistentModifier(addArmor);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static void removeImmortalityArmor(PlayerEntity playerEntity) {
@@ -136,6 +148,7 @@ public final class ImmortalityStatus {
                 armor.removeModifier(entityModifier);
             }
         }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
     public static int getBonusHearts(PlayerEntity playerEntity) {
@@ -196,5 +209,36 @@ public final class ImmortalityStatus {
             }
         }
         return bonusArmorT;
+    }
+
+    public static IImmortalityPlayerComponent getPlayerComponent(PlayerEntity playerEntity) {
+        return IImmortalityPlayerComponent.KEY.get(playerEntity);
+    }
+
+    public static void setImmortality(PlayerEntity playerEntity, boolean status) {
+        ImmortalityData.setImmortality(getPlayerComponent(playerEntity), status);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static boolean getImmortality(PlayerEntity playerEntity) {
+        return ImmortalityData.getImmortality(getPlayerComponent(playerEntity));
+    }
+
+    public static void setLiverImmortality(PlayerEntity playerEntity, boolean status) {
+        ImmortalityData.setLiverImmortality(getPlayerComponent(playerEntity), status);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static boolean getLiverImmortality(PlayerEntity playerEntity) {
+        return ImmortalityData.getLiverImmortality(getPlayerComponent(playerEntity));
+    }
+
+    public static void setVoidHeart(PlayerEntity playerEntity, boolean status) {
+        ImmortalityData.setVoidHeart(getPlayerComponent(playerEntity), status);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static boolean getVoidHeart(PlayerEntity playerEntity) {
+        return ImmortalityData.getVoidHeart(getPlayerComponent(playerEntity));
     }
 }

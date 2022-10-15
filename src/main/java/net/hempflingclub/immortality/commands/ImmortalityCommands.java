@@ -2,7 +2,6 @@ package net.hempflingclub.immortality.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.hempflingclub.immortality.Immortality;
-import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,24 +31,24 @@ public final class ImmortalityCommands {
                     if (ImmortalityStatus.getBonusArmorT(playerEntity) != 0) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.bonusArmorT", ImmortalityStatus.getBonusArmorT(playerEntity)), false);
                     }
-                    if (ImmortalityData.getVoidHeart((IPlayerDataSaver) playerEntity)) {
+                    if (ImmortalityStatus.getVoidHeart(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.void_heart"), false);
                     }
-                    if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) playerEntity)) {
+                    if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.false_immortality"), false);
-                    } else if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity) && ImmortalityData.getVoidHeart((IPlayerDataSaver) playerEntity)) {
-                        if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) playerEntity)) {
+                    } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityStatus.getVoidHeart(playerEntity)) {
+                        if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity"), false);
-                        } else if (ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) playerEntity)) {
+                        } else if (ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extration"), false);
-                        } else if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) >= 30) {
-                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", (30 - ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity))), false);
+                        } else if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30) {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", (30 - ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)))), false);
                         }
-                    } else if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity)) {
+                    } else if (ImmortalityStatus.getImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);
                     }
-                    if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) > 0) {
-                        context.getSource().sendFeedback(Text.translatable("immortality.commands.prevented_deaths", ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity)), false);
+                    if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) > 0) {
+                        context.getSource().sendFeedback(Text.translatable("immortality.commands.prevented_deaths", ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity))), false);
                     }
                 });
             } else {

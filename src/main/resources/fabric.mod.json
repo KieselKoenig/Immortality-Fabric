@@ -29,7 +29,8 @@
   ],
   "custom": {
     "cardinal-components": [
-      "immortality:world-data"
+      "immortality:world-data",
+      "immortality:player-data"
     ]
   },
   "depends": {

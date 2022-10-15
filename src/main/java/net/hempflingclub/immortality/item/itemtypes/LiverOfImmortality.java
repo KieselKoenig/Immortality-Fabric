@@ -1,7 +1,6 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
 import net.hempflingclub.immortality.item.ImmortalityItems;
-import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.MinecraftClient;
@@ -27,40 +26,43 @@ public class LiverOfImmortality extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity player) {
-        if (!world.isClient() && !ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
+        PlayerEntity playerEntity = (PlayerEntity) player;
+        if (!world.isClient() && !ImmortalityStatus.getImmortality(playerEntity)) {
             //Server
-            boolean status = ImmortalityData.getLiverImmortality((IPlayerDataSaver) player);
-            ImmortalityData.setLiverImmortality(((IPlayerDataSaver) player), true);
+            boolean status = ImmortalityStatus.getLiverImmortality(playerEntity);
+            ImmortalityStatus.setLiverImmortality(playerEntity, true);
             if (status) {
-                if (player.isPlayer()) {
-                    ImmortalityStatus.removeNegativeHearts((PlayerEntity) player);
+                if (playerEntity.isPlayer()) {
+                    ImmortalityStatus.removeNegativeHearts(playerEntity);
                 }
             } else {
-                ((PlayerEntity) player).sendMessage(Text.translatable("immortality.achieve.liver_of_immortality"), true);
-                world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
-                player.setHealth(player.getMaxHealth());
+                playerEntity.sendMessage(Text.translatable("immortality.achieve.liver_of_immortality"), true);
+                world.playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, 1, 1);
+                playerEntity.setHealth(playerEntity.getMaxHealth());
             }
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
-        } else if (ImmortalityData.getImmortality((IPlayerDataSaver) player) && ImmortalityData.getLiverExtracted((IPlayerDataSaver) player) && !world.isClient()) {
+            playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
+            playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
+        } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(playerEntity)) && !world.isClient()) {
             //Remove Debuff
-            ImmortalityData.setLiverExtractionTime((IPlayerDataSaver) player, 0);
-            ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
+            ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(playerEntity), 0);
+            playerEntity.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
 
-        } else if (!world.isClient() && ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) && ImmortalityData.getVoidHeart((IPlayerDataSaver) player) && ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
+        } else if (!world.isClient() && ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity)) && ImmortalityStatus.getVoidHeart(playerEntity) && ImmortalityStatus.getImmortality(playerEntity)) {
             //User has Trilogy
-            player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
+            playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
             //Give Buff
-            ((PlayerEntity) player).sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
-            if (player.isPlayer()) {
-                ImmortalityStatus.addImmortalityHearts((PlayerEntity) player);
-                player.setHealth(player.getMaxHealth());
+            playerEntity.sendMessage(Text.translatable("immortality.status.liver_absorbed"), true);
+            if (playerEntity.isPlayer()) {
+                ImmortalityStatus.addImmortalityHearts(playerEntity);
+                playerEntity.setHealth(playerEntity.getMaxHealth());
             }
         } else if (world.isClient()) {
             //Client
-            MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));
+            if (!ImmortalityStatus.getLiverImmortality(playerEntity) && !ImmortalityStatus.getImmortality(playerEntity)) {
+                MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));
+            }
         }
-        return super.finishUsing(stack, world, player);
+        return super.finishUsing(stack, world, playerEntity);
     }
 
     @Override

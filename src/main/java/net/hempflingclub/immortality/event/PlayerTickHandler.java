@@ -2,7 +2,6 @@ package net.hempflingclub.immortality.event;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.hempflingclub.immortality.statuseffect.ModEffectRegistry;
-import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.entity.effect.*;
@@ -19,27 +18,27 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             //Run Stuff
             if (player.getWorld().getTime() % 20 == 0) {
-                if (ImmortalityData.getHeartExtractionAmount((IPlayerDataSaver) player) > 0) {
-                    ImmortalityData.setHeartExtractionAmount((IPlayerDataSaver) player, 0);
+                if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player)) > 0) {
+                    ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player), 0);
                 }
-                if (ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
-                    if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) player)) {
+                if (ImmortalityStatus.getImmortality(player)) {
+                    if (ImmortalityStatus.getLiverImmortality(player)) {
                         //Illegal State shouldn't have both
                         ImmortalityStatus.removeFalseImmortality(player);
-                        ImmortalityData.setImmortality((IPlayerDataSaver) player, false);
+                        ImmortalityStatus.setImmortality(player, false);
                     }
-                    if (ImmortalityData.getLiverExtracted((IPlayerDataSaver) player)) {
+                    if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
-                        if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime((IPlayerDataSaver) player) + (20 * 300)) { // After 5mins Liver has regrown
+                        if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300)) { // After 5mins Liver has regrown
                             ImmortalityStatus.removeRegrowing(player);
-                            ImmortalityData.setLiverExtracted((IPlayerDataSaver) player, false);
+                            ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(player), false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
                         }
                     }
                     //Include Functionality for Death Leveling
-                    int immortalDeaths = ImmortalityData.getImmortalDeaths((IPlayerDataSaver) player);
-                    if (immortalDeaths >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) player) && ImmortalityData.getVoidHeart((IPlayerDataSaver) player)) {
+                    int immortalDeaths = ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(player));
+                    if (immortalDeaths >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(player)) && ImmortalityStatus.getVoidHeart(player)) {
                         //He has Trilogy and Required Hearts
                         //Radiating Immortality repairing unliving things
                         boolean repaired = false;
@@ -81,7 +80,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
                         player.setOnFire(false);
                     }
-                } else if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) player)) {
+                } else if (ImmortalityStatus.getLiverImmortality(player)) {
                     if (player.isOnFire()) {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
                         player.setOnFire(false);
@@ -89,7 +88,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.liver_immortality, 20 * 5, 0, false, false));
                 }
                 //Not Immortal
-                if (ImmortalityData.getVoidHeart((IPlayerDataSaver) player)) {
+                if (ImmortalityStatus.getVoidHeart(player)) {
                     player.getHungerManager().add(1, 1);
                     player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
                 }

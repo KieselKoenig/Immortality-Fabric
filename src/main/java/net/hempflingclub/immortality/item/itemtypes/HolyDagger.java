@@ -1,7 +1,6 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
 import net.hempflingclub.immortality.item.ImmortalityItems;
-import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.item.TooltipContext;
@@ -28,11 +27,11 @@ public class HolyDagger extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         if (!world.isClient) {
-            if (ImmortalityData.getImmortality((IPlayerDataSaver) user)) {
-                if (ImmortalityData.getLiverExtracted((IPlayerDataSaver) user)) {
-                    ImmortalityData.setHeartExtractionAmount((IPlayerDataSaver) user, ImmortalityData.getHeartExtractionAmount((IPlayerDataSaver) user) + 1);
-                    if (ImmortalityData.getHeartExtractionAmount((IPlayerDataSaver) user) < 3) {
-                        user.sendMessage(Text.translatable("immortality.status.heart_extraction", 3 - ImmortalityData.getHeartExtractionAmount((IPlayerDataSaver) user)), true);
+            if (ImmortalityStatus.getImmortality(user)) {
+                if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(user))) {
+                    ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user), ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) + 1);
+                    if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) < 3) {
+                        user.sendMessage(Text.translatable("immortality.status.heart_extraction", 3 - ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user))), true);
                     } else {
                         world.playSoundFromEntity(null, user, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
                         user.setHealth(1);
@@ -41,16 +40,16 @@ public class HolyDagger extends Item {
                         user.damage(new DamageSource(Text.translatable("immortality", user.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(), 2000000000);
                     }
                 } else {
-                    if (!ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) user)) {
-                        ImmortalityData.setLiverOnceExtracted((IPlayerDataSaver) user, true);
+                    if (!ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(user))) {
+                        ImmortalityData.setLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(user), true);
                     }
-                    ImmortalityData.setLiverExtracted((IPlayerDataSaver) user, true);
-                    ImmortalityData.setLiverExtractionTime((IPlayerDataSaver) user, (int) Objects.requireNonNull(world.getServer()).getOverworld().getTime());
+                    ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(user), true);
+                    ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(user), (int) Objects.requireNonNull(world.getServer()).getOverworld().getTime());
                     ImmortalityStatus.addRegrowingLiver(user);
                     user.setHealth(user.getMaxHealth());
                     user.giveItemStack(new ItemStack(ImmortalityItems.LiverOfImmortality));
                     //If Trilogy
-                    if (!(ImmortalityData.getImmortalDeaths((IPlayerDataSaver) user) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) user) && ImmortalityData.getVoidHeart((IPlayerDataSaver) user) && ImmortalityData.getImmortality((IPlayerDataSaver) user))) {
+                    if (!(ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(user)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(user)) && ImmortalityStatus.getVoidHeart(user) && ImmortalityStatus.getImmortality(user))) {
                         itemStack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
                     }
                     user.tick();
