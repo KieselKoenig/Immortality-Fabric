@@ -4,8 +4,6 @@ You can download the mod here
 
 ## Artists
 
-### Fix Liver of Immortality(Holy Dagger) Achievment Requirements (Console Error)
-
 ### Rework Textures / Models
 
 #### Heart of Immortality
