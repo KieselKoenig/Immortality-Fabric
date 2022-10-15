@@ -37,10 +37,5 @@
       },
       "trigger": "minecraft:consume_item"
     }
-  },
-  "requirements": [
-    [
-      "consume_item"
-    ]
-  ]
+  }
 }
