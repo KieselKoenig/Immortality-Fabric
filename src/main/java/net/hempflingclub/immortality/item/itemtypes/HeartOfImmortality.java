@@ -3,11 +3,13 @@ package net.hempflingclub.immortality.item.itemtypes;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.IPlayerDataSaver;
 import net.hempflingclub.immortality.util.ImmortalityData;
+import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -26,7 +28,7 @@ public class HeartOfImmortality extends Item {
         if (!world.isClient()) {
             //Server
             if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) player)) {
-                ImmortalityData.setLiverImmortality((IPlayerDataSaver) player, false);
+                ImmortalityStatus.removeFalseImmortality((PlayerEntity) player);
             }
             if (!ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
                 ImmortalityData.setImmortality(((IPlayerDataSaver) player), true);

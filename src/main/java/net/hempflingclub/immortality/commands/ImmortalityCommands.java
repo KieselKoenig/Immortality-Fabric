@@ -37,10 +37,12 @@ public final class ImmortalityCommands {
                     }
                     if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.false_immortality"), false);
-                    } else if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity) && ImmortalityData.getVoidHeart((IPlayerDataSaver) playerEntity) && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) playerEntity)) {
-                        if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) >= 30) {
+                    } else if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity) && ImmortalityData.getVoidHeart((IPlayerDataSaver) playerEntity)) {
+                        if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) >= 30 && ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) playerEntity)) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity"), false);
-                        } else {
+                        } else if (ImmortalityData.getLiverOnceExtracted((IPlayerDataSaver) playerEntity)) {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extration"), false);
+                        } else if (ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity) >= 30) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", (30 - ImmortalityData.getImmortalDeaths((IPlayerDataSaver) playerEntity))), false);
                         }
                     } else if (ImmortalityData.getImmortality((IPlayerDataSaver) playerEntity)) {

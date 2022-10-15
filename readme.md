@@ -18,11 +18,7 @@ You can download the mod here
 
 # Devs
 ## Fix Bugs
-### False Immortality Hearts not Reseting when eating heart of immortality
-### last death.player also needs lastdeath.player.player
-### 9 armor is limit needs to be 10 as intended
 ### Player data Saver needs to be completely reworked to Components, as using End Portal breaks saving of ImmortalityData
-### Add Command Feedback when to reach True Immortality one only needs Extraction
 ## New Achievment
 ### New Achievment for Double Heartedness
 

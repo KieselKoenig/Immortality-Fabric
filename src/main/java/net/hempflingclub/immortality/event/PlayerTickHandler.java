@@ -25,7 +25,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                 if (ImmortalityData.getImmortality((IPlayerDataSaver) player)) {
                     if (ImmortalityData.getLiverImmortality((IPlayerDataSaver) player)) {
                         //Illegal State shouldn't have both
-                        ImmortalityData.setLiverImmortality((IPlayerDataSaver) player, false);
+                        ImmortalityStatus.removeFalseImmortality(player);
                         ImmortalityData.setImmortality((IPlayerDataSaver) player, false);
                     }
                     if (ImmortalityData.getLiverExtracted((IPlayerDataSaver) player)) {
