@@ -16,12 +16,18 @@ You can download the mod here
 
 #### Triology
 
-## Devs
-
+# Devs
+## Fix Bugs
+### False Immortality Hearts not Reseting when eating heart of immortality
+### last death.player also needs lastdeath.player.player
+### 9 armor is limit needs to be 10 as intended
+### Player data Saver needs to be completely reworked to Components, as using End Portal breaks saving of ImmortalityData
+### Add Command Feedback when to reach True Immortality one only needs Extraction
+## New Achievment
 ### New Achievment for Double Heartedness
 
 # Bonus (WIP)
-
+## Immortality "Steal" Enchantment to force harvest immortal Liver
 ## Usage of Applying
 
 ### Heart/Liver of Immortality on Entitys not being Players
