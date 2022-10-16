@@ -51,6 +51,8 @@ public class HolyDagger extends Item {
                     //If Trilogy
                     if (!(ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(user)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(user)) && ImmortalityStatus.getVoidHeart(user) && ImmortalityStatus.getImmortality(user))) {
                         itemStack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
+                    } else {
+                        itemStack.damage(-1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
                     }
                     user.tick();
                     user.sendMessage(Text.translatable("immortality.status.liver_removed"), true);

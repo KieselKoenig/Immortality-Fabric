@@ -39,10 +39,10 @@ public final class ImmortalityCommands {
                     } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityStatus.getVoidHeart(playerEntity)) {
                         if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity"), false);
-                        } else if (ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
-                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extration"), false);
-                        } else if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30) {
+                        } else if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) < 30) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", (30 - ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)))), false);
+                        } else if (!ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extration"), false);
                         }
                     } else if (ImmortalityStatus.getImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);

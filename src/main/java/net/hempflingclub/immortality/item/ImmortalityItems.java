@@ -64,6 +64,9 @@ public class ImmortalityItems {
     public static final Item Trilogy = registerItem("trilogy", new Trilogy(new FabricItemSettings()
             .group(ItemGroup.Immortality)
             .maxCount(1)));
+    public static final Item DoubleHearted = registerItem("double_hearted", new DoubleHearted(new FabricItemSettings()
+            .group(ItemGroup.Immortality)
+            .maxCount(1)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Immortality.MOD_ID, name), item);

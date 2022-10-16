@@ -17,10 +17,6 @@ You can download the mod here
 #### Triology
 
 # Devs
-## Fix Bugs
-### Holy Dagger Achievment not gettable when already True Immortal
-## New Achievment
-### New Achievment for Double Heartedness
 
 # Bonus (WIP)
 ## Immortality "Steal" Enchantment to force harvest immortal Liver
