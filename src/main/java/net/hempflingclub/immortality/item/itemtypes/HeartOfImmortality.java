@@ -1,5 +1,6 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
+import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.MinecraftClient;
@@ -12,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -31,6 +33,10 @@ public class HeartOfImmortality extends Item {
             }
             if (!ImmortalityStatus.getImmortality(playerEntity)) {
                 ImmortalityStatus.setImmortality(playerEntity, true);
+                Identifier[] recipes = new Identifier[2];
+                recipes[0] = new Identifier(Immortality.MOD_ID, "void_heart");
+                recipes[1] = new Identifier(Immortality.MOD_ID, "holy_dagger");
+                playerEntity.unlockRecipes(recipes);
             }
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
