@@ -46,6 +46,8 @@ public final class ImmortalityCommands {
                         }
                     } else if (ImmortalityStatus.getImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);
+                    } else {
+                        context.getSource().sendFeedback(Text.translatable("immortality.commands.not_immortal"), false);
                     }
                     if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) > 0) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.prevented_deaths", ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity))), false);
