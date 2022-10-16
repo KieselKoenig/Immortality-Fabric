@@ -8,6 +8,7 @@
   "item.immortality.liver_of_immortality": "Liver Of Immortality",
   "itemGroup.immortality.immortality": "Immortality",
   "death.attack.immortality": "%s has given up their Immortality",
+  "death.attack.immortality.player": "%s has given up their Immortality",
   "death.attack.immortality.last.death": "%s has lost their immortality",
   "death.attack.immortality.last.death.player": "%s has lost their immortality because of %s",
   "death.attack.immortality.last.death.player.player": "%s has lost their immortality because of %s",

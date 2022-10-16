@@ -57,29 +57,29 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 2, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 5, 1, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 20 * 5, 0, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.trilogy, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.trilogy, 20 * 5, 0, false, false));
                     } else if (immortalDeaths >= 25) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 2, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 5, 1, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 20 * 5, 0, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     } else if (immortalDeaths >= 20) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 2, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 5, 1, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     } else if (immortalDeaths >= 15) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 2, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 5, 0, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     } else if (immortalDeaths >= 10) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 1, false, false));
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 5, 0, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     } else if (immortalDeaths >= 5) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 0, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, true));
                     } else {
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     }
 
 
@@ -92,13 +92,13 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
                         player.setOnFire(false);
                     }
-                    player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.liver_immortality, 20 * 15, 0, false, true));
+                    player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.liver_immortality, 20 * 5, 0, false, false));
                 }
                 //Not Immortal
                 if (ImmortalityStatus.getVoidHeart(player)) {
                     player.getHungerManager().add(1, 1);
                     if (!(ImmortalityData.getImmortalDeaths((ImmortalityStatus.getPlayerComponent(player))) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(player)) && ImmortalityStatus.getImmortality(player))) {
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 15, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
                     }
                 }
                 //Not Void Heart

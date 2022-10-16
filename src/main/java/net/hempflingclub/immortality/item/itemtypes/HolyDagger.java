@@ -30,8 +30,8 @@ public class HolyDagger extends Item {
             if (ImmortalityStatus.getImmortality(user)) {
                 if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(user))) {
                     ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user), ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) + 1);
-                    if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) < 3) {
-                        user.sendMessage(Text.translatable("immortality.status.heart_extraction", 3 - ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user))), true);
+                    if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) < 7) {
+                        user.sendMessage(Text.translatable("immortality.status.heart_extraction", 7 - ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user))), true);
                     } else {
                         world.playSoundFromEntity(null, user, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
                         user.setHealth(1);
