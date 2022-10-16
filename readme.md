@@ -12,7 +12,15 @@ You can download the mod here
 - To begin your Quest kill the Ender Dragon
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Killing_EnderDragon.png?raw=true)
-  - It will drop a Heart of Immortality on its first death, then on the 5th,10th,15th,...
+  - It will drop a Heart of Immortality on these Deaths
+
+| Deaths |
+|--------|
+| 1      |
+| 5      |
+| 10     |
+| 15     |
+| ...    |
 - As an Immortal you can extract your Liver of Immortality with the Holy Dagger
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
@@ -39,4 +47,5 @@ You can download the mod here
 ### Unspecified but planned
 - Heart/Liver of Immortality on Entitys not being Players
 - Immortal Souls
-- Bonus to Immortal Liver
+- Bonus to Immortal Liver (Semi Immortality(First Levels than Hearts))
+- Immortal King, a new Boss to drop the Heart of Immortality
