@@ -39,5 +39,5 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         path: build/libs/*.jar
-    - name: Clean Workspace
-      run: rm -rf ./*
+    #- name: Clean Workspace //For Selfhosted
+    #  run: rm -rf ./* //For Selfhosted
