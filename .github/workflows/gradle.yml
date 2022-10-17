@@ -33,8 +33,8 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
-        cache-disabled: true
-        gradle-home-cache-cleanup: true
+        #cache-disabled: true  // For Self-hosted
+        #gradle-home-cache-cleanup: true // For Self-hosted
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
