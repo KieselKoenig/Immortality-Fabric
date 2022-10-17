@@ -35,6 +35,9 @@ public class HolyDagger extends Item {
                     } else {
                         world.playSoundFromEntity(null, user, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1, 1);
                         user.setHealth(1);
+                        for (PlayerEntity players : user.getWorld().getPlayers()) {
+                            players.playSound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.PLAYERS, 1, 1);
+                        }
                         //Remove Immortality Hearts
                         ImmortalityStatus.removeEverything(user);
                         user.damage(new DamageSource(Text.translatable("immortality", user.getName()).getString()).setBypassesArmor().setBypassesProtection().setUnblockable(), 2000000000);
