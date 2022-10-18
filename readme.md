@@ -47,5 +47,5 @@ You can download the mod here
 ### Unspecified but planned
 - Heart/Liver of Immortality on Entitys not being Players
 - Immortal Souls
-- Bonus to Immortal Liver (Semi Immortality(First Levels than Hearts))
+- Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
 - Immortal King, a new Boss to drop the Heart of Immortality
