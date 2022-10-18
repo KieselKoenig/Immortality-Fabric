@@ -46,6 +46,7 @@ You can download the mod here
 - Immortality "Steal" Enchantment to force harvest immortal Liver
 ### Unspecified but planned
 - Heart/Liver of Immortality on Entitys not being Players
+- True Immortality needs 3 Extracted Livers, and only then will you also be able to eat your own Liver to regrow it
 - Immortal Souls
 - Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
 - Immortal King, a new Boss to drop the Heart of Immortality
