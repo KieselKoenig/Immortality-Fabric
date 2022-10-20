@@ -90,13 +90,25 @@ public class ImmortalityData {
         NbtCompound nbt = playerData.getPlayerData();
         return nbt.getBoolean("voidheart");
     }
-    public static void setExtractedLivers(IImmortalityPlayerComponent playerData, int amount){
+
+    public static void setExtractedLivers(IImmortalityPlayerComponent playerData, int amount) {
         NbtCompound nbt = playerData.getPlayerData();
-        nbt.putInt("extractedLivers",amount);
+        nbt.putInt("extractedLivers", amount);
         playerData.setPlayerData(nbt);
     }
-    public static int getExtractedLivers(IImmortalityPlayerComponent playerData){
+
+    public static int getExtractedLivers(IImmortalityPlayerComponent playerData) {
         NbtCompound nbt = playerData.getPlayerData();
         return nbt.getInt("extractedLivers");
+    }
+
+    public static void setLifeElixirTime(IImmortalityPlayerComponent playerData, int time) {
+        NbtCompound nbt = playerData.getPlayerData();
+        nbt.putInt("lifeElixirTime", time);
+        playerData.setPlayerData(nbt);
+    }
+    public static int getLifeElixirTime(IImmortalityPlayerComponent playerData){
+        NbtCompound nbt = playerData.getPlayerData();
+        return nbt.getInt("lifeElixirTime");
     }
 }

@@ -25,10 +25,12 @@ You can download the mod here
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
 - The Liver of Immortality can grant others False Immortality, and also used to craft a Void Heart for others
+- The Life Elixir will give 1 Heart every 10%, but with True Immortality it's guaranteed
 - Crafting Recipes
 
 ![Holy Dagger](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Holy_Dagger.png?raw=true)
 ![Void Heart](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Void_Heart.png?raw=true)
+![Life Elixir]()
 # TODO
 
 ## Artists
@@ -47,6 +49,7 @@ You can download the mod here
 ### Unspecified but planned
 - Heart/Liver of Immortality on Entitys not being Players (SoulBinding)
 - [x] True Immortality needs 3 Extracted Livers, and only then will you also be able to eat your own Liver to regrow it
+- [x] Life Elixir, which gives 1 Heart every 10%, but with True Immortality it is guaranteed
 - Immortal Souls
 - Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
 - Immortal King, a new Boss to drop the Heart of Immortality

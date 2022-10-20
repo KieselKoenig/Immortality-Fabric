@@ -4,6 +4,9 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
+
+import java.util.Objects;
 
 public final class ImmortalityStatus {
     private static final int immortalityHearts = 2;
@@ -11,6 +14,7 @@ public final class ImmortalityStatus {
     private static final int regrowingImmortalityLiver = -10;
     private static final int immortalityHardening = 1;
     private static final int immortalityBaseArmor = 1;
+    private static final int lifeElixirHealth = 2;
 
     /**
      * Gives (1) Immortality Heart
@@ -277,5 +281,39 @@ public final class ImmortalityStatus {
         IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
         ImmortalityData.setExtractedLivers(playerComponent, ImmortalityData.getExtractedLivers(playerComponent) + 1);
         playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void resetLifeElixirTime(PlayerEntity playerEntity) {
+        setLifeElixirTime(playerEntity, 0);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void setLifeElixirTime(PlayerEntity playerEntity, int time) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setLifeElixirTime(playerComponent, time);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static int getLifeElixirTime(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getLifeElixirTime(playerComponent);
+    }
+
+    public static boolean shouldLifeElixirApply(PlayerEntity playerEntity) {
+        long serverTime = Objects.requireNonNull(playerEntity.getServer()).getOverworld().getTime();
+        int effectTime = 300 * 20;
+        return (serverTime >= (getLifeElixirTime(playerEntity) + effectTime * 0.99));
+    }
+
+    public static void addLifeElixirHealth(PlayerEntity playerEntity) {
+        if (isTrueImmortal(playerEntity) || Math.random() >= 0.9) {
+            EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+            assert maxHealth != null;
+            EntityAttributeModifier healthAddition = new EntityAttributeModifier("lifeElixir", lifeElixirHealth, EntityAttributeModifier.Operation.ADDITION);
+            maxHealth.addPersistentModifier(healthAddition);
+            resetLifeElixirTime(playerEntity);
+        }else{
+            playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"),true);
+        }
     }
 }
