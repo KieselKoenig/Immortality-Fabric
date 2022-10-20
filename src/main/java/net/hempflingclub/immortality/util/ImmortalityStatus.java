@@ -38,6 +38,7 @@ public final class ImmortalityStatus {
         assert maxHealth != null;
         EntityAttributeModifier healthSubtraction = new EntityAttributeModifier("regrowingImmortalityLiver", regrowingImmortalityLiver, EntityAttributeModifier.Operation.ADDITION);
         maxHealth.addPersistentModifier(healthSubtraction);
+        incrementExtractedLiver(playerEntity);
         playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
@@ -48,6 +49,11 @@ public final class ImmortalityStatus {
 
     public static void resetImmortalityDeath(PlayerEntity playerEntity) {
         ImmortalityData.setImmortalDeaths(getPlayerComponent(playerEntity), 0);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void resetExtractedLivers(PlayerEntity playerEntity) {
+        ImmortalityData.setExtractedLivers(getPlayerComponent(playerEntity), 0);
         playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 
@@ -83,6 +89,7 @@ public final class ImmortalityStatus {
         ImmortalityData.setLiverImmortality(getPlayerComponent(playerEntity), false);
         ImmortalityData.setVoidHeart(getPlayerComponent(playerEntity), false);
         resetImmortalityDeath(playerEntity);
+        resetExtractedLivers(playerEntity);
         removeImmortalityArmorT(playerEntity);
         removeImmortalityArmor(playerEntity);
         for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
@@ -240,5 +247,35 @@ public final class ImmortalityStatus {
 
     public static boolean getVoidHeart(PlayerEntity playerEntity) {
         return ImmortalityData.getVoidHeart(getPlayerComponent(playerEntity));
+    }
+
+    public static boolean isTrueImmortal(PlayerEntity playerEntity) {
+        return (getImmortality(playerEntity) && getVoidHeart(playerEntity) && canEatLiverOfImmortality(playerEntity) && hasTrueImmortalDeaths(playerEntity));
+    }
+
+    public static boolean hasTrueImmortalDeaths(PlayerEntity playerEntity) {
+        return (getMissingDeathsToTrueImmortality(playerEntity) <= 0);
+    }
+
+    public static boolean canEatLiverOfImmortality(PlayerEntity playerEntity) {
+        return ((getMissingLiversToEatLiverOfImmortality(playerEntity) <= 0 && getImmortality(playerEntity) && ImmortalityData.getLiverOnceExtracted(getPlayerComponent(playerEntity))) || !getImmortality(playerEntity));
+    }
+
+    public static int getMissingDeathsToTrueImmortality(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        int requiredDeaths = 30;
+        return (requiredDeaths - ImmortalityData.getImmortalDeaths(playerComponent));
+    }
+
+    public static int getMissingLiversToEatLiverOfImmortality(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        int requiredExtracts = 3;
+        return (requiredExtracts - ImmortalityData.getExtractedLivers(playerComponent));
+    }
+
+    public static void incrementExtractedLiver(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setExtractedLivers(playerComponent, ImmortalityData.getExtractedLivers(playerComponent) + 1);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
     }
 }

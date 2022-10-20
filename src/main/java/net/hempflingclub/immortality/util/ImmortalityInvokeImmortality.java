@@ -26,8 +26,7 @@ public class ImmortalityInvokeImmortality {
             PlayerEntity playerEntity = (PlayerEntity) entity;
             if (!entity.world.isClient
                     && (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity))
-                    && (entity.getHealth() - damageAmount) <= 0
-                    && entity.isPlayer()) {
+                    && (entity.getHealth() - damageAmount) <= 0) {
                 // This is Server, Player is Immortal and would've Died
                 playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.PLAYERS, 5, 1);
                 ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 64, 0, 5, 0, 1);
@@ -86,8 +85,6 @@ public class ImmortalityInvokeImmortality {
                             ImmortalityStatus.addNegativeHearts(playerEntity);
                             playerEntity.setHealth(playerEntity.getMaxHealth());
                         }
-
-
                     }
                 }
                 //Prevent Death

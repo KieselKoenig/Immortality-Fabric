@@ -34,11 +34,17 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                             ImmortalityStatus.removeRegrowing(player);
                             ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(player), false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
+                            if(ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(player) == 0){
+                                player.sendMessage(Text.translatable("immortality.status.liverEatable"));
+                                if(ImmortalityStatus.isTrueImmortal(player)){
+                                    player.sendMessage(Text.translatable("immortality.commands.trinity"));
+                                }
+                            }
                         }
                     }
                     //Include Functionality for Death Leveling
                     int immortalDeaths = ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(player));
-                    if (immortalDeaths >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(player)) && ImmortalityStatus.getVoidHeart(player)) {
+                    if (ImmortalityStatus.isTrueImmortal(player)) {
                         //He has Trilogy and Required Hearts
                         //Radiating Immortality repairing unliving things
                         boolean repaired = false;
@@ -77,12 +83,10 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     } else if (immortalDeaths >= 5) {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20 * 5, 0, false, false));
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     } else {
                         player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.immortality, 20 * 5, 0, false, false));
                     }
-
-
                     if (player.isOnFire()) {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
                         player.setOnFire(false);
@@ -97,7 +101,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                 //Not Immortal
                 if (ImmortalityStatus.getVoidHeart(player)) {
                     player.getHungerManager().add(1, 1);
-                    if (!(ImmortalityData.getImmortalDeaths((ImmortalityStatus.getPlayerComponent(player))) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(player)) && ImmortalityStatus.getImmortality(player))) {
+                    if (!ImmortalityStatus.isTrueImmortal(player)) {
                         player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
                     }
                 }

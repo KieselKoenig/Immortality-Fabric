@@ -37,15 +37,22 @@ public final class ImmortalityCommands {
                     if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.false_immortality"), false);
                     } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityStatus.getVoidHeart(playerEntity)) {
-                        if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
+                        if (ImmortalityStatus.isTrueImmortal(playerEntity)) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity"), false);
-                        } else if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) < 30) {
-                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", (30 - ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)))), false);
-                        } else if (!ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity))) {
-                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extration"), false);
+                        } else if (!ImmortalityStatus.hasTrueImmortalDeaths(playerEntity)) {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", ImmortalityStatus.getMissingDeathsToTrueImmortality(playerEntity)), false);
+                        } else if (!ImmortalityStatus.canEatLiverOfImmortality(playerEntity)) {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extraction", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)), false);
                         }
                     } else if (ImmortalityStatus.getImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);
+                        if (ImmortalityStatus.canEatLiverOfImmortality(playerEntity)) {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.canEatLiver"), false);
+                        } else {
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.neededExtractionLivers", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)), false);
+                        }
                     } else {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.not_immortal"), false);
                     }

@@ -17,6 +17,16 @@
     "background": "immortality:textures/gui/advancements/backgrounds/background.png"
   },
   "criteria": {
+    "consume_item1": {
+      "conditions": {
+        "item": {
+          "items": [
+            "immortality:heart_of_immortality"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
     "consume_item2": {
       "conditions": {
         "item": {

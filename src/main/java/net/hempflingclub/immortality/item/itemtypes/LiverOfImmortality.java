@@ -42,12 +42,12 @@ public class LiverOfImmortality extends Item {
             }
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
-        } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(playerEntity)) && !world.isClient()) {
+        } else if (ImmortalityStatus.canEatLiverOfImmortality(playerEntity) && ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(playerEntity)) && !world.isClient()) {
             //Remove Debuff
             ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(playerEntity), 0);
             playerEntity.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
 
-        } else if (!world.isClient() && ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) >= 30 && ImmortalityData.getLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity)) && ImmortalityStatus.getVoidHeart(playerEntity) && ImmortalityStatus.getImmortality(playerEntity)) {
+        } else if (!world.isClient() && ImmortalityStatus.isTrueImmortal(playerEntity)) {
             //User has Trilogy
             playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1, 1);
             //Give Buff
@@ -58,11 +58,19 @@ public class LiverOfImmortality extends Item {
             }
         } else if (world.isClient()) {
             //Client
-            if (!ImmortalityStatus.getLiverImmortality(playerEntity) && !ImmortalityStatus.getImmortality(playerEntity)) {
+            if ((!ImmortalityStatus.getLiverImmortality(playerEntity) && !ImmortalityStatus.getImmortality(playerEntity)) && ImmortalityStatus.canEatLiverOfImmortality(playerEntity)) {
                 MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.LiverOfImmortality));
             }
         }
-        return super.finishUsing(stack, world, playerEntity);
+        if (ImmortalityStatus.canEatLiverOfImmortality(playerEntity)) {
+            return super.finishUsing(stack, world, playerEntity);
+        } else {
+            //Fake finish using to trick Server
+            if (!world.isClient()) {
+                playerEntity.sendMessage(Text.translatable("immortality.commands.neededExtractionLivers", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)),true);
+            }
+            return new ItemStack(stack.getItem());
+        }
     }
 
     @Override
