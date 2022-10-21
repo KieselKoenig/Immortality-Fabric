@@ -72,5 +72,6 @@
 - [x] True Immortality needs 3 Extracted Livers, and only then will you also be able to eat your own Liver to regrow it
 - [x] Life Elixir, which gives 1 Heart every 10%, but with True Immortality it is guaranteed
 - [ ] Immortal Souls
-- [x] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
+- [x] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, 
+- - [ ] and slowly regain Hearts))
 - [ ] Immortal King, a new Boss to drop the Heart of Immortality
