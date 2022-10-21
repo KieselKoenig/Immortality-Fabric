@@ -31,6 +31,7 @@ You can download the mod here
 ![Holy Dagger](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Holy_Dagger.png?raw=true)
 ![Void Heart](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Void_Heart.png?raw=true)
 ![Life Elixir]()
+-------
 # TODO
 
 ## Artists
@@ -41,6 +42,7 @@ You can download the mod here
 - [ ] Holy Dagger
 - [ ] Triology
 
+---------------------------
 # Devs
 
 ## Bonus (WIP)
