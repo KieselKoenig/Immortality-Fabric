@@ -35,16 +35,21 @@ You can download the mod here
 # TODO
 
 ## Artists
-- [ ] Rework Textures / Models
-- [ ] Heart of Immortality
-- [ ] Void Heart
-- [ ] Liver of Immortality
-- [ ] Holy Dagger
-- [ ] Triology
+ |Textures|Models|Planned|
+ |:-:|:-:|:-:|
+ |[` `]|[` `]|Heart of Immortality|
+ |[` `]|[` `]|Void Heart|
+ |[` `]|[` `]|Liver of Immortality|
+ |[` `]|[` `]|Holy Dagger|
+ |[` `]|[` `]|True Immortality|
+ |[`X`]|[`X`]|Current Holy Dagger|
 
 ---------------------------
 # Devs
-
+|Textures|Models|Planned|
+ |:-:|:-:|:-:|
+ |[`X`]|[`X`]|Life Elixir|
+ |[`X`]|[`X`]|Current Textures except Holy Dagger|
 ## Bonus (WIP)
 ### Planned for 1.1 Release
 - Immortality "Steal" Enchantment to force harvest immortal Liver
