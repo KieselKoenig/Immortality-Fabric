@@ -1,5 +1,12 @@
-[![Java CI with Gradle](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml/badge.svg)](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml)
-You can download the mod here
+[![Java Build and Artifact Upload](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml/badge.svg)](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml)
+
+[Requires Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) 
+
+![](https://media.forgecdn.net/avatars/thumbnails/185/822/64/64/636829723898798601.png)
+
+[Requires Cardinal Components](https://www.curseforge.com/minecraft/mc-mods/cardinal-components)
+
+![](https://media.forgecdn.net/avatars/thumbnails/495/295/64/64/637808343701625758.png)
 # Immortality  Mod Features
 ## Version 1.0
 - Achieve Different Kinds of Immortality
