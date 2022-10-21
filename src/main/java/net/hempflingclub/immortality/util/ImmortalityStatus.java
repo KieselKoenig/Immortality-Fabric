@@ -316,4 +316,15 @@ public final class ImmortalityStatus {
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"),true);
         }
     }
+    public static int getLifeElixirHealth(PlayerEntity playerEntity){
+        EntityAttributeInstance elixirH = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+        assert elixirH != null;
+        int bonusLifeElixirH = 0;
+        for (EntityAttributeModifier entityModifier : elixirH.getModifiers()) {
+            if (entityModifier.getName().equals("lifeElixir")) {
+                bonusLifeElixirH += lifeElixirHealth;
+            }
+        }
+        return bonusLifeElixirH;
+    }
 }

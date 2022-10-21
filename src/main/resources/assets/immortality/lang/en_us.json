@@ -25,6 +25,7 @@
   "effect.immortality.trilogy": "True Immortality",
   "effect.immortality.life_elixir": "Life Elixir",
   "immortality.commands.bonusHearts": "Through absorbing your Liver you've gained %s bonus Health",
+  "immortality.commands.lifeElixirHearts": "Through absorbing Life Elixir you've gained %s bonus Health",
   "immortality.commands.negativeHearts": "Your False Immortality Deaths have taken you %s Health",
   "immortality.commands.regeneratingHearts": "You are currently regenerating your Liver, thus temporarily lost %s Health",
   "immortality.commands.bonusArmor": "Your Skin hardened to give you %s Armor",
