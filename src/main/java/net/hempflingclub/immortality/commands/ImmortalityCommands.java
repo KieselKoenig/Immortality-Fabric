@@ -37,6 +37,9 @@ public final class ImmortalityCommands {
                     if (ImmortalityStatus.getVoidHeart(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.void_heart"), false);
                     }
+                    if (ImmortalityStatus.isSemiImmortal(playerEntity)) {
+                        context.getSource().sendFeedback(Text.translatable("immortality.commands.semi_immortality"), false);
+                    }
                     if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.false_immortality"), false);
                     } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityStatus.getVoidHeart(playerEntity)) {
@@ -47,7 +50,11 @@ public final class ImmortalityCommands {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled", ImmortalityStatus.getMissingDeathsToTrueImmortality(playerEntity)), false);
                         } else if (!ImmortalityStatus.canEatLiverOfImmortality(playerEntity)) {
                             context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);
-                            context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extraction", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)), false);
+                            if (ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity) > 0) {
+                                context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_extraction", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)), false);
+                            } else {
+                                context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity_unfulfilled_holy_dagger"), false);
+                            }
                         }
                     } else if (ImmortalityStatus.getImmortality(playerEntity)) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.immortality"), false);

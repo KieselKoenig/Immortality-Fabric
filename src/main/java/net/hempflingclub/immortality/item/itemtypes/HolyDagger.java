@@ -27,8 +27,8 @@ public class HolyDagger extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         if (!world.isClient) {
-            if (ImmortalityStatus.getImmortality(user)) {
-                if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(user))) {
+            if (ImmortalityStatus.getImmortality(user) || ImmortalityStatus.isSemiImmortal(user)) {
+                if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(user)) || ImmortalityStatus.isSemiImmortal(user)) {
                     ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user), ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) + 1);
                     if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user)) < 7) {
                         user.sendMessage(Text.translatable("immortality.status.heart_extraction", 7 - ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(user))), true);
@@ -49,7 +49,6 @@ public class HolyDagger extends Item {
                     ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(user), true);
                     ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(user), (int) Objects.requireNonNull(world.getServer()).getOverworld().getTime());
                     ImmortalityStatus.addRegrowingLiver(user);
-                    user.setHealth(user.getMaxHealth());
                     user.giveItemStack(new ItemStack(ImmortalityItems.LiverOfImmortality));
                     //If Trilogy
                     if (!ImmortalityStatus.isTrueImmortal(user)) {

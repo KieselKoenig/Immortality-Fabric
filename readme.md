@@ -33,6 +33,13 @@
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
 - The Liver of Immortality can grant others False Immortality, and also used to craft a Void Heart for others
 - The Life Elixir will give 1 Heart every 10%, but with True Immortality it's guaranteed
+- You can reach Semi Immortality as an False Immortal, and successfully consuming 10 Life Elixirs
+- A Semi Immortal, will still lose Hearts as an False Immortal, but on Death simply respawn with normal Hearts
+- Bane Of Life Enchantment
+  - Use the Bane Of Life Enchantment, to steal an Immortals Liver on killing them
+  - Killing Immortals/True Immortals 3 times in quick succession will make them temporarily Semi Immortals (killable)
+  - When Killing False or Semi Immortals (Final Kill), they will drop a Life Elixir
+  - Normal Players will get Weakness and Slowness corresponding to the Enchantment Level
 - Crafting Recipes
 
 ![Holy Dagger](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Holy_Dagger.png?raw=true)
@@ -49,6 +56,7 @@
  |[` `]|[` `]|Liver of Immortality|
  |[` `]|[` `]|Holy Dagger|
  |[` `]|[` `]|True Immortality|
+ |[` `]|[` `]|Bane Of Life|
  |[`X`]|[`X`]|Current Holy Dagger|
 
 ---------------------------
@@ -58,12 +66,11 @@
  |[`X`]|[`X`]|Life Elixir|
  |[`X`]|[`X`]|Current Textures except Holy Dagger|
 ## Bonus (WIP)
-### Planned for 1.1 Release
-- [ ] Immortality "Steal" Enchantment to force harvest immortal Liver
-### Unspecified but planned
+### Planned
+- [x] Immortality "Steal" Enchantment to force harvest immortal Liver
 - [ ] Heart/Liver of Immortality on Entitys not being Players (SoulBinding)
 - [x] True Immortality needs 3 Extracted Livers, and only then will you also be able to eat your own Liver to regrow it
 - [x] Life Elixir, which gives 1 Heart every 10%, but with True Immortality it is guaranteed
 - [ ] Immortal Souls
-- [ ] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
+- [x] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
 - [ ] Immortal King, a new Boss to drop the Heart of Immortality

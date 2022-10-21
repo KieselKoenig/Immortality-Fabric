@@ -13,7 +13,9 @@ public class ModEffectRegistry {
     public static final ModStatusEffect liver_immortality = new LiverImmortalityEffect(StatusEffectCategory.BENEFICIAL, 0xedc423);
     public static final ModStatusEffect void_heart = new VoidHeartEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
     public static final ModStatusEffect trilogy = new TrilogyEffect(StatusEffectCategory.BENEFICIAL, 0x000000);
+    public static final ModStatusEffect bane_of_life = new BaneOfLifeEffect(StatusEffectCategory.NEUTRAL, 0x000000);
     public static final ModStatusEffect life_elixir = new LifeElixirEffect(StatusEffectCategory.BENEFICIAL, 0xff0000);
+    public static final ModStatusEffect semi_immortality = new SemiImmortality(StatusEffectCategory.BENEFICIAL, 0xff0000);
 
     public static void registerAll() {
         try {

@@ -4,6 +4,7 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 
 import java.util.Objects;
@@ -92,6 +93,7 @@ public final class ImmortalityStatus {
         ImmortalityData.setImmortality(getPlayerComponent(playerEntity), false);
         ImmortalityData.setLiverImmortality(getPlayerComponent(playerEntity), false);
         ImmortalityData.setVoidHeart(getPlayerComponent(playerEntity), false);
+        setSemiImmortality(playerEntity, false);
         resetImmortalityDeath(playerEntity);
         resetExtractedLivers(playerEntity);
         removeImmortalityArmorT(playerEntity);
@@ -119,7 +121,6 @@ public final class ImmortalityStatus {
     }
 
     public static void removeNegativeHearts(PlayerEntity playerEntity) {
-        resetImmortalityDeath(playerEntity);
         EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         assert maxHealth != null;
         for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
@@ -312,11 +313,13 @@ public final class ImmortalityStatus {
             EntityAttributeModifier healthAddition = new EntityAttributeModifier("lifeElixir", lifeElixirHealth, EntityAttributeModifier.Operation.ADDITION);
             maxHealth.addPersistentModifier(healthAddition);
             resetLifeElixirTime(playerEntity);
-        }else{
-            playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"),true);
+            playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir"), true);
+        } else {
+            playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"), true);
         }
     }
-    public static int getLifeElixirHealth(PlayerEntity playerEntity){
+
+    public static int getLifeElixirHealth(PlayerEntity playerEntity) {
         EntityAttributeInstance elixirH = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         assert elixirH != null;
         int bonusLifeElixirH = 0;
@@ -326,5 +329,83 @@ public final class ImmortalityStatus {
             }
         }
         return bonusLifeElixirH;
+    }
+
+    public static int getCurrentTime(PlayerEntity playerEntity) {
+        return (int) Objects.requireNonNull(playerEntity.getServer()).getOverworld().getTime();
+    }
+
+    public static int getCurrentTime(MinecraftServer server) {
+        return (int) server.getOverworld().getTime();
+    }
+
+    public static boolean isSemiImmortal(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getSemiImmortality(playerComponent);
+    }
+
+    public static void setSemiImmortality(PlayerEntity playerEntity, boolean status) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setSemiImmortality(playerComponent, status);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void convertFalseIntoSemiImmortality(PlayerEntity playerEntity) {
+        removeFalseImmortality(playerEntity);
+        setSemiImmortality(playerEntity, true);
+    }
+
+    public static int getLifeElixirDropTime(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getLifeElixirDropTime(playerComponent);
+    }
+
+    public static void setLifeElixirDropTime(PlayerEntity playerEntity, int time) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setLifeElixirDropTime(playerComponent, time);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void resetLifeElixirDropTime(PlayerEntity playerEntity) {
+        setLifeElixirDropTime(playerEntity, 0);
+    }
+
+    public static int getKilledByBaneOfLifeTime(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getKilledByBaneOfLifeTime(playerComponent);
+    }
+
+    public static void setKilledByBaneOfLifeTime(PlayerEntity playerEntity, int time) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setKilledByBaneOfLifeTime(playerComponent, time);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void resetKilledByBaneOfLifeTime(PlayerEntity playerEntity) {
+        setKilledByBaneOfLifeTime(playerEntity, 0);
+    }
+
+    public static int getKilledByBaneOfLifeCount(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getKilledByBaneOfLifeCount(playerComponent);
+    }
+
+    public static void setKilledByBaneOfLifeCount(PlayerEntity playerEntity, int count) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setKilledByBaneOfLifeCount(playerComponent, count);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void resetKilledByBaneOfLifeCount(PlayerEntity playerEntity) {
+        setKilledByBaneOfLifeCount(playerEntity, 0);
+    }
+
+    public static void incrementKilledByBaneOfLifeCount(PlayerEntity playerEntity) {
+        setKilledByBaneOfLifeCount(playerEntity, getKilledByBaneOfLifeCount(playerEntity) + 1);
+    }
+
+    public static void convertSemiImmortalityIntoOtherImmortality(PlayerEntity playerEntity) {
+        removeNegativeHearts(playerEntity);
+        setSemiImmortality(playerEntity, false);
     }
 }

@@ -17,9 +17,27 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
     public void onStartTick(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             //Run Stuff
-            if (player.getWorld().getTime() % 20 == 0) {
+            if (ImmortalityStatus.getCurrentTime(server) % 20 == 0) {
                 if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player)) > 0) {
                     ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player), 0);
+                }
+                if (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getLifeElixirDropTime(player) + 300 * 20)) {
+                    ImmortalityStatus.resetLifeElixirDropTime(player);
+                }
+                if (ImmortalityStatus.getKilledByBaneOfLifeCount(player) > 0) {
+                    if (ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isTrueImmortal(player)) {
+                        //Give Effect
+                        if (!player.hasStatusEffect(ModEffectRegistry.bane_of_life)) {
+                            player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.bane_of_life, 5 * 20, 0, true, true));
+                        }
+                    }
+                    if (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getKilledByBaneOfLifeTime(player) + 60 * 20) || ImmortalityStatus.getKilledByBaneOfLifeTime(player) == 0) {
+                        if ((ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isTrueImmortal(player)) && ImmortalityStatus.isSemiImmortal(player)) {
+                            ImmortalityStatus.convertSemiImmortalityIntoOtherImmortality(player);
+                        }
+                        ImmortalityStatus.resetKilledByBaneOfLifeTime(player);
+                        ImmortalityStatus.resetKilledByBaneOfLifeCount(player);
+                    }
                 }
                 if (ImmortalityStatus.getImmortality(player)) {
                     if (ImmortalityStatus.getLiverImmortality(player)) {
@@ -30,13 +48,13 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
-                        if (server.getOverworld().getTime() >= ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
+                        if (ImmortalityStatus.getCurrentTime(server) >= ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
                             ImmortalityStatus.removeRegrowing(player);
                             ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(player), false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
-                            if(ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(player) == 0){
+                            if (ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(player) == 0) {
                                 player.sendMessage(Text.translatable("immortality.status.liverEatable"));
-                                if(ImmortalityStatus.isTrueImmortal(player)){
+                                if (ImmortalityStatus.isTrueImmortal(player)) {
                                     player.sendMessage(Text.translatable("immortality.commands.trinity"));
                                 }
                             }
@@ -91,12 +109,17 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
                         player.setOnFire(false);
                     }
+                    if (ImmortalityStatus.isSemiImmortal(player)) {
+                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.semi_immortality, 20 * 5, 0, false, false));
+                    }
                 } else if (ImmortalityStatus.getLiverImmortality(player)) {
                     if (player.isOnFire()) {
                         player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.PLAYERS, 1, 1);
                         player.setOnFire(false);
                     }
                     player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.liver_immortality, 20 * 5, 0, false, false));
+                } else if (ImmortalityStatus.isSemiImmortal(player)) {
+                    player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.semi_immortality, 20 * 5, 0, false, false));
                 }
                 //Not Immortal
                 if (ImmortalityStatus.getVoidHeart(player)) {

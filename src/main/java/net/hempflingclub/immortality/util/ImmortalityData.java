@@ -2,7 +2,7 @@ package net.hempflingclub.immortality.util;
 
 import net.minecraft.nbt.NbtCompound;
 
-public class ImmortalityData {
+public final class ImmortalityData {
     public static void setImmortality(IImmortalityPlayerComponent playerData, boolean status) {
         NbtCompound nbt = playerData.getPlayerData();
         nbt.putBoolean("immortal", status);
@@ -107,8 +107,53 @@ public class ImmortalityData {
         nbt.putInt("lifeElixirTime", time);
         playerData.setPlayerData(nbt);
     }
-    public static int getLifeElixirTime(IImmortalityPlayerComponent playerData){
+
+    public static int getLifeElixirTime(IImmortalityPlayerComponent playerData) {
         NbtCompound nbt = playerData.getPlayerData();
         return nbt.getInt("lifeElixirTime");
+    }
+
+    public static void setSemiImmortality(IImmortalityPlayerComponent playerComponent, boolean status) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        nbt.putBoolean("semiImmortality", status);
+        playerComponent.setPlayerData(nbt);
+    }
+
+    public static boolean getSemiImmortality(IImmortalityPlayerComponent playerComponent) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        return nbt.getBoolean("semiImmortality");
+    }
+
+    public static void setLifeElixirDropTime(IImmortalityPlayerComponent playerComponent, int time) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        nbt.putInt("lifeElixirDropTime", time);
+        playerComponent.setPlayerData(nbt);
+    }
+
+    public static int getLifeElixirDropTime(IImmortalityPlayerComponent playerComponent) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        return nbt.getInt("lifeElixirDropTime");
+    }
+
+    public static void setKilledByBaneOfLifeTime(IImmortalityPlayerComponent playerComponent, int time) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        nbt.putInt("killedByBaneOfLifeTime", time);
+        playerComponent.setPlayerData(nbt);
+    }
+
+    public static int getKilledByBaneOfLifeTime(IImmortalityPlayerComponent playerComponent) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        return nbt.getInt("killedByBaneOfLifeTime");
+    }
+
+    public static void setKilledByBaneOfLifeCount(IImmortalityPlayerComponent playerComponent, int count) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        nbt.putInt("killedByBaneOfLifeCount", count);
+        playerComponent.setPlayerData(nbt);
+    }
+
+    public static int getKilledByBaneOfLifeCount(IImmortalityPlayerComponent playerComponent) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        return nbt.getInt("killedByBaneOfLifeCount");
     }
 }

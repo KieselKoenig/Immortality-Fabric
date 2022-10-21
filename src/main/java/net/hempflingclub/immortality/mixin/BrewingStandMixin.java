@@ -26,9 +26,9 @@ public final class BrewingStandMixin {
             for (ItemStack itemStack : slots) {
                 if (itemStack.getTranslationKey().equals("item.minecraft.potion.effect.life_elixir_potion")) {
                     slots.set(idx, new ItemStack(Items.AIR));
-                    ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, world); // Create the lightning bolt
+                    ItemEntity itemEntity = new ItemEntity(EntityType.ITEM, world);
                     itemEntity.setPosition(new Vec3d(pos.getX(), pos.getY(), pos.getZ()));
-                    itemEntity.setStack(toReplaceItemStack);// Set its position. This will make the lightning bolt strike the player (probably not what you want)
+                    itemEntity.setStack(toReplaceItemStack);
                     world.spawnEntity(itemEntity);
                 }
                 idx++;
