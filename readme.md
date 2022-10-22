@@ -36,9 +36,9 @@
 - You can reach Semi Immortality as an False Immortal, and successfully consuming 10 Life Elixirs
 - A Semi Immortal, will still lose Hearts as an False Immortal, but on Death simply respawn with normal Hearts
 - Soul Binding
-- - Every Type Of Immortal can Shift Right Click with the Holy Dagger onto an Entity which has been Named (not Players) and bind their Immortality to them
-- - If they die, the Immortal will die aswell. On the Immortals Final Death, the Entity will likewise die
-- - Soul Binding will only work when the Player is online, otherwise the Entity is mortal as by default
+  - Every Type Of Immortal can Shift Right Click with the Holy Dagger onto an Entity which has been Named (not Players) and bind their Immortality to them
+  - If they die, the Immortal will die aswell. On the Immortals Final Death, the Entity will likewise die
+  - Soul Binding will only work when the Player is online, otherwise the Entity is mortal as by default
 - Bane Of Life Enchantment
   - Use the Bane Of Life Enchantment, to steal an Immortals Liver on killing them
   - Killing Immortals/True Immortals 3 times in quick succession will make them temporarily Semi Immortals (killable)
