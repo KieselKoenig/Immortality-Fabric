@@ -115,5 +115,7 @@ public class HolyDagger extends Item {
         tooltip.add(Text.translatable("immortality.tooltip.item.holy_dagger_4").formatted(Formatting.DARK_PURPLE));
         tooltip.add(Text.translatable("immortality.tooltip.item.holy_dagger_5").formatted(Formatting.DARK_PURPLE));
         tooltip.add(Text.translatable("immortality.tooltip.item.holy_dagger_6").formatted(Formatting.DARK_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.holy_dagger_7").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add(Text.translatable("immortality.tooltip.item.holy_dagger_8").formatted(Formatting.LIGHT_PURPLE));
     }
 }
