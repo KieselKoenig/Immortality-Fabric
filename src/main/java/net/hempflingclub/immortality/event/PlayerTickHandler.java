@@ -18,6 +18,13 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             //Run Stuff
             if (ImmortalityStatus.getCurrentTime(server) % 20 == 0) {
+                if (ImmortalityStatus.getCurrentTime(server) % 600 == 0) { //Every 30sec
+                    if (ImmortalityStatus.hasTargetGiftedImmortal(player)) {
+                        if (!(ImmortalityStatus.isSemiImmortal(player) || ImmortalityStatus.getLiverImmortality(player) || ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isTrueImmortal(player)) || ImmortalityStatus.getTargetGiftedImmortalLivingEntity(player) == null) {
+                            ImmortalityStatus.removeTargetGiftedImmortal(player);
+                        }
+                    }
+                }
                 if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player)) > 0) {
                     ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player), 0);
                 }
@@ -38,7 +45,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         ImmortalityStatus.resetKilledByBaneOfLifeTime(player);
                         ImmortalityStatus.resetKilledByBaneOfLifeCount(player);
                     }
-                } else if (ImmortalityStatus.getNegativeHearts(player) > 0 && ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getSemiImmortalityLostHeartTime(player) + 300 * 20)) {
+                } else if ((ImmortalityStatus.getNegativeHearts(player) > 0) && (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getSemiImmortalityLostHeartTime(player) + 300 * 20)) && ImmortalityStatus.isSemiImmortal(player)) {
                     ImmortalityStatus.removeOneNegativeHeart(player);
                     player.setHealth(player.getHealth() + 2);
                     player.sendMessage(Text.translatable("immortality.status.heart_restored"), true);

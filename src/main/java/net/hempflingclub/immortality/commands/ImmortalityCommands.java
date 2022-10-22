@@ -4,10 +4,13 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+
+import java.util.Objects;
 
 public final class ImmortalityCommands {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -16,6 +19,17 @@ public final class ImmortalityCommands {
                 PlayerEntity playerEntity = context.getSource().getPlayer();
                 context.getSource().getServer().execute(() -> {
                     assert playerEntity != null;
+                    if (ImmortalityStatus.hasTargetGiftedImmortal(playerEntity)) {
+                        if (ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity) != null) {
+                            LivingEntity soulBondEntity = ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity);
+                            assert soulBondEntity != null;
+                            context.getSource().sendFeedback(Text.translatable("immortality.status.soulBond", Objects.requireNonNull(soulBondEntity.getCustomName()).getString(), Double.toString(soulBondEntity.getX()), Double.toString(soulBondEntity.getY()), Double.toString(soulBondEntity.getZ()), soulBondEntity.getWorld().getDimensionKey().getValue().toString()), false);
+
+                        } else {
+                            context.getSource().sendFeedback(Text.translatable("immortality.status.soulBond_dead"), false);
+
+                        }
+                    }
                     if (ImmortalityStatus.getLifeElixirHealth(playerEntity) != 0) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.lifeElixirHearts", ImmortalityStatus.getLifeElixirHealth(playerEntity)), false);
                     }

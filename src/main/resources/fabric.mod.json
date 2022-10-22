@@ -30,7 +30,8 @@
   "custom": {
     "cardinal-components": [
       "immortality:world-data",
-      "immortality:player-data"
+      "immortality:player-data",
+      "immortality:living-entity-data"
     ]
   },
   "depends": {

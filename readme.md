@@ -35,10 +35,15 @@
 - The Life Elixir will give 1 Heart every 10%, but with True Immortality it's guaranteed
 - You can reach Semi Immortality as an False Immortal, and successfully consuming 10 Life Elixirs
 - A Semi Immortal, will still lose Hearts as an False Immortal, but on Death simply respawn with normal Hearts
+- Soul Binding
+- - Every Type Of Immortal can Shift Right Click with the Holy Dagger onto an Entity which has been Named (not Players) and bind their Immortality to them
+- - If they die, the Immortal will die aswell. On the Immortals Final Death, the Entity will likewise die
+- - Soul Binding will only work when the Player is online, otherwise the Entity is mortal as by default
 - Bane Of Life Enchantment
   - Use the Bane Of Life Enchantment, to steal an Immortals Liver on killing them
   - Killing Immortals/True Immortals 3 times in quick succession will make them temporarily Semi Immortals (killable)
   - When Killing False or Semi Immortals (Final Kill), they will drop a Life Elixir
+  - When Killing an SoulBound Entity, their SoulBond gets Broken, and they die
   - Normal Players will get Weakness and Slowness corresponding to the Enchantment Level
 - Crafting Recipes
 
@@ -68,7 +73,7 @@
 ## Bonus (WIP)
 ### Planned
 - [x] Immortality "Steal" Enchantment to force harvest immortal Liver
-- [ ] Heart/Liver of Immortality on Entitys not being Players (SoulBinding)
+- [x] Heart/Liver of Immortality on Entitys not being Players (SoulBinding)
 - [x] True Immortality needs 3 Extracted Livers, and only then will you also be able to eat your own Liver to regrow it
 - [x] Life Elixir, which gives 1 Heart every 10%, but with True Immortality it is guaranteed
 - [ ] Immortal Souls

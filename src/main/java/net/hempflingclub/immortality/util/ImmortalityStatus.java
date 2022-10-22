@@ -1,13 +1,16 @@
 package net.hempflingclub.immortality.util;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public final class ImmortalityStatus {
     private static final int immortalityHearts = 2;
@@ -423,7 +426,8 @@ public final class ImmortalityStatus {
         IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
         return ImmortalityData.getSemiImmortalLostHeartTime(playerComponent);
     }
-    public static void removeOneNegativeHeart(PlayerEntity playerEntity){
+
+    public static void removeOneNegativeHeart(PlayerEntity playerEntity) {
         EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         assert maxHealth != null;
         for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
@@ -433,5 +437,65 @@ public final class ImmortalityStatus {
             }
         }
         playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void setTargetGiftedImmortal(PlayerEntity playerEntity, UUID targetUuid) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setSoulBoundGiftedEntityUUID(playerComponent, targetUuid);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void removeTargetGiftedImmortal(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.removeSoulBoundGiftedEntityUUID(playerComponent);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static UUID getTargetGiftedImmortal(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getSoulBoundGiftedEntityUUID(playerComponent);
+    }
+
+    public static LivingEntity getTargetGiftedImmortalLivingEntity(PlayerEntity playerEntity) {
+        UUID target = getTargetGiftedImmortal(playerEntity);
+        for (ServerWorld world : Objects.requireNonNull(playerEntity.getServer()).getWorlds()) {
+            if(world.getEntity(target) == null){
+                return null;
+            }else if (Objects.requireNonNull(world.getEntity(target)).isLiving()) {
+                if (ImmortalityStatus.hasTargetGiverImmortal((LivingEntity) world.getEntity(target))) {
+                    return (LivingEntity) world.getEntity(target);
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean hasTargetGiftedImmortal(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.doesSoulBoundGiftedEntityUUIDExist(playerComponent);
+    }
+
+    public static IImmortalityLivingEntityComponent getLivingEntityComponent(LivingEntity livingEntity) {
+        return IImmortalityLivingEntityComponent.KEY.get(livingEntity);
+    }
+
+    public static void setTargetGiverImmortal(LivingEntity livingEntity, UUID targetUuid) {
+        IImmortalityLivingEntityComponent livingEntityComponent = getLivingEntityComponent(livingEntity);
+        ImmortalityData.setSoulBoundGiverEntityUUID(livingEntityComponent, targetUuid);
+        livingEntity.syncComponent(IImmortalityLivingEntityComponent.KEY);
+    }
+
+    public static UUID getTargetGiverImmortal(LivingEntity livingEntity) {
+        IImmortalityLivingEntityComponent livingEntityComponent = getLivingEntityComponent(livingEntity);
+        return ImmortalityData.getSoulBoundGiverEntityUUID(livingEntityComponent);
+    }
+
+    public static boolean hasTargetGiverImmortal(LivingEntity livingEntity) {
+        IImmortalityLivingEntityComponent livingEntityComponent = getLivingEntityComponent(livingEntity);
+        return ImmortalityData.doesSoulBoundGiverEntityUUIDExist(livingEntityComponent);
+    }
+
+    public static PlayerEntity getTargetGiverImmortalPlayerEntity(LivingEntity livingEntity) {
+        return Objects.requireNonNull(livingEntity.getServer()).getPlayerManager().getPlayer(getTargetGiverImmortal(livingEntity));
     }
 }
