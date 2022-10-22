@@ -156,4 +156,15 @@ public final class ImmortalityData {
         NbtCompound nbt = playerComponent.getPlayerData();
         return nbt.getInt("killedByBaneOfLifeCount");
     }
+
+    public static void setSemiImmortalLostHeartTime(IImmortalityPlayerComponent playerComponent, int time) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        nbt.putInt("semiImmortalLostHeartTime", time);
+        playerComponent.setPlayerData(nbt);
+    }
+
+    public static int getSemiImmortalLostHeartTime(IImmortalityPlayerComponent playerComponent) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        return nbt.getInt("semiImmortalLostHeartTime");
+    }
 }

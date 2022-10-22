@@ -25,6 +25,7 @@
   "immortality.commands.canEatLiver": "You can regrow your Liver by eating it",
   "immortality.commands.neededExtractionLivers": "Train your Immortality by regrowing your Immortal Liver it %s more times",
   "immortality.status.liverEatable": "You can now regrow your Liver by eating it",
+  "immortality.status.heart_restored": "You have restored one Heart",
   "effect.immortality.immortality": "Immortality",
   "advancements.immortality.double_hearted": "Double Hearted",
   "advancements.immortality.double_hearted.description": "Two Hearts in one",

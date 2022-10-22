@@ -408,4 +408,30 @@ public final class ImmortalityStatus {
         removeNegativeHearts(playerEntity);
         setSemiImmortality(playerEntity, false);
     }
+
+    public static void setSemiImmortalityLostHeartTime(PlayerEntity playerEntity, int time) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setSemiImmortalLostHeartTime(playerComponent, time);
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
+
+    public static void resetSemiImmortalityLostHeartTime(PlayerEntity playerEntity) {
+        setSemiImmortalityLostHeartTime(playerEntity, 0);
+    }
+
+    public static int getSemiImmortalityLostHeartTime(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getSemiImmortalLostHeartTime(playerComponent);
+    }
+    public static void removeOneNegativeHeart(PlayerEntity playerEntity){
+        EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+        assert maxHealth != null;
+        for (EntityAttributeModifier entityModifier : maxHealth.getModifiers()) {
+            if (entityModifier.getName().equals("negativeImmortalityHearts")) {
+                maxHealth.removeModifier(entityModifier);
+                break;
+            }
+        }
+        playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+    }
 }

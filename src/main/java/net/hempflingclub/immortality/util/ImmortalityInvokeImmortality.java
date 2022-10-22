@@ -119,6 +119,9 @@ public class ImmortalityInvokeImmortality {
                         }
                         ImmortalityStatus.addNegativeHearts(playerEntity);
                         playerEntity.setHealth(playerEntity.getMaxHealth());
+                        if (ImmortalityStatus.isSemiImmortal(playerEntity) && ImmortalityStatus.getNegativeHearts(playerEntity) > 0) {
+                            ImmortalityStatus.setSemiImmortalityLostHeartTime(playerEntity, ImmortalityStatus.getCurrentTime(playerEntity));
+                        }
                         if (playerEntity.getMaxHealth() < 2) {
                             //0 Hearts then remove LiverImmortality
                             if (ImmortalityStatus.getLiverImmortality(playerEntity)) {

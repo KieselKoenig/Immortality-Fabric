@@ -38,6 +38,15 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                         ImmortalityStatus.resetKilledByBaneOfLifeTime(player);
                         ImmortalityStatus.resetKilledByBaneOfLifeCount(player);
                     }
+                } else if (ImmortalityStatus.getNegativeHearts(player) > 0 && ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getSemiImmortalityLostHeartTime(player) + 300 * 20)) {
+                    ImmortalityStatus.removeOneNegativeHeart(player);
+                    player.setHealth(player.getHealth() + 2);
+                    player.sendMessage(Text.translatable("immortality.status.heart_restored"), true);
+                    if (ImmortalityStatus.getNegativeHearts(player) > 0) {
+                        ImmortalityStatus.setSemiImmortalityLostHeartTime(player, ImmortalityStatus.getCurrentTime(server));
+                    } else {
+                        ImmortalityStatus.resetSemiImmortalityLostHeartTime(player);
+                    }
                 }
                 if (ImmortalityStatus.getImmortality(player)) {
                     if (ImmortalityStatus.getLiverImmortality(player)) {
