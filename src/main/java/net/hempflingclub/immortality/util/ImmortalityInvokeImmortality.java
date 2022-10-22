@@ -241,6 +241,9 @@ public final class ImmortalityInvokeImmortality {
                                         ));
                                 livingEntity.fallDistance = 0;
                             } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
+                                if (livingEntity.isOnFire()) {
+                                    livingEntity.extinguish();
+                                }
                                 giverImmortal.setHealth(1);
                                 giverImmortal.damage(soulBoundDamageSource, 1000);
                                 livingEntity.getWorld().playSoundFromEntity(null, livingEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.NEUTRAL, 5, 1);
