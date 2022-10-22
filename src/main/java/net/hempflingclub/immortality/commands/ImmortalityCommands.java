@@ -37,7 +37,11 @@ public final class ImmortalityCommands {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.bonusHearts", ImmortalityStatus.getBonusHearts(playerEntity)), false);
                     }
                     if (ImmortalityStatus.getNegativeHearts(playerEntity) != 0) {
-                        context.getSource().sendFeedback(Text.translatable("immortality.commands.negativeHearts", ImmortalityStatus.getNegativeHearts(playerEntity)), false);
+                        if(ImmortalityStatus.isSemiImmortal(playerEntity)){
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.negativeHearts_Semi", ImmortalityStatus.getNegativeHearts(playerEntity)), false);
+                        }else{
+                            context.getSource().sendFeedback(Text.translatable("immortality.commands.negativeHearts", ImmortalityStatus.getNegativeHearts(playerEntity)), false);
+                        }
                     }
                     if (ImmortalityStatus.getRegeneratingHearts(playerEntity) != 0) {
                         context.getSource().sendFeedback(Text.translatable("immortality.commands.regeneratingHearts", ImmortalityStatus.getRegeneratingHearts(playerEntity)), false);
