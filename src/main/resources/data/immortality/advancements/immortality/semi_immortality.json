@@ -1,19 +1,19 @@
 {
-  "parent": "immortality:immortality/root",
+  "parent": "immortality:immortality/liver_of_immortality",
   "display": {
     "icon": {
-      "item": "immortality:double_hearted"
+      "item": "immortality:semi_immortality"
     },
     "title": {
-      "translate": "advancements.immortality.double_hearted"
+      "translate": "advancements.immortality.semi_immortality"
     },
     "description": {
-      "translate": "advancements.immortality.double_hearted.description"
+      "translate": "advancements.immortality.semi_immortality.description"
     },
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true,
+    "hidden": false,
     "background": "immortality:textures/gui/advancements/backgrounds/background.png"
   },
   "criteria": {

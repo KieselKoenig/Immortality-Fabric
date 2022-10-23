@@ -2,6 +2,7 @@ package net.hempflingclub.immortality.item.itemtypes;
 
 import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.item.ImmortalityItems;
+import net.hempflingclub.immortality.util.ImmortalityAdvancementGiver;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
@@ -40,6 +41,7 @@ public class HeartOfImmortality extends Item {
             }
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
+            ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
         } else {
             //Client
             if (!ImmortalityStatus.getImmortality(playerEntity)) {

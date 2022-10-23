@@ -73,6 +73,9 @@ public class ImmortalityItems {
             .group(ItemGroup.Immortality)
             .rarity(Rarity.RARE)
             .maxCount(1)));
+    public static final Item SemiImmortality = registerItem("semi_immortality", new SemiImmortality(new FabricItemSettings()
+            .group(ItemGroup.Immortality)
+            .maxCount(1)));
     public static final Potion LifeElixirPotion = registerPotion("life_elixir_potion", new Potion("life_elixir_potion", new StatusEffectInstance(ModEffectRegistry.life_elixir, 0)));
 
     private static Item registerItem(String name, Item item) {

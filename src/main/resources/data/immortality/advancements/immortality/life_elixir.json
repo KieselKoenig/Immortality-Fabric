@@ -2,18 +2,18 @@
   "parent": "immortality:immortality/root",
   "display": {
     "icon": {
-      "item": "immortality:double_hearted"
+      "item": "immortality:life_elixir"
     },
     "title": {
-      "translate": "advancements.immortality.double_hearted"
+      "translate": "advancements.immortality.life_elixir"
     },
     "description": {
-      "translate": "advancements.immortality.double_hearted.description"
+      "translate": "advancements.immortality.life_elixir.description"
     },
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true,
+    "hidden": false,
     "background": "immortality:textures/gui/advancements/backgrounds/background.png"
   },
   "criteria": {

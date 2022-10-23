@@ -1,6 +1,7 @@
 package net.hempflingclub.immortality.statuseffect.effects;
 
 import net.hempflingclub.immortality.statuseffect.ModStatusEffect;
+import net.hempflingclub.immortality.util.ImmortalityAdvancementGiver;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -21,6 +22,7 @@ public class LifeElixirEffect extends ModStatusEffect {
                 if (ImmortalityStatus.getLifeElixirHealth(playerEntity) >= 20) {
                     if (ImmortalityStatus.getLiverImmortality(playerEntity) && !ImmortalityStatus.isSemiImmortal(playerEntity)) {
                         ImmortalityStatus.convertFalseIntoSemiImmortality(playerEntity);
+                        ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
                     }
                 }
             }

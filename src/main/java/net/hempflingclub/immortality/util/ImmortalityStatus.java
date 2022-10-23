@@ -316,6 +316,8 @@ public final class ImmortalityStatus {
             EntityAttributeModifier healthAddition = new EntityAttributeModifier("lifeElixir", lifeElixirHealth, EntityAttributeModifier.Operation.ADDITION);
             maxHealth.addPersistentModifier(healthAddition);
             resetLifeElixirTime(playerEntity);
+            playerEntity.syncComponent(IImmortalityPlayerComponent.KEY); // Ensures their NBT gets saved, even if killed the next tick (hopefully)
+            ImmortalityAdvancementGiver.giveLifeElixirAchievement(playerEntity);
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir"), true);
         } else {
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"), true);

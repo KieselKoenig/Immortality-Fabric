@@ -23,7 +23,7 @@ public final class ImmortalityCommands {
                         if (ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity) != null) {
                             LivingEntity soulBondEntity = ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity);
                             assert soulBondEntity != null;
-                            context.getSource().sendFeedback(Text.translatable("immortality.status.soulBond", Objects.requireNonNull(soulBondEntity.getCustomName()).getString(), Double.toString(soulBondEntity.getX()), Double.toString(soulBondEntity.getY()), Double.toString(soulBondEntity.getZ()), soulBondEntity.getWorld().getDimensionKey().getValue().toString()), false);
+                            context.getSource().sendFeedback(Text.translatable("immortality.status.soulBond", Objects.requireNonNull(soulBondEntity.getCustomName()).getString(), Double.toString(Math.floor(soulBondEntity.getX())), Double.toString(Math.floor(soulBondEntity.getY())), Double.toString(Math.floor(soulBondEntity.getZ())), soulBondEntity.getWorld().getDimensionKey().getValue().toString()), false);
 
                         } else {
                             context.getSource().sendFeedback(Text.translatable("immortality.status.soulBond_dead"), false);

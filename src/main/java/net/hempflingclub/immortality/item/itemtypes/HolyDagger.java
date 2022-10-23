@@ -1,6 +1,7 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
 import net.hempflingclub.immortality.item.ImmortalityItems;
+import net.hempflingclub.immortality.util.ImmortalityAdvancementGiver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.item.TooltipContext;
@@ -13,10 +14,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -40,13 +38,14 @@ public class HolyDagger extends Item {
                                 playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_GHAST_SCREAM, SoundCategory.NEUTRAL, 5, 1);
                                 ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 64, 0, 5, 0, 1);
                                 entity.damage(new DamageSource("immortality.soulBound").setBypassesArmor().setBypassesProtection().setUnblockable(), 1000);
-                            }
-                            playerEntity.sendMessage(Text.translatable("immortality.status.hasSoulBound", Objects.requireNonNull(entity.getCustomName()).getString()), true);
-                            if (!ImmortalityStatus.isTrueImmortal(playerEntity)) {
-                                stack.damage(1, playerEntity, e -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
-                            }
-                            if (stack.getDamage() >= stack.getMaxDamage()) {
-                                stack.decrement(1);
+                                ImmortalityAdvancementGiver.giveSoulBoundAchievement(playerEntity);
+                                playerEntity.sendMessage(Text.translatable("immortality.status.hasSoulBound", Objects.requireNonNull(entity.getCustomName()).getString()), true);
+                                if (!ImmortalityStatus.isTrueImmortal(playerEntity)) {
+                                    stack.damage(1, playerEntity, e -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
+                                }
+                                if (stack.getDamage() >= stack.getMaxDamage()) {
+                                    stack.decrement(1);
+                                }
                             }
                             return ActionResult.CONSUME;
                         } else {
@@ -88,7 +87,7 @@ public class HolyDagger extends Item {
                             ImmortalityData.setLiverOnceExtracted(ImmortalityStatus.getPlayerComponent(playerEntity), true);
                         }
                         ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(playerEntity), true);
-                        ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(playerEntity), (int) Objects.requireNonNull(world.getServer()).getOverworld().getTime());
+                        ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(playerEntity), ImmortalityStatus.getCurrentTime(playerEntity));
                         ImmortalityStatus.addRegrowingLiver(playerEntity);
                         playerEntity.giveItemStack(new ItemStack(ImmortalityItems.LiverOfImmortality));
                         //If Trilogy
@@ -100,6 +99,8 @@ public class HolyDagger extends Item {
                         if (itemStack.getDamage() >= itemStack.getMaxDamage()) {
                             itemStack.decrement(1);
                         }
+                        ImmortalityAdvancementGiver.giveHolyDaggerAchievement(playerEntity);
+                        ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
                     }
                 }
             }

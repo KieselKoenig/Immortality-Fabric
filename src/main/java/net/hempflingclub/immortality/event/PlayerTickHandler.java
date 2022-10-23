@@ -24,6 +24,9 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                             ImmortalityStatus.removeTargetGiftedImmortal(player);
                         }
                     }
+                    if(ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))){
+                        player.tick();
+                    }
                 }
                 if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player)) > 0) {
                     ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player), 0);
@@ -64,16 +67,10 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
-                        if (ImmortalityStatus.getCurrentTime(server) >= ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
+                        if (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300)) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
                             ImmortalityStatus.removeRegrowing(player);
                             ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(player), false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
-                            if (ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(player) == 0) {
-                                player.sendMessage(Text.translatable("immortality.status.liverEatable"));
-                                if (ImmortalityStatus.isTrueImmortal(player)) {
-                                    player.sendMessage(Text.translatable("immortality.commands.trinity"));
-                                }
-                            }
                         }
                     }
                     //Include Functionality for Death Leveling

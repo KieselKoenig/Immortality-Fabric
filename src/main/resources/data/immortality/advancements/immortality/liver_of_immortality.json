@@ -17,16 +17,8 @@
     "background": "immortality:textures/gui/advancements/backgrounds/background.png"
   },
   "criteria": {
-    "1": {
-      "conditions": {
-        "item": {
-          "items": [
-            "immortality:liver_of_immortality",
-            "immortality:heart_of_immortality"
-          ]
-        }
-      },
-      "trigger": "minecraft:consume_item"
+    "placeholder": {
+      "trigger": "minecraft:impossible"
     }
   }
 }

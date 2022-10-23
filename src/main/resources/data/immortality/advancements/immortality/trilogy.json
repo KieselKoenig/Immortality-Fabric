@@ -17,35 +17,8 @@
   },
   "parent": "immortality:immortality/heart_of_immortality",
   "criteria": {
-    "consume_item1": {
-      "trigger": "minecraft:consume_item",
-      "conditions": {
-        "item": {
-          "items": [
-            "immortality:heart_of_immortality"
-          ]
-        }
-      }
-    },
-    "consume_item2": {
-      "trigger": "minecraft:consume_item",
-      "conditions": {
-        "item": {
-          "items": [
-            "immortality:void_heart"
-          ]
-        }
-      }
-    },
-    "item_durability_changed": {
-      "conditions": {
-        "item": {
-          "items": [
-            "immortality:holy_dagger"
-          ]
-        }
-      },
-      "trigger": "minecraft:item_durability_changed"
+    "placeholder": {
+      "trigger": "minecraft:impossible"
     }
   },
   "rewards": {

@@ -17,20 +17,8 @@
     "background": "immortality:textures/gui/advancements/backgrounds/background.png"
   },
   "criteria": {
-    "item_durability_changed": {
-      "conditions": {
-        "item": {
-          "items": [
-            "immortality:holy_dagger"
-          ]
-        }
-      },
-      "trigger": "minecraft:item_durability_changed"
+    "placeholder": {
+      "trigger": "minecraft:impossible"
     }
-  },
-  "requirements": [
-    [
-      "item_durability_changed"
-    ]
-  ]
+  }
 }

@@ -2,15 +2,15 @@
   "parent": "immortality:immortality/root",
   "display": {
     "icon": {
-      "item": "immortality:double_hearted"
+      "item": "immortality:holy_dagger"
     },
     "title": {
-      "translate": "advancements.immortality.double_hearted"
+      "translate": "advancements.immortality.soul_bound"
     },
     "description": {
-      "translate": "advancements.immortality.double_hearted.description"
+      "translate": "advancements.immortality.soul_bound.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": true,

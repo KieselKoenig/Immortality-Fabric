@@ -1,6 +1,7 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
 import net.hempflingclub.immortality.item.ImmortalityItems;
+import net.hempflingclub.immortality.util.ImmortalityAdvancementGiver;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.client.MinecraftClient;
@@ -42,6 +43,7 @@ public class LiverOfImmortality extends Item {
             }
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
+            ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
         } else if (ImmortalityStatus.canEatLiverOfImmortality(playerEntity) && ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(playerEntity)) && !world.isClient()) {
             //Remove Debuff
             ImmortalityData.setLiverExtractionTime(ImmortalityStatus.getPlayerComponent(playerEntity), 0);
@@ -67,7 +69,11 @@ public class LiverOfImmortality extends Item {
         } else {
             //Fake finish using to trick Server
             if (!world.isClient()) {
-                playerEntity.sendMessage(Text.translatable("immortality.commands.neededExtractionLivers", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)),true);
+                if (ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity) <= 0) {
+                    playerEntity.sendMessage(Text.translatable("immortality.commands.needsHolyDaggerStimulation"), true);
+                } else {
+                    playerEntity.sendMessage(Text.translatable("immortality.commands.neededExtractionLivers", ImmortalityStatus.getMissingLiversToEatLiverOfImmortality(playerEntity)), true);
+                }
             }
             return new ItemStack(stack.getItem());
         }

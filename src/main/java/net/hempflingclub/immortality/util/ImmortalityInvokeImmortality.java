@@ -43,7 +43,7 @@ public final class ImmortalityInvokeImmortality {
                                     Vec3d.of((((ServerPlayerEntity) playerEntity).getSpawnPointPosition()) == null ?
                                             Objects.requireNonNull(playerEntity.getWorld().getServer()).getOverworld().getSpawnPos() :
                                             (((ServerPlayerEntity) playerEntity).getSpawnPointPosition()))
-                                    , Vec3d.ZERO, playerEntity.headYaw, playerEntity.getPitch()
+                                    , Vec3d.ZERO, playerEntity.getHeadYaw(), playerEntity.getPitch()
                             ));
                     playerEntity.fallDistance = 0;
                 } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
@@ -126,7 +126,7 @@ public final class ImmortalityInvokeImmortality {
                         }
                         ImmortalityStatus.addNegativeHearts(playerEntity);
                         playerEntity.setHealth(playerEntity.getMaxHealth());
-                        if (playerEntity.getMaxHealth() < 2) {
+                        if (playerEntity.getMaxHealth() < 1) {
                             //0 Hearts then remove LiverImmortality
                             if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                                 ImmortalityStatus.removeFalseImmortality(playerEntity);
@@ -181,7 +181,6 @@ public final class ImmortalityInvokeImmortality {
                                             player.sendMessage(Text.translatable("immortality.semiImmortal_slayed.death", playerEntity.getName().getString()));
                                         }
                                     }
-                                    ImmortalityStatus.removeNegativeHearts(playerEntity);
                                 }
                                 ImmortalityStatus.resetKilledByBaneOfLifeTime(playerEntity);
                                 ImmortalityStatus.resetKilledByBaneOfLifeCount(playerEntity);
@@ -194,9 +193,12 @@ public final class ImmortalityInvokeImmortality {
                                     ImmortalityStatus.removeTargetGiftedImmortal(playerEntity);
                                 }
                             }
-                            return damageAmount;
+                            playerEntity.setHealth(1); //Guaranteed Death, Just in Case
+                            return damageAmount + 1;
                         }
                     }
+                    //Catching True Immortality in every Case, and also temporary Semi Immortality
+                    ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
                 }
                 //Prevent Death
                 playerEntity.setHealth(playerEntity.getMaxHealth());
@@ -231,14 +233,7 @@ public final class ImmortalityInvokeImmortality {
                             }
                             if (livingEntity.getY() <= livingEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
-                                FabricDimensions.teleport(livingEntity
-                                        , Objects.requireNonNull(livingEntity.world.getServer()).getWorld(((ServerPlayerEntity) livingEntity).getSpawnPointDimension())
-                                        , new TeleportTarget(
-                                                Vec3d.of((((ServerPlayerEntity) livingEntity).getSpawnPointPosition()) == null ?
-                                                        Objects.requireNonNull(livingEntity.getWorld().getServer()).getOverworld().getSpawnPos() :
-                                                        (((ServerPlayerEntity) livingEntity).getSpawnPointPosition()))
-                                                , Vec3d.ZERO, livingEntity.headYaw, livingEntity.getPitch()
-                                        ));
+                                FabricDimensions.teleport(livingEntity, (ServerWorld) giverImmortal.getWorld(), new TeleportTarget(giverImmortal.getPos(), Vec3d.ZERO, livingEntity.getHeadYaw(), livingEntity.getPitch()));
                                 livingEntity.fallDistance = 0;
                             } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
                                 if (livingEntity.isOnFire()) {
