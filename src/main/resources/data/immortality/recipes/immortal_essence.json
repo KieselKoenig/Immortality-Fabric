@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " L ",
+    "   "
+  ],
+  "key": {
+    "L": {
+      "item": "immortality:void_heart"
+    }
+  },
+  "result": {
+    "item": "immortality:immortal_essence",
+    "count": 4
+  }
+}

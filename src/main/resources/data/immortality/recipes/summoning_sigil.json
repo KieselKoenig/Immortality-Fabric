@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " E ",
+    "EVE",
+    " E "
+  ],
+  "key": {
+    "E": {
+      "item": "immortality:immortal_essence"
+    },
+    "V": {
+      "item": "immortality:void_heart"
+    }
+  },
+  "result": {
+    "item": "immortality:summoning_sigil",
+    "count": 1
+  }
+}

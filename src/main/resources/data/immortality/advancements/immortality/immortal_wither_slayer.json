@@ -2,13 +2,13 @@
   "parent": "immortality:immortality/root",
   "display": {
     "icon": {
-      "item": "immortality:semi_immortality"
+      "item": "immortality:heart_of_immortality"
     },
     "title": {
-      "translate": "advancements.immortality.semi_immortality"
+      "translate": "advancements.immortality.immortal_wither_slayer"
     },
     "description": {
-      "translate": "advancements.immortality.semi_immortality.description"
+      "translate": "advancements.immortality.immortal_wither_slayer.description"
     },
     "frame": "challenge",
     "show_toast": true,

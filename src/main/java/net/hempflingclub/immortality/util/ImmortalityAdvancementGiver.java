@@ -18,27 +18,28 @@ public final class ImmortalityAdvancementGiver {
     public static final Identifier voidHeart = new Identifier(Immortality.MOD_ID, "immortality/void_heart");
     public static final Identifier soulBound = new Identifier(Immortality.MOD_ID, "immortality/soul_bound");
     public static final Identifier lifeElixir = new Identifier(Immortality.MOD_ID, "immortality/life_elixir");
+    public static final Identifier immortalWitherSlayer = new Identifier(Immortality.MOD_ID, "immortality/immortal_wither_slayer");
 
     public static void giveImmortalityAchievements(PlayerEntity playerEntity) {
         if (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.getVoidHeart(playerEntity)) {
             achievementGranter(playerEntity, root);
-            if(ImmortalityStatus.getVoidHeart(playerEntity)){
-                achievementGranter(playerEntity,voidHeart);
+            if (ImmortalityStatus.getVoidHeart(playerEntity)) {
+                achievementGranter(playerEntity, voidHeart);
             }
-            if(ImmortalityStatus.getImmortality(playerEntity)){
+            if (ImmortalityStatus.getImmortality(playerEntity)) {
                 achievementGranter(playerEntity, immortality);
-                if(ImmortalityStatus.getVoidHeart(playerEntity)){
-                    achievementGranter(playerEntity,doubleHearted);
+                if (ImmortalityStatus.getVoidHeart(playerEntity)) {
+                    achievementGranter(playerEntity, doubleHearted);
                 }
             }
-            if(ImmortalityStatus.isTrueImmortal(playerEntity)){
-                achievementGranter(playerEntity,trueImmortality);
+            if (ImmortalityStatus.isTrueImmortal(playerEntity)) {
+                achievementGranter(playerEntity, trueImmortality);
             }
-            if(ImmortalityStatus.getLiverImmortality(playerEntity)){
+            if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                 achievementGranter(playerEntity, falseImmortality);
             }
-            if(ImmortalityStatus.isSemiImmortal(playerEntity)){
-                achievementGranter(playerEntity,semi_immortality);
+            if (ImmortalityStatus.isSemiImmortal(playerEntity)) {
+                achievementGranter(playerEntity, semi_immortality);
             }
         }
     }
@@ -52,7 +53,13 @@ public final class ImmortalityAdvancementGiver {
     }
 
     public static void giveLifeElixirAchievement(PlayerEntity playerEntity) {
+        achievementGranter(playerEntity, root);
         achievementGranter(playerEntity, lifeElixir);
+    }
+
+    public static void giveImmortalWitherSlayer(PlayerEntity playerEntity) {
+        achievementGranter(playerEntity, root);
+        achievementGranter(playerEntity, immortalWitherSlayer);
     }
 
     private static void achievementGranter(PlayerEntity playerEntity, Identifier achievement) {

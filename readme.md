@@ -19,7 +19,7 @@
 - To begin your Quest kill the Ender Dragon
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Killing_EnderDragon.png?raw=true)
-  - It will drop a Heart of Immortality on these Deaths
+  - It will drop a Heart of Immortality on these Deaths ***REWORK NEEDED***
 
 | Deaths |
 |--------|
@@ -28,9 +28,11 @@
 | 10     |
 | 15     |
 | ...    |
-- As an Immortal you can extract your Liver of Immortality with the Holy Dagger
+***REWORK NEEDED***
+- As an Immortal you can extract your Liver of Immortality with the Holy Dagger ***REWORK NEEDED***
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
+***REWORK NEEDED***
 - The Liver of Immortality can grant others False Immortality, and also used to craft a Void Heart for others
 - The Life Elixir will give 1 Heart every 25%, but with True Immortality it's guaranteed, other Immorality's have a 50% chance
 - You can reach Semi Immortality as an False Immortal, and successfully consuming 10 Life Elixirs
@@ -49,7 +51,7 @@
 
 ![Holy Dagger](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Holy_Dagger.png?raw=true)
 ![Void Heart](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Void_Heart.png?raw=true)
-![Life Elixir]()
+![Life Elixir]()***REWORK NEEDED***
 -------
 # TODO
 
@@ -62,6 +64,7 @@
  |[` `]|[` `]|Holy Dagger|
  |[` `]|[` `]|True Immortality|
  |[` `]|[` `]|Bane Of Life|
+ |[` `]|[` `]|Immortal Wither|
  |[`X`]|[`X`]|Current Holy Dagger|
 
 ---------------------------
@@ -76,6 +79,6 @@
 - [x] Heart/Liver of Immortality on Entitys not being Players (SoulBinding)
 - [x] True Immortality needs 3 Extracted Livers, and only then will you also be able to eat your own Liver to regrow it
 - [x] Life Elixir, which gives 1 Heart every 10%, but with True Immortality it is guaranteed
-- [ ] Immortal Souls
+- [x] Immortal Souls
 - [x] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
-- [ ] Immortal King, a new Boss to drop the Heart of Immortality
+- [x] Immortal Wither, killing him will drop the Heart of Immortality

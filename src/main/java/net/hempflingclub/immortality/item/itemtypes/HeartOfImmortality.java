@@ -36,9 +36,11 @@ public class HeartOfImmortality extends Item {
             }
             if (!ImmortalityStatus.getImmortality(playerEntity)) {
                 ImmortalityStatus.setImmortality(playerEntity, true);
-                Identifier[] recipes = new Identifier[2];
-                recipes[0] = new Identifier(Immortality.MOD_ID, "void_heart");
-                recipes[1] = new Identifier(Immortality.MOD_ID, "holy_dagger");
+                Identifier[] recipes = new Identifier[4];
+                recipes[0] = new Identifier(Immortality.MOD_ID, "immortal_essence");
+                recipes[1] = new Identifier(Immortality.MOD_ID, "liver_of_immortality");
+                recipes[2] = new Identifier(Immortality.MOD_ID, "summoning_sigil");
+                recipes[3] = new Identifier(Immortality.MOD_ID, "holy_dagger");
                 playerEntity.unlockRecipes(recipes);
             }
             playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));

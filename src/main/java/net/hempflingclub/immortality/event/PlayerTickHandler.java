@@ -24,7 +24,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                             ImmortalityStatus.removeTargetGiftedImmortal(player);
                         }
                     }
-                    if(ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))){
+                    if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         player.tick();
                     }
                 }
@@ -136,9 +136,11 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                 }
                 //Not Immortal
                 if (ImmortalityStatus.getVoidHeart(player)) {
-                    player.getHungerManager().add(1, 1);
-                    if (!ImmortalityStatus.isTrueImmortal(player)) {
-                        player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
+                    if (ImmortalityStatus.getCurrentTime(server) % 600 == 0 || (ImmortalityStatus.isTrueImmortal(player)) || (ImmortalityStatus.getCurrentTime(server) % 150 == 0 && ImmortalityStatus.getImmortality(player))) {
+                        player.getHungerManager().add(1, 1);
+                        if (!ImmortalityStatus.isTrueImmortal(player)) {
+                            player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
+                        }
                     }
                 }
                 //Not Void Heart

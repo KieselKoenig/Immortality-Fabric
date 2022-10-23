@@ -2,6 +2,7 @@ package net.hempflingclub.immortality.util;
 
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.hempflingclub.immortality.enchantments.ImmortalityEnchants;
+import net.hempflingclub.immortality.entitys.ImmortalWither;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.statuseffect.ModEffectRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -53,7 +54,7 @@ public final class ImmortalityInvokeImmortality {
                     playerEntity.setAir(playerEntity.getMaxAir());
                     playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
                     playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
-                    playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 15 * 20, 2, false, false));
+                    playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 15 * 20, 2, true, true));
                     //Increase Immortals Death Counter, if DamageType is not Void Damage
                     if (!((ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity)) && ImmortalityStatus.isSemiImmortal(playerEntity)) && (dmgSource != soulBoundDamageSource && (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity)))) {
                         ImmortalityStatus.incrementImmortalityDeath(playerEntity);
@@ -89,10 +90,6 @@ public final class ImmortalityInvokeImmortality {
                                     }
                                 }
                             }
-                        }
-                        if (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) == 25 && dmgSource != soulBoundDamageSource) {
-                            playerEntity.giveItemStack(new ItemStack(ImmortalityItems.VoidHeart));
-                            playerEntity.sendMessage(Text.translatable("immortality.status.trainedVoidHeart"), true);
                         }
                         if (dmgSource != soulBoundDamageSource && (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) + 1) % 5 == 0 && ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) < 50) {
                             ImmortalityStatus.addImmortalityArmor(playerEntity);
@@ -246,12 +243,35 @@ public final class ImmortalityInvokeImmortality {
                                 livingEntity.setAir(livingEntity.getMaxAir());
                                 livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
                                 livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
-                                livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 15 * 20, 2, false, false));
+                                livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 15 * 20, 2, true, true));
                             }
                             livingEntity.setHealth(livingEntity.getMaxHealth());
                             return 0;
                         }
                     }
+                } else if (livingEntity instanceof ImmortalWither immortalWither) {
+                    //If Bane Of Life, it will count as 2 Kills
+                    if (dmgSource.getSource() != null && dmgSource.getSource() != livingEntity && dmgSource.getSource().isPlayer()) {
+                        PlayerEntity attackingPlayer = (PlayerEntity) dmgSource.getSource();
+                        if (attackingPlayer.getMainHandStack().hasEnchantments()) {
+                            if (EnchantmentHelper.getLevel(ImmortalityEnchants.Bane_Of_Life, attackingPlayer.getMainHandStack()) > 0) {
+                                ImmortalityStatus.incrementImmortalWitherDeaths(immortalWither);
+                                //Will give Liver on every Death
+                                attackingPlayer.giveItemStack(new ItemStack(ImmortalityItems.LiverOfImmortality));
+                            }
+                        }
+                    }
+                    ImmortalityStatus.incrementImmortalWitherDeaths(immortalWither);
+                    if (ImmortalityStatus.getImmortalWitherDeaths(immortalWither) < 5) { // Kill it 5 Times, and it won't be able to recover
+                        immortalWither.setHealth(immortalWither.getMaxHealth() * (1 - ((1.0F * ImmortalityStatus.getImmortalWitherDeaths(immortalWither)) / 5)));
+                        immortalWither.getWorld().playSoundFromEntity(null, immortalWither, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.HOSTILE, 5, 1);
+                        ((ServerWorld) immortalWither.getWorld()).spawnParticles(ParticleTypes.SOUL, immortalWither.getX(), immortalWither.getY(), immortalWither.getZ(), 64, 0, 5, 0, 1);
+                        immortalWither.setInvulTimer(220);
+                        return 0;
+                    } else {
+                        return damageAmount;
+                    }
+
                 }
             }
         }

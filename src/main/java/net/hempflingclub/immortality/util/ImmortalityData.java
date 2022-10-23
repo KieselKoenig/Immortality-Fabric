@@ -181,7 +181,8 @@ public final class ImmortalityData {
         NbtCompound nbt = playerComponent.getPlayerData();
         return nbt.getUuid("soulBoundGiftedImmortal");
     }
-    public static boolean doesSoulBoundGiftedEntityUUIDExist(@NotNull IImmortalityPlayerComponent playerComponent){
+
+    public static boolean doesSoulBoundGiftedEntityUUIDExist(@NotNull IImmortalityPlayerComponent playerComponent) {
         NbtCompound nbt = playerComponent.getPlayerData();
         return nbt.containsUuid("soulBoundGiftedImmortal");
     }
@@ -202,8 +203,20 @@ public final class ImmortalityData {
         NbtCompound nbt = livingEntityComponent.getLivingEntityData();
         return nbt.getUuid("soulBoundGiverImmortal");
     }
-    public static boolean doesSoulBoundGiverEntityUUIDExist(@NotNull IImmortalityLivingEntityComponent livingEntityComponent){
+
+    public static boolean doesSoulBoundGiverEntityUUIDExist(@NotNull IImmortalityLivingEntityComponent livingEntityComponent) {
         NbtCompound nbt = livingEntityComponent.getLivingEntityData();
         return nbt.containsUuid("soulBoundGiverImmortal");
+    }
+
+    public static void setImmortalWitherDeaths(@NotNull IImmortalityLivingEntityComponent livingEntityComponent, int deaths) {
+        NbtCompound nbt = livingEntityComponent.getLivingEntityData();
+        nbt.putInt("immortalWitherDeaths", deaths);
+        livingEntityComponent.setLivingEntityData(nbt);
+    }
+
+    public static int getImmortalWitherDeaths(@NotNull IImmortalityLivingEntityComponent livingEntityComponent) {
+        NbtCompound nbt = livingEntityComponent.getLivingEntityData();
+        return nbt.getInt("immortalWitherDeaths");
     }
 }

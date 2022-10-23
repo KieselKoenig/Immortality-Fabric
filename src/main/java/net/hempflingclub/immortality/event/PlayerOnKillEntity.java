@@ -19,16 +19,18 @@ public class PlayerOnKillEntity {
             //Code run when Player Kills Entity
             if (killedEntity.getType().getTranslationKey().equals(targetMobKey)) {
                 IImmortalityWorldComponent levelcomponent = IImmortalityWorldComponent.KEY.get(playerEntity.getWorld());
-                Identifier[] recipes = new Identifier[2];
-                recipes[0] = new Identifier(Immortality.MOD_ID, "void_heart");
-                recipes[1] = new Identifier(Immortality.MOD_ID, "holy_dagger");
+                Identifier[] recipes = new Identifier[4];
+                recipes[0] = new Identifier(Immortality.MOD_ID, "immortal_essence");
+                recipes[1] = new Identifier(Immortality.MOD_ID, "liver_of_immortality");
+                recipes[2] = new Identifier(Immortality.MOD_ID, "summoning_sigil");
+                recipes[3] = new Identifier(Immortality.MOD_ID, "holy_dagger");
                 playerEntity.unlockRecipes(recipes);
                 levelcomponent.setDragonKills(levelcomponent.getDragonKills() + 1);
-                if (levelcomponent.getDragonKills() == 1 || levelcomponent.getDragonKills() % 5 == 0) {
+                if (levelcomponent.getDragonKills() == 1 || levelcomponent.getDragonKills() % 2 == 0) {
                     for (PlayerEntity player : Objects.requireNonNull(playerEntity.getServer()).getPlayerManager().getPlayerList()) {
                         player.sendMessage(Text.translatable("immortality.heart_dropped"));
                     }
-                    killedEntity.getWorld().spawnEntity(new ItemEntity(killedEntity.getWorld(), killedEntity.getX(), killedEntity.getY(), killedEntity.getZ(), new ItemStack(ImmortalityItems.HeartOfImmortality)));
+                    killedEntity.getWorld().spawnEntity(new ItemEntity(killedEntity.getWorld(), killedEntity.getX(), killedEntity.getY(), killedEntity.getZ(), new ItemStack(ImmortalityItems.VoidHeart)));
                 }
             }
         });

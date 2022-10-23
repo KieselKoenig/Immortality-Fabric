@@ -1,5 +1,6 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
+import net.hempflingclub.immortality.entitys.ImmortalWither;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.ImmortalityAdvancementGiver;
 import net.hempflingclub.immortality.util.ImmortalityData;
@@ -31,7 +32,7 @@ public class HolyDagger extends Item {
             if (!entity.isPlayer()) {
                 if (entity.hasCustomName()) {
                     if (!ImmortalityStatus.hasTargetGiftedImmortal(playerEntity)) {
-                        if (!ImmortalityStatus.hasTargetGiverImmortal(entity)) {
+                        if (!ImmortalityStatus.hasTargetGiverImmortal(entity) && !(entity instanceof ImmortalWither)) {
                             ImmortalityStatus.setTargetGiftedImmortal(playerEntity, entity.getUuid());
                             ImmortalityStatus.setTargetGiverImmortal(entity, playerEntity.getUuid());
                             if (!playerEntity.getWorld().isClient()) {

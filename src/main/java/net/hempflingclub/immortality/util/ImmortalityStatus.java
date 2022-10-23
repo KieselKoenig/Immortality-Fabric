@@ -1,5 +1,6 @@
 package net.hempflingclub.immortality.util;
 
+import net.hempflingclub.immortality.entitys.ImmortalWither;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -499,5 +500,15 @@ public final class ImmortalityStatus {
 
     public static PlayerEntity getTargetGiverImmortalPlayerEntity(LivingEntity livingEntity) {
         return Objects.requireNonNull(livingEntity.getServer()).getPlayerManager().getPlayer(getTargetGiverImmortal(livingEntity));
+    }
+
+    public static void incrementImmortalWitherDeaths(ImmortalWither immortalWither) {
+        IImmortalityLivingEntityComponent livingEntityComponent = getLivingEntityComponent(immortalWither);
+        ImmortalityData.setImmortalWitherDeaths(livingEntityComponent, getImmortalWitherDeaths(immortalWither) + 1);
+    }
+
+    public static int getImmortalWitherDeaths(ImmortalWither immortalWither) {
+        IImmortalityLivingEntityComponent livingEntityComponent = getLivingEntityComponent(immortalWither);
+        return ImmortalityData.getImmortalWitherDeaths(livingEntityComponent);
     }
 }
