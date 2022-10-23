@@ -12,7 +12,7 @@
 - Achieve Different Kinds of Immortality
 - Complete the Quest of Immortality
 
-![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Quest_of_Immortality.png?raw=true)
+![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Quest_of_Immortality.png?raw=true) ***NEEDS UPDATING***
 - Strengthen your Immortality and reach for True Immortality
 - For Debug Information you can use the command
   - /immortality:stats 
