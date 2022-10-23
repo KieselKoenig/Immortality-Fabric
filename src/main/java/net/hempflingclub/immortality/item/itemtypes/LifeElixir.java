@@ -61,5 +61,6 @@ public class LifeElixir extends Item {
         tooltip.add(Text.translatable("immortality.tooltip.item.life_elixir_1").formatted(Formatting.RED));
         tooltip.add(Text.translatable("immortality.tooltip.item.life_elixir_2").formatted(Formatting.RED));
         tooltip.add(Text.translatable("immortality.tooltip.item.life_elixir_3").formatted(Formatting.RED));
+        tooltip.add(Text.translatable("immortality.tooltip.item.life_elixir_4").formatted(Formatting.RED));
     }
 }

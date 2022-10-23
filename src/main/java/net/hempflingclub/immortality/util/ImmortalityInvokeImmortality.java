@@ -32,7 +32,7 @@ public final class ImmortalityInvokeImmortality {
         if (livingEntity.isPlayer()) {
             PlayerEntity playerEntity = (PlayerEntity) livingEntity;
             if (!livingEntity.world.isClient
-                    && (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.isSemiImmortal(playerEntity))
+                    && (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity))
                     && (livingEntity.getHealth() - damageAmount) <= 0) {
                 // This is Server, Player is Immortal and would've Died
                 if (playerEntity.getY() <= playerEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
@@ -64,7 +64,7 @@ public final class ImmortalityInvokeImmortality {
                     }
                     //Increase Death Counter in Statistics
                     playerEntity.incrementStat(Stats.DEATHS);
-                    if (ImmortalityStatus.getImmortality(playerEntity) && !ImmortalityStatus.isSemiImmortal(playerEntity)) {
+                    if ((ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity)) && !ImmortalityStatus.isSemiImmortal(playerEntity)) {
                         //If real Immortality not LiverImmortality then use Leveling Mechanic
                         playerEntity.setHealth(playerEntity.getMaxHealth());
                         if (dmgSource.getSource() != null && dmgSource.getSource() != playerEntity && dmgSource.getSource().isPlayer()) {
@@ -126,7 +126,7 @@ public final class ImmortalityInvokeImmortality {
                         }
                         ImmortalityStatus.addNegativeHearts(playerEntity);
                         playerEntity.setHealth(playerEntity.getMaxHealth());
-                        if (playerEntity.getMaxHealth() < 1) {
+                        if (playerEntity.getMaxHealth() < 2) {
                             //0 Hearts then remove LiverImmortality
                             if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                                 ImmortalityStatus.removeFalseImmortality(playerEntity);

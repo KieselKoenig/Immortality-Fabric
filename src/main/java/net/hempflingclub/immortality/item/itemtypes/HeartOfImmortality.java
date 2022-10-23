@@ -31,6 +31,8 @@ public class HeartOfImmortality extends Item {
             //Server
             if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                 ImmortalityStatus.removeFalseImmortality(playerEntity);
+            }else if (ImmortalityStatus.isSemiImmortal(playerEntity)){
+                ImmortalityStatus.convertSemiImmortalityIntoOtherImmortality(playerEntity);
             }
             if (!ImmortalityStatus.getImmortality(playerEntity)) {
                 ImmortalityStatus.setImmortality(playerEntity, true);

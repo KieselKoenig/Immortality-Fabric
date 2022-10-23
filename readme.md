@@ -32,7 +32,7 @@
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
 - The Liver of Immortality can grant others False Immortality, and also used to craft a Void Heart for others
-- The Life Elixir will give 1 Heart every 10%, but with True Immortality it's guaranteed
+- The Life Elixir will give 1 Heart every 25%, but with True Immortality it's guaranteed, other Immorality's have a 50% chance
 - You can reach Semi Immortality as an False Immortal, and successfully consuming 10 Life Elixirs
 - A Semi Immortal, will still lose Hearts as an False Immortal, but on Death simply respawn with normal Hearts
 - Soul Binding

@@ -310,7 +310,7 @@ public final class ImmortalityStatus {
     }
 
     public static void addLifeElixirHealth(PlayerEntity playerEntity) {
-        if (isTrueImmortal(playerEntity) || Math.random() >= 0.9) {
+        if (isTrueImmortal(playerEntity) || (Math.random() >= 0.75 && !(ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity))) || (Math.random() >= 0.5 && (ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity)))) {
             EntityAttributeInstance maxHealth = playerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
             assert maxHealth != null;
             EntityAttributeModifier healthAddition = new EntityAttributeModifier("lifeElixir", lifeElixirHealth, EntityAttributeModifier.Operation.ADDITION);
@@ -461,9 +461,9 @@ public final class ImmortalityStatus {
     public static LivingEntity getTargetGiftedImmortalLivingEntity(PlayerEntity playerEntity) {
         UUID target = getTargetGiftedImmortal(playerEntity);
         for (ServerWorld world : Objects.requireNonNull(playerEntity.getServer()).getWorlds()) {
-            if(world.getEntity(target) == null){
+            if (world.getEntity(target) == null) {
                 return null;
-            }else if (Objects.requireNonNull(world.getEntity(target)).isLiving()) {
+            } else if (Objects.requireNonNull(world.getEntity(target)).isLiving()) {
                 if (ImmortalityStatus.hasTargetGiverImmortal((LivingEntity) world.getEntity(target))) {
                     return (LivingEntity) world.getEntity(target);
                 }
