@@ -4,6 +4,7 @@ import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.IImmortalityWorldComponent;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -14,10 +15,9 @@ import java.util.Objects;
 public class PlayerOnKillEntity {
     public static void initialize() {
         //Initialize Events
-        final String targetMobKey = "entity.minecraft.ender_dragon";
         PlayerKillEntityCallback.EVENT.register((playerEntity, killedEntity) -> {
             //Code run when Player Kills Entity
-            if (killedEntity.getType().getTranslationKey().equals(targetMobKey)) {
+            if (killedEntity instanceof EnderDragonEntity) {
                 IImmortalityWorldComponent levelcomponent = IImmortalityWorldComponent.KEY.get(playerEntity.getWorld());
                 Identifier[] recipes = new Identifier[4];
                 recipes[0] = new Identifier(Immortality.MOD_ID, "immortal_essence");
