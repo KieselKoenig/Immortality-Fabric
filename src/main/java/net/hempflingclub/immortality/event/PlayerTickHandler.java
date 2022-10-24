@@ -17,21 +17,26 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
     public void onStartTick(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             //Run Stuff
-            if (ImmortalityStatus.getCurrentTime(server) % 20 == 0) {
-                if (ImmortalityStatus.getCurrentTime(server) % 600 == 0) { //Every 30sec
+            int currentTime = ImmortalityStatus.getCurrentTime(server);
+            if (currentTime % 20 == 0) {
+                if (currentTime % 100 == 0) { // Every 5sec
+                    if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
+                        if (ImmortalityStatus.getRegeneratingHearts(player) == 0) {
+                            ImmortalityStatus.addRegrowingLiver(player);
+                        }
+                    }
+                }
+                if (currentTime % 600 == 0) { //Every 30sec
                     if (ImmortalityStatus.hasTargetGiftedImmortal(player)) {
                         if (!(ImmortalityStatus.isSemiImmortal(player) || ImmortalityStatus.getLiverImmortality(player) || ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isTrueImmortal(player)) || ImmortalityStatus.getTargetGiftedImmortalLivingEntity(player) == null) {
                             ImmortalityStatus.removeTargetGiftedImmortal(player);
                         }
                     }
-                    if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
-                        player.tick();
-                    }
                 }
                 if (ImmortalityData.getHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player)) > 0) {
                     ImmortalityData.setHeartExtractionAmount(ImmortalityStatus.getPlayerComponent(player), 0);
                 }
-                if (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getLifeElixirDropTime(player) + 300 * 20)) {
+                if (currentTime >= (ImmortalityStatus.getLifeElixirDropTime(player) + 300 * 20)) {
                     ImmortalityStatus.resetLifeElixirDropTime(player);
                 }
                 if (ImmortalityStatus.getKilledByBaneOfLifeCount(player) > 0) {
@@ -41,19 +46,19 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                             player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.bane_of_life, 5 * 20, 0, true, true));
                         }
                     }
-                    if (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getKilledByBaneOfLifeTime(player) + 60 * 20) || ImmortalityStatus.getKilledByBaneOfLifeTime(player) == 0) {
+                    if (currentTime >= (ImmortalityStatus.getKilledByBaneOfLifeTime(player) + 60 * 20) || ImmortalityStatus.getKilledByBaneOfLifeTime(player) == 0) {
                         if ((ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isTrueImmortal(player)) && ImmortalityStatus.isSemiImmortal(player)) {
                             ImmortalityStatus.convertSemiImmortalityIntoOtherImmortality(player);
                         }
                         ImmortalityStatus.resetKilledByBaneOfLifeTime(player);
                         ImmortalityStatus.resetKilledByBaneOfLifeCount(player);
                     }
-                } else if ((ImmortalityStatus.getNegativeHearts(player) > 0) && (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityStatus.getSemiImmortalityLostHeartTime(player) + 300 * 20)) && ImmortalityStatus.isSemiImmortal(player)) {
+                } else if ((ImmortalityStatus.getNegativeHearts(player) > 0) && (currentTime >= (ImmortalityStatus.getSemiImmortalityLostHeartTime(player) + 300 * 20)) && ImmortalityStatus.isSemiImmortal(player)) {
                     ImmortalityStatus.removeOneNegativeHeart(player);
                     player.setHealth(player.getHealth() + 2);
                     player.sendMessage(Text.translatable("immortality.status.heart_restored"), true);
                     if (ImmortalityStatus.getNegativeHearts(player) > 0) {
-                        ImmortalityStatus.setSemiImmortalityLostHeartTime(player, ImmortalityStatus.getCurrentTime(server));
+                        ImmortalityStatus.setSemiImmortalityLostHeartTime(player, currentTime);
                     } else {
                         ImmortalityStatus.resetSemiImmortalityLostHeartTime(player);
                     }
@@ -67,7 +72,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         //Give Extraction debuffs
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 5, 0, false, false));
-                        if (ImmortalityStatus.getCurrentTime(server) >= (ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300)) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
+                        if (currentTime >= (ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) + (20 * 300)) || ImmortalityData.getLiverExtractionTime(ImmortalityStatus.getPlayerComponent(player)) == 0) { // After 5mins Liver has regrown
                             ImmortalityStatus.removeRegrowing(player);
                             ImmortalityData.setLiverExtracted(ImmortalityStatus.getPlayerComponent(player), false);
                             player.sendMessage(Text.translatable("immortality.status.liver_regrown"), true);
@@ -139,7 +144,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     if (!ImmortalityStatus.isTrueImmortal(player)) {
                         player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
                     }
-                    if (ImmortalityStatus.getCurrentTime(server) % 600 == 0 || (ImmortalityStatus.isTrueImmortal(player)) || (ImmortalityStatus.getCurrentTime(server) % 150 == 0 && ImmortalityStatus.getImmortality(player))) {
+                    if (currentTime % 600 == 0 || (ImmortalityStatus.isTrueImmortal(player)) || (currentTime % 150 == 0 && ImmortalityStatus.getImmortality(player))) {
                         player.getHungerManager().add(1, 1);
                     }
                 }

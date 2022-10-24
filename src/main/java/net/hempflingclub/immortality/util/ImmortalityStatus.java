@@ -49,6 +49,7 @@ public final class ImmortalityStatus {
         maxHealth.addPersistentModifier(healthSubtraction);
         incrementExtractedLiver(playerEntity);
         playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+        playerEntity.tick();
     }
 
     public static void incrementImmortalityDeath(PlayerEntity playerEntity) {
