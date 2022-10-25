@@ -33,7 +33,7 @@ public class BaneOfLife extends DamageEnchantment {
 
     @Override
     public float getAttackDamage(int level, EntityGroup group) {
-        return (float) Math.max(0, level * 5);
+        return (float) Math.max(0, level * 3);
     }
 
     @Override
