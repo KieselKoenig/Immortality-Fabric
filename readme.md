@@ -30,8 +30,8 @@
 - As an Immortal you can extract your Liver of Immortality with the Holy Dagger
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
-- The Liver of Immortality can grant others False Immortality
-  - The Liver is gained by using a Holy Dagger as an Immortal / True Immortal
+- The Liver of Immortality when eaten will grant False Immortality
+  - The Liver is gained by using a Holy Dagger as an Immortal / True Immortal or also by crafting
   - And Also by using Bane Of Life Enchantment (explanation in its section)
 - The Life Elixir will give 1 Heart by default every 25%, any Immorality has a 50% chance, except True Immortality as for them it's guaranteed
 - You can reach Semi Immortality as an False Immortal, by successfully consuming 10 Life Elixirs
