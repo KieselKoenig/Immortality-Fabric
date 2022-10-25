@@ -308,7 +308,7 @@ public final class ImmortalityStatus {
     public static boolean shouldLifeElixirApply(PlayerEntity playerEntity) {
         long serverTime = Objects.requireNonNull(playerEntity.getServer()).getOverworld().getTime();
         int effectTime = 300 * 20;
-        return (serverTime >= (getLifeElixirTime(playerEntity) + effectTime * 0.99));
+        return (serverTime >= (getLifeElixirTime(playerEntity) + effectTime * 0.99) && getLifeElixirTime(playerEntity) != 0);
     }
 
     public static void addLifeElixirHealth(PlayerEntity playerEntity) {
@@ -323,6 +323,8 @@ public final class ImmortalityStatus {
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir"), true);
         } else {
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"), true);
+            resetLifeElixirTime(playerEntity);
+            playerEntity.syncComponent(IImmortalityPlayerComponent.KEY); // Ensures their NBT gets saved, even if killed the next tick (hopefully)
         }
     }
 
