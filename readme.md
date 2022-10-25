@@ -1,42 +1,41 @@
 [![Java Build and Artifact Upload](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml/badge.svg)](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml)
 
-[Requires Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) 
+ 
 
-![](https://media.forgecdn.net/avatars/thumbnails/185/822/64/64/636829723898798601.png)
+[Requires Fabric API ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Fabric_API.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
-[Requires Cardinal Components](https://www.curseforge.com/minecraft/mc-mods/cardinal-components)
-
-![](https://media.forgecdn.net/avatars/thumbnails/495/295/64/64/637808343701625758.png)
+[Requires Cardinal Components ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Cardinal_Components.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/cardinal-components)
 # Immortality  Mod Features
-## Version 1.0
 - Achieve Different Kinds of Immortality
 - Complete the Quest of Immortality
 
-![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Quest_of_Immortality.png?raw=true) ***NEEDS UPDATING***
+![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Quest_of_Immortality.png?raw=true)
 - Strengthen your Immortality and reach for True Immortality
 - For Debug Information you can use the command
   - /immortality:stats 
 - To begin your Quest kill the Ender Dragon
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Killing_EnderDragon.png?raw=true)
-  - It will drop a Heart of Immortality on these Deaths ***REWORK NEEDED***
+  - It will drop a Void Heart on these Deaths 
 
 | Deaths |
 |--------|
 | 1      |
-| 5      |
-| 10     |
-| 15     |
+| 2      |
+| 4      |
+| 6      |
 | ...    |
-***REWORK NEEDED***
-- As an Immortal you can extract your Liver of Immortality with the Holy Dagger ***REWORK NEEDED***
+- Consume the Void Heart and need less sustenance, or craft Items to progress on your Quest
+- Most Items have clear Descriptions so reading ahead may Spoil your Fun of exploring the Mod
+- As an Immortal you can extract your Liver of Immortality with the Holy Dagger
 
 ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/src/main/resources/assets/immortality/textures/item/holy_dagger.png?raw=true)
-***REWORK NEEDED***
-- The Liver of Immortality can grant others False Immortality, and also used to craft a Void Heart for others
-- The Life Elixir will give 1 Heart every 25%, but with True Immortality it's guaranteed, other Immorality's have a 50% chance
-- You can reach Semi Immortality as an False Immortal, and successfully consuming 10 Life Elixirs
-- A Semi Immortal, will still lose Hearts as an False Immortal, but on Death simply respawn with normal Hearts
+- The Liver of Immortality when eaten will grant False Immortality
+  - The Liver is gained by using a Holy Dagger as an Immortal / True Immortal or also by crafting
+  - And Also by using Bane Of Life Enchantment (explanation in its section)
+- The Life Elixir will give 1 Heart by default every 25%, any Immorality has a 50% chance, except True Immortality as for them it's guaranteed
+- You can reach Semi Immortality as an False Immortal, by successfully consuming 10 Life Elixirs
+- A Semi Immortal, will still lose Hearts as an False Immortal, but on Death simply respawn with normal Hearts, also slowly regain Hearts
 - Soul Binding
   - Every Type Of Immortal can Shift Right Click with the Holy Dagger onto an Entity which has been Named (not Players) and bind their Immortality to them
   - If they die, the Immortal will die aswell. On the Immortals Final Death, the Entity will likewise die
@@ -50,8 +49,10 @@
 - Crafting Recipes
 
 ![Holy Dagger](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Holy_Dagger.png?raw=true)
-![Void Heart](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Void_Heart.png?raw=true)
-![Life Elixir]()***REWORK NEEDED***
+![Immortal Essence](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Immortal_Essence.png?raw=true)
+![Liver of Immortality](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Liver_of_Immortality.png?raw=true)
+![Summoning Sigil](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Summoning_Sigil.png?raw=true)
+![Life Elixir](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Recipe_Life_Elixir.gif?raw=true)
 -------
 # TODO
 
@@ -73,7 +74,6 @@
  |:-:|:-:|:-:|
  |[`X`]|[`X`]|Life Elixir|
  |[`X`]|[`X`]|Current Textures except Holy Dagger|
-## Bonus (WIP)
 ### Planned
 - [x] Immortality "Steal" Enchantment to force harvest immortal Liver
 - [x] Heart/Liver of Immortality on Entitys not being Players (SoulBinding)
@@ -82,3 +82,4 @@
 - [x] Immortal Souls
 - [x] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
 - [x] Immortal Wither, killing him will drop the Heart of Immortality
+- [ ] Waiting for Feedback to decide other Features which should be added
