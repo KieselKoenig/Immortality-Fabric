@@ -1,6 +1,6 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
-import net.hempflingclub.immortality.entitys.ImmortalWither;
+import net.hempflingclub.immortality.entitys.ImmortalWither.ImmortalWither;
 import net.hempflingclub.immortality.item.ImmortalityItems;
 import net.hempflingclub.immortality.util.ImmortalityAdvancementGiver;
 import net.hempflingclub.immortality.util.ImmortalityData;

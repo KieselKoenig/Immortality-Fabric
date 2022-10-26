@@ -1,4 +1,4 @@
-package net.hempflingclub.immortality.entitys;
+package net.hempflingclub.immortality.entitys.ImmortalWither;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

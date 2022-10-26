@@ -1,6 +1,6 @@
 package net.hempflingclub.immortality.util;
 
-import net.hempflingclub.immortality.entitys.ImmortalWither;
+import net.hempflingclub.immortality.entitys.ImmortalWither.ImmortalWither;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;

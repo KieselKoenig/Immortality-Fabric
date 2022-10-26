@@ -1,4 +1,4 @@
-package net.hempflingclub.immortality.entitys;
+package net.hempflingclub.immortality.entitys.ImmortalWither;
 
 import com.google.common.collect.ImmutableList;
 import net.hempflingclub.immortality.item.ImmortalityItems;

@@ -1,7 +1,7 @@
 package net.hempflingclub.immortality.item.itemtypes;
 
 import net.hempflingclub.immortality.entitys.ImmortalEntitys;
-import net.hempflingclub.immortality.entitys.ImmortalWither;
+import net.hempflingclub.immortality.entitys.ImmortalWither.ImmortalWither;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
