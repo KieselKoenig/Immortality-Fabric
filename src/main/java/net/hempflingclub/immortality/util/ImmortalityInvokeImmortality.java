@@ -114,7 +114,7 @@ public final class ImmortalityInvokeImmortality {
                                 playerEntity.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.bane_of_life, 60 * 20, 0, true, true));
                             }
                         }
-                        if (dmgSource != soulBoundDamageSource && (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) + 1) % 5 == 0 && ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) < 50) {
+                        if (dmgSource != soulBoundDamageSource && (ImmortalityData.getImmortalDeaths(ImmortalityStatus.getPlayerComponent(playerEntity)) + 1) % 5 == 0 && ImmortalityStatus.getBonusArmor(playerEntity) < ImmortalityStatus.immortalityBaseArmor * 10) {
                             ImmortalityStatus.addImmortalityArmor(playerEntity);
                             playerEntity.sendMessage(Text.translatable("immortality.status.skinHardened"), true);
                         }

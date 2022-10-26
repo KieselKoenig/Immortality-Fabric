@@ -14,12 +14,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 public final class ImmortalityStatus {
-    private static final int immortalityHearts = 2;
-    private static final int negativeImmortalityHearts = -2;
-    private static final int regrowingImmortalityLiver = -10;
-    private static final int immortalityHardening = 1;
-    private static final int immortalityBaseArmor = 1;
-    private static final int lifeElixirHealth = 2;
+    public static final int immortalityHearts = 2;
+    public static final int negativeImmortalityHearts = -2;
+    public static final int regrowingImmortalityLiver = -10;
+    public static final int immortalityHardening = 1;
+    public static final int immortalityBaseArmor = 1;
+    public static final int lifeElixirHealth = 2;
 
     /**
      * Gives (1) Immortality Heart
