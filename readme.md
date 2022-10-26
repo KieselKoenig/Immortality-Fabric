@@ -1,6 +1,6 @@
 [![Java Build and Artifact Upload](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml/badge.svg)](https://github.com/Hempflingclub/Immortality-Fabric/actions/workflows/gradle.yml)
 
- 
+[CurseForge](https://www.curseforge.com/minecraft/mc-mods/immortality-fabric) 
 
 [Requires Fabric API ![](https://github.com/Hempflingclub/Immortality-Fabric/blob/master/.github/readme/Fabric_API.png?raw=true)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
