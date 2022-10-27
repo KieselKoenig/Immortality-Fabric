@@ -116,6 +116,9 @@
   "advancements.immortality.liver_of_immortality.description": "Consume the Liver of an Immortal",
   "advancements.immortality.holy_dagger": "Remove your Liver of Immortality",
   "advancements.immortality.holy_dagger.description": "You can gift it someone for False Immortality",
+  "immortality.commands.no_soulbound": "You have no SoulBound Entity",
+  "immortality.commands.summoned": "Successfully summoned your SoulBound Entity",
+  "immortality.commands.use_auto_completed_commands": "Use /immortality stats|summon",
   "advancements.immortality.trilogy": "True Immortality",
   "advancements.immortality.trilogy.description": "You have achieved Balance in Trilogy. Your Powers Synergize, unshackling your Immortality",
   "entity.immortality.immortal_wither": "Immortal Wither"

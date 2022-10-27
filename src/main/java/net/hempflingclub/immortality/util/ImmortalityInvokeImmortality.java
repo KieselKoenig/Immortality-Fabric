@@ -264,8 +264,9 @@ public final class ImmortalityInvokeImmortality {
                             }
                             if (livingEntity.getY() <= livingEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
                                 //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
-                                FabricDimensions.teleport(livingEntity, (ServerWorld) giverImmortal.getWorld(), new TeleportTarget(giverImmortal.getPos(), Vec3d.ZERO, livingEntity.getHeadYaw(), livingEntity.getPitch()));
                                 livingEntity.fallDistance = 0;
+                                FabricDimensions.teleport(livingEntity, (ServerWorld) giverImmortal.getWorld(), new TeleportTarget(giverImmortal.getPos(), Vec3d.ZERO, livingEntity.getHeadYaw(), livingEntity.getPitch()));
+                                ((ServerWorld) livingEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), 64, 0, 5, 0, 1);
                             } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
                                 if (livingEntity.isOnFire()) {
                                     livingEntity.extinguish();
