@@ -40,6 +40,7 @@ public final class ImmortalityStatus {
         EntityAttributeModifier healthSubtraction = new EntityAttributeModifier("negativeImmortalityHearts", negativeImmortalityHearts, EntityAttributeModifier.Operation.ADDITION);
         maxHealth.addPersistentModifier(healthSubtraction);
         playerEntity.syncComponent(IImmortalityPlayerComponent.KEY);
+        playerEntity.tick();
     }
 
     public static void addRegrowingLiver(PlayerEntity playerEntity) {
@@ -465,11 +466,11 @@ public final class ImmortalityStatus {
     public static LivingEntity getTargetGiftedImmortalLivingEntity(PlayerEntity playerEntity) {
         UUID target = getTargetGiftedImmortal(playerEntity);
         for (ServerWorld world : Objects.requireNonNull(playerEntity.getServer()).getWorlds()) {
-            if (world.getEntity(target) == null) {
-                return null;
-            } else if (Objects.requireNonNull(world.getEntity(target)).isLiving()) {
-                if (ImmortalityStatus.hasTargetGiverImmortal((LivingEntity) world.getEntity(target))) {
-                    return (LivingEntity) world.getEntity(target);
+            if (world.getEntity(target) != null) {
+                if (Objects.requireNonNull(world.getEntity(target)).isLiving()) {
+                    if (ImmortalityStatus.hasTargetGiverImmortal((LivingEntity) world.getEntity(target))) {
+                        return (LivingEntity) world.getEntity(target);
+                    }
                 }
             }
         }

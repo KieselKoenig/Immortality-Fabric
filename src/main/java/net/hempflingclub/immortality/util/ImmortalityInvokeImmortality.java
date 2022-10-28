@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.ItemStack;
@@ -35,10 +36,23 @@ public final class ImmortalityInvokeImmortality {
     private static final float witherDamageMultiplierEasy = 2.0f;
 
     public static float damageManager(LivingEntity livingEntity, DamageSource dmgSource, float damageAmount) {
-        if (livingEntity.isPlayer()) {
+        if (livingEntity.isPlayer() && !livingEntity.getWorld().isClient()) {
             PlayerEntity playerEntity = (PlayerEntity) livingEntity;
-            if (!livingEntity.world.isClient
-                    && (ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity))
+            if (ImmortalityStatus.hasTargetGiftedImmortal(playerEntity) && dmgSource.getSource() != null && dmgSource.getSource() != playerEntity) {
+                LivingEntity immortalEntity = ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity);
+                if (immortalEntity instanceof WolfEntity wolfEntity) {
+                    if (!wolfEntity.isSitting() && wolfEntity.isTeammate(playerEntity)) {
+                        if (wolfEntity.getWorld() != playerEntity.getWorld() || wolfEntity.distanceTo(playerEntity) > 10) {
+                            wolfEntity.fallDistance = 0;
+                            FabricDimensions.teleport(wolfEntity, (ServerWorld) playerEntity.getWorld(), new TeleportTarget(playerEntity.getPos(), Vec3d.ZERO, wolfEntity.getYaw(), wolfEntity.getPitch()));
+                            ((ServerWorld) wolfEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, wolfEntity.getX(), wolfEntity.getY(), wolfEntity.getZ(), 64, 0, 5, 0, 1);
+                        }
+                        wolfEntity.setAngryAt(dmgSource.getSource().getUuid());
+                        wolfEntity.chooseRandomAngerTime();
+                    }
+                }
+            }
+            if ((ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.getLiverImmortality(playerEntity) || ImmortalityStatus.isSemiImmortal(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity))
                     &&
                     ((livingEntity.getHealth() - damageAmount) <= 0 ||
                             (dmgSource != null && dmgSource.getSource() instanceof WitherSkullEntity witherSkullEntity &&
@@ -79,7 +93,6 @@ public final class ImmortalityInvokeImmortality {
                     }
                     if ((ImmortalityStatus.getImmortality(playerEntity) || ImmortalityStatus.isTrueImmortal(playerEntity)) && !ImmortalityStatus.isSemiImmortal(playerEntity)) {
                         //If real Immortality not LiverImmortality then use Leveling Mechanic
-                        playerEntity.setHealth(playerEntity.getMaxHealth());
                         if (dmgSource.getSource() != null && dmgSource.getSource() != playerEntity) {
                             if (dmgSource.getSource().isPlayer()) {
                                 PlayerEntity attackingPlayer = (PlayerEntity) dmgSource.getSource();
@@ -154,7 +167,6 @@ public final class ImmortalityInvokeImmortality {
                             ImmortalityStatus.setSemiImmortalityLostHeartTime(playerEntity, ImmortalityStatus.getCurrentTime(playerEntity));
                         }
                         ImmortalityStatus.addNegativeHearts(playerEntity);
-                        playerEntity.setHealth(playerEntity.getMaxHealth());
                         if (playerEntity.getMaxHealth() < 2) {
                             //0 Hearts then remove LiverImmortality
                             if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
@@ -245,44 +257,51 @@ public final class ImmortalityInvokeImmortality {
                     if (ImmortalityStatus.getTargetGiverImmortalPlayerEntity(livingEntity) != null) {
                         //Player is Online
                         PlayerEntity giverImmortal = ImmortalityStatus.getTargetGiverImmortalPlayerEntity(livingEntity);
-                        if (!(ImmortalityStatus.getImmortality(giverImmortal) || ImmortalityStatus.isTrueImmortal(giverImmortal) || ImmortalityStatus.isSemiImmortal(giverImmortal) || ImmortalityStatus.getLiverImmortality(giverImmortal))) {
-                            //Player is no longer Immortal
-                            return damageAmount;
-                        } else {
-                            //Check if Killed by Bane Of Life
-                            if (dmgSource.getSource() != null && dmgSource.getSource() != livingEntity && dmgSource.getSource().isPlayer()) {
-                                PlayerEntity attackingPlayer = (PlayerEntity) dmgSource.getSource();
-                                if (attackingPlayer.getMainHandStack().hasEnchantments()) {
-                                    if (EnchantmentHelper.getLevel(ImmortalityEnchants.Bane_Of_Life, attackingPlayer.getMainHandStack()) > 0) {
-                                        //Killed By Bane Of Life
-                                        giverImmortal.sendMessage(Text.translatable("immortality.soulBound_killed_with_baneOfLife", Objects.requireNonNull(livingEntity.getCustomName()).getString(), attackingPlayer.getName().getString()));
-                                        giverImmortal.setHealth(1);
-                                        giverImmortal.damage(soulBoundDamageSource, 1000);
-                                        return damageAmount;
+                        if (!ImmortalityStatus.hasTargetGiftedImmortal(giverImmortal) && ImmortalityStatus.getTargetGiftedImmortalLivingEntity(giverImmortal) != livingEntity) { //Prevent Abuse of Multiple SoulBounds
+                            ImmortalityStatus.setTargetGiftedImmortal(giverImmortal, livingEntity.getUuid());
+                            giverImmortal.sendMessage(Text.translatable("immortality.status.soulBond_restored"), true);
+                        }
+                        if (ImmortalityStatus.getTargetGiftedImmortalLivingEntity(giverImmortal) == livingEntity) {
+                            if (!(ImmortalityStatus.getImmortality(giverImmortal) || ImmortalityStatus.isTrueImmortal(giverImmortal) || ImmortalityStatus.isSemiImmortal(giverImmortal) || ImmortalityStatus.getLiverImmortality(giverImmortal))) {
+                                //Player is no longer Immortal
+                                return damageAmount;
+                            } else {
+                                //Check if Killed by Bane Of Life
+                                if (dmgSource.getSource() != null && dmgSource.getSource() != livingEntity && dmgSource.getSource().isPlayer()) {
+                                    PlayerEntity attackingPlayer = (PlayerEntity) dmgSource.getSource();
+                                    if (attackingPlayer.getMainHandStack().hasEnchantments()) {
+                                        if (EnchantmentHelper.getLevel(ImmortalityEnchants.Bane_Of_Life, attackingPlayer.getMainHandStack()) > 0) {
+                                            //Killed By Bane Of Life
+                                            giverImmortal.sendMessage(Text.translatable("immortality.soulBound_killed_with_baneOfLife", Objects.requireNonNull(livingEntity.getCustomName()).getString(), attackingPlayer.getName().getString()));
+                                            giverImmortal.setHealth(1);
+                                            giverImmortal.damage(soulBoundDamageSource, 1000);
+                                            return damageAmount;
+                                        }
                                     }
                                 }
-                            }
-                            if (livingEntity.getY() <= livingEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
-                                //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
-                                livingEntity.fallDistance = 0;
-                                FabricDimensions.teleport(livingEntity, (ServerWorld) giverImmortal.getWorld(), new TeleportTarget(giverImmortal.getPos(), Vec3d.ZERO, livingEntity.getHeadYaw(), livingEntity.getPitch()));
-                                ((ServerWorld) livingEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), 64, 0, 5, 0, 1);
-                            } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
-                                if (livingEntity.isOnFire()) {
-                                    livingEntity.extinguish();
+                                if (livingEntity.getY() <= livingEntity.world.getBottomY() && dmgSource == DamageSource.OUT_OF_WORLD) {
+                                    //If in Void taking damage then Teleport to Spawnpoint/Bed of Player, When no Bed is found then yeet them to Overworld Spawn
+                                    livingEntity.fallDistance = 0;
+                                    FabricDimensions.teleport(livingEntity, (ServerWorld) giverImmortal.getWorld(), new TeleportTarget(giverImmortal.getPos(), Vec3d.ZERO, livingEntity.getHeadYaw(), livingEntity.getPitch()));
+                                    ((ServerWorld) livingEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), 64, 0, 5, 0, 1);
+                                } else if (dmgSource != DamageSource.OUT_OF_WORLD) {
+                                    if (livingEntity.isOnFire()) {
+                                        livingEntity.extinguish();
+                                    }
+                                    giverImmortal.setHealth(1);
+                                    giverImmortal.damage(soulBoundDamageSource, 1000);
+                                    livingEntity.getWorld().playSoundFromEntity(null, livingEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.NEUTRAL, 5, 1);
+                                    ((ServerWorld) livingEntity.getWorld()).spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), 64, 0, 5, 0, 1);
+                                    livingEntity.setAir(livingEntity.getMaxAir());
+                                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
+                                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
+                                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 15 * 20, 2, true, true));
                                 }
-                                giverImmortal.setHealth(1);
-                                giverImmortal.damage(soulBoundDamageSource, 1000);
-                                livingEntity.getWorld().playSoundFromEntity(null, livingEntity, SoundEvents.BLOCK_AMETHYST_CLUSTER_FALL, SoundCategory.NEUTRAL, 5, 1);
-                                ((ServerWorld) livingEntity.getWorld()).spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), 64, 0, 5, 0, 1);
-                                livingEntity.setAir(livingEntity.getMaxAir());
-                                livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0, false, false));
-                                livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false));
-                                livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 15 * 20, 2, true, true));
+                                livingEntity.setHealth(livingEntity.getMaxHealth());
+                                return 0;
                             }
-                            livingEntity.setHealth(livingEntity.getMaxHealth());
-                            return 0;
                         }
+                        return damageAmount;
                     }
                 } else if (livingEntity instanceof ImmortalWither immortalWither) {
                     //If Bane Of Life, it will count as 2 Kills

@@ -15,18 +15,16 @@ import net.minecraft.text.Text;
 public class PlayerTickHandler implements ServerTickEvents.StartTick {
     @Override
     public void onStartTick(MinecraftServer server) {
-        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-            //Run Stuff
-            int currentTime = ImmortalityStatus.getCurrentTime(server);
-            if (currentTime % 20 == 0) {
+        int currentTime = ImmortalityStatus.getCurrentTime(server);
+        if (currentTime % 20 == 0) {
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                //Run Stuff
                 if (currentTime % 100 == 0) { // Every 5sec
                     if (ImmortalityData.getLiverExtracted(ImmortalityStatus.getPlayerComponent(player))) {
                         if (ImmortalityStatus.getRegeneratingHearts(player) == 0) {
                             ImmortalityStatus.addRegrowingLiver(player);
                         }
                     }
-                }
-                if (currentTime % 600 == 0) { //Every 30sec
                     if (ImmortalityStatus.hasTargetGiftedImmortal(player)) {
                         if (!(ImmortalityStatus.isSemiImmortal(player) || ImmortalityStatus.getLiverImmortality(player) || ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isTrueImmortal(player)) || ImmortalityStatus.getTargetGiftedImmortalLivingEntity(player) == null) {
                             ImmortalityStatus.removeTargetGiftedImmortal(player);
