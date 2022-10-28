@@ -26,33 +26,40 @@ public class HeartOfImmortality extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity player) {
-        PlayerEntity playerEntity = (PlayerEntity) player;
-        if (!world.isClient()) {
-            //Server
-            if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
-                ImmortalityStatus.removeFalseImmortality(playerEntity);
-            }else if (ImmortalityStatus.isSemiImmortal(playerEntity)){
-                ImmortalityStatus.convertSemiImmortalityIntoOtherImmortality(playerEntity);
+        if (player.isPlayer()) {
+            PlayerEntity playerEntity = (PlayerEntity) player;
+            if (!world.isClient()) {
+                //Server
+                if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
+                    ImmortalityStatus.removeFalseImmortality(playerEntity);
+                }
+                if ((ImmortalityStatus.isSemiImmortal(playerEntity) || playerEntity.isCreative()) && !ImmortalityStatus.getImmortality(playerEntity)) {
+                    ImmortalityStatus.convertSemiImmortalityIntoOtherImmortality(playerEntity);
+                    ImmortalityStatus.setImmortality(playerEntity, true);
+                    Identifier[] recipes = new Identifier[4];
+                    recipes[0] = new Identifier(Immortality.MOD_ID, "immortal_essence");
+                    recipes[1] = new Identifier(Immortality.MOD_ID, "liver_of_immortality");
+                    recipes[2] = new Identifier(Immortality.MOD_ID, "summoning_sigil");
+                    recipes[3] = new Identifier(Immortality.MOD_ID, "holy_dagger");
+                    playerEntity.unlockRecipes(recipes);
+                } else if (!ImmortalityStatus.getImmortality(playerEntity)) {
+                    playerEntity.sendMessage(Text.translatable("immortality.status.needed_semi_immortality"), true);
+                    return new ItemStack(stack.getItem());
+                }
+                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
+                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
+                ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
+            } else {
+                //Client
+                if (!ImmortalityStatus.getImmortality(playerEntity) && (ImmortalityStatus.isSemiImmortal(playerEntity) || playerEntity.isCreative())) {
+                    MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.HeartOfImmortality));
+                } else {
+                    return new ItemStack(stack.getItem());
+                }
             }
-            if (!ImmortalityStatus.getImmortality(playerEntity)) {
-                ImmortalityStatus.setImmortality(playerEntity, true);
-                Identifier[] recipes = new Identifier[4];
-                recipes[0] = new Identifier(Immortality.MOD_ID, "immortal_essence");
-                recipes[1] = new Identifier(Immortality.MOD_ID, "liver_of_immortality");
-                recipes[2] = new Identifier(Immortality.MOD_ID, "summoning_sigil");
-                recipes[3] = new Identifier(Immortality.MOD_ID, "holy_dagger");
-                playerEntity.unlockRecipes(recipes);
-            }
-            playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0, false, false));
-            playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 50, 0, false, false));
-            ImmortalityAdvancementGiver.giveImmortalityAchievements(playerEntity);
-        } else {
-            //Client
-            if (!ImmortalityStatus.getImmortality(playerEntity)) {
-                MinecraftClient.getInstance().gameRenderer.showFloatingItem(new ItemStack(ImmortalityItems.HeartOfImmortality));
-            }
+            return super.finishUsing(stack, world, playerEntity);
         }
-        return super.finishUsing(stack, world, playerEntity);
+        return super.finishUsing(stack, world, player);
     }
 
     @Override

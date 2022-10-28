@@ -78,6 +78,7 @@ public final class ImmortalityCommands {
                             }
                             if (ImmortalityStatus.getLiverImmortality(playerEntity)) {
                                 context.getSource().sendFeedback(Text.translatable("immortality.commands.false_immortality"), false);
+                                context.getSource().sendFeedback(Text.translatable("immortality.commands.needed_successful_lifeElixir", ((20 - ImmortalityStatus.getBonusHearts(playerEntity)) / ImmortalityStatus.lifeElixirHealth)), false);
                             } else if (ImmortalityStatus.getImmortality(playerEntity) && ImmortalityStatus.getVoidHeart(playerEntity)) {
                                 if (ImmortalityStatus.isTrueImmortal(playerEntity)) {
                                     context.getSource().sendFeedback(Text.translatable("immortality.commands.trinity"), false);

@@ -34,6 +34,8 @@
   "immortality.status.soulBond": "%s is your SoulBond at {x:%s,y:%s,z:%s,dim:%s}",
   "immortality.status.soulBond_dead": "Your SoulBond is dead, or changed its UUID",
   "immortality.status.soulBond_restored": "Your SoulBound reconnected with you",
+  "immortality.status.needed_semi_immortality": "Grow a spark of Immortality with Semi Immortality first",
+  "immortality.commands.needed_successful_lifeElixir": "To reach Semi Immortality successfully consume %s more Life Elixir",
   "immortality.soulBound_killed_with_baneOfLife": "Your SoulBound %s has been killed with Bane Of Life by %s",
   "immortality.status.liverEatable": "You can now regrow your Liver by eating it",
   "immortality.status.heart_restored": "You have restored one Heart",

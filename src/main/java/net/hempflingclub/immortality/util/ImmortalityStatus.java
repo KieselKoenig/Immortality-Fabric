@@ -6,8 +6,11 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
 import java.util.Objects;
@@ -322,6 +325,9 @@ public final class ImmortalityStatus {
             playerEntity.syncComponent(IImmortalityPlayerComponent.KEY); // Ensures their NBT gets saved, even if killed the next tick (hopefully)
             ImmortalityAdvancementGiver.giveLifeElixirAchievement(playerEntity);
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir"), true);
+            ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.HEART, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), 64, 0, 5, 0, 1);
+            playerEntity.getWorld().playSoundFromEntity(null, playerEntity, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 5, 1);
+
         } else {
             playerEntity.sendMessage(Text.translatable("immortality.status.life_elixir_failed"), true);
             resetLifeElixirTime(playerEntity);

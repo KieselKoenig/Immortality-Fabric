@@ -142,7 +142,7 @@ public class PlayerTickHandler implements ServerTickEvents.StartTick {
                     if (!ImmortalityStatus.isTrueImmortal(player)) {
                         player.addStatusEffect(new StatusEffectInstance(ModEffectRegistry.void_heart, 20 * 5, 0, false, false));
                     }
-                    if (currentTime % 600 == 0 || (ImmortalityStatus.isTrueImmortal(player)) || (currentTime % 150 == 0 && ImmortalityStatus.getImmortality(player))) {
+                    if (currentTime % 600 == 0 || (ImmortalityStatus.isTrueImmortal(player)) || (currentTime % 150 == 0 && (ImmortalityStatus.getImmortality(player) || ImmortalityStatus.isSemiImmortal(player)))) {
                         player.getHungerManager().add(1, 1);
                     }
                 }
