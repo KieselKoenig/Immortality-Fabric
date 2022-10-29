@@ -219,4 +219,15 @@ public final class ImmortalityData {
         NbtCompound nbt = livingEntityComponent.getLivingEntityData();
         return nbt.getInt("immortalWitherDeaths");
     }
+
+    public static void setSummonedTeleport(@NotNull IImmortalityPlayerComponent playerComponent, boolean status) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        nbt.putBoolean("summonTeleport", status);
+        playerComponent.setPlayerData(nbt);
+    }
+
+    public static boolean getSummonedTeleport(@NotNull IImmortalityPlayerComponent playerComponent) {
+        NbtCompound nbt = playerComponent.getPlayerData();
+        return nbt.getBoolean("summonTeleport");
+    }
 }

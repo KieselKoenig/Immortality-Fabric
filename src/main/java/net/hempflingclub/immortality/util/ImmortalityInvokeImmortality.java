@@ -41,7 +41,7 @@ public final class ImmortalityInvokeImmortality {
             if (ImmortalityStatus.hasTargetGiftedImmortal(playerEntity) && dmgSource.getSource() != null && dmgSource.getSource() != playerEntity) {
                 LivingEntity immortalEntity = ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity);
                 if (immortalEntity instanceof WolfEntity wolfEntity) {
-                    if (!wolfEntity.isSitting() && wolfEntity.isTeammate(playerEntity)) {
+                    if (ImmortalityStatus.getSummonedTeleport(playerEntity) && wolfEntity.isTeammate(playerEntity)) {
                         if (wolfEntity.getWorld() != playerEntity.getWorld() || wolfEntity.distanceTo(playerEntity) > 10) {
                             wolfEntity.fallDistance = 0;
                             FabricDimensions.teleport(wolfEntity, (ServerWorld) playerEntity.getWorld(), new TeleportTarget(playerEntity.getPos(), Vec3d.ZERO, wolfEntity.getYaw(), wolfEntity.getPitch()));

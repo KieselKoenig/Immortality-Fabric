@@ -521,4 +521,14 @@ public final class ImmortalityStatus {
         IImmortalityLivingEntityComponent livingEntityComponent = getLivingEntityComponent(immortalWither);
         return ImmortalityData.getImmortalWitherDeaths(livingEntityComponent);
     }
+
+    public static boolean getSummonedTeleport(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        return ImmortalityData.getSummonedTeleport(playerComponent);
+    }
+
+    public static void toggleSummonedTeleport(PlayerEntity playerEntity) {
+        IImmortalityPlayerComponent playerComponent = getPlayerComponent(playerEntity);
+        ImmortalityData.setSummonedTeleport(playerComponent, !getSummonedTeleport(playerEntity));
+    }
 }

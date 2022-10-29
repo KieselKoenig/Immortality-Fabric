@@ -6,6 +6,7 @@ import net.hempflingclub.immortality.Immortality;
 import net.hempflingclub.immortality.util.ImmortalityData;
 import net.hempflingclub.immortality.util.ImmortalityStatus;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.command.CommandManager;
@@ -113,25 +114,42 @@ public final class ImmortalityCommands {
                     return 1;
                 })))
                 .then(CommandManager.literal("summon").executes((context -> {
-                    if (context.getSource().isExecutedByPlayer()) {
-                        PlayerEntity playerEntity = context.getSource().getPlayer();
-                        context.getSource().getServer().execute(() -> {
-                            if (ImmortalityStatus.hasTargetGiftedImmortal(playerEntity)) {
-                                assert playerEntity != null;
-                                playerEntity.sendMessage(Text.translatable("immortality.commands.summoned"), true);
-                                LivingEntity summonedEntity = ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity);
-                                assert summonedEntity != null;
-                                FabricDimensions.teleport(summonedEntity, (ServerWorld) Objects.requireNonNull(playerEntity).getWorld(), new TeleportTarget(playerEntity.getPos(), Vec3d.ZERO, summonedEntity.getHeadYaw(), summonedEntity.getPitch()));
-                                ((ServerWorld) summonedEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, summonedEntity.getX(), summonedEntity.getY(), summonedEntity.getZ(), 64, 0, 5, 0, 1);
+                            if (context.getSource().isExecutedByPlayer()) {
+                                PlayerEntity playerEntity = context.getSource().getPlayer();
+                                context.getSource().getServer().execute(() -> {
+                                    if (ImmortalityStatus.hasTargetGiftedImmortal(playerEntity)) {
+                                        assert playerEntity != null;
+                                        playerEntity.sendMessage(Text.translatable("immortality.commands.summoned"), true);
+                                        LivingEntity summonedEntity = ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity);
+                                        assert summonedEntity != null;
+                                        FabricDimensions.teleport(summonedEntity, (ServerWorld) Objects.requireNonNull(playerEntity).getWorld(), new TeleportTarget(playerEntity.getPos(), Vec3d.ZERO, summonedEntity.getHeadYaw(), summonedEntity.getPitch()));
+                                        ((ServerWorld) summonedEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, summonedEntity.getX(), summonedEntity.getY(), summonedEntity.getZ(), 64, 0, 5, 0, 1);
+                                    } else {
+                                        context.getSource().sendFeedback(Text.translatable("immortality.commands.no_soulbound"), false);
+                                    }
+                                });
                             } else {
-                                context.getSource().sendFeedback(Text.translatable("immortality.commands.no_soulbound"), false);
+                                context.getSource().sendFeedback(Text.translatable("immortality.commands.playerOnly"), false);
                             }
-                        });
-                    } else {
-                        context.getSource().sendFeedback(Text.translatable("immortality.commands.playerOnly"), false);
-                    }
-                    return 1;
-                })))
+                            return 1;
+                        })).then(CommandManager.literal("toggle").executes((context -> {
+                            if (context.getSource().isExecutedByPlayer()) {
+                                PlayerEntity playerEntity = context.getSource().getPlayer();
+                                context.getSource().getServer().execute(() -> {
+                                    if (ImmortalityStatus.hasTargetGiftedImmortal(playerEntity) && ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity) instanceof WolfEntity) {
+                                        assert playerEntity != null;
+                                        ImmortalityStatus.toggleSummonedTeleport(playerEntity);
+                                        playerEntity.sendMessage(Text.translatable((ImmortalityStatus.getSummonedTeleport(playerEntity) ? "immortality.status.enabled_combat_wolf" : "immortality.status_disabled_combat_wolf")));
+                                    } else {
+                                        context.getSource().sendFeedback(Text.translatable((ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity) != null && !(ImmortalityStatus.getTargetGiftedImmortalLivingEntity(playerEntity) instanceof WolfEntity) ? "immortality.commands.no_soulbound_wolf" : "immortality.commands.no_soulbound")), false);
+                                    }
+                                });
+                            } else {
+                                context.getSource().sendFeedback(Text.translatable("immortality.commands.playerOnly"), false);
+                            }
+                            return 1;
+                        })))
+                )
         );
     }
 }
