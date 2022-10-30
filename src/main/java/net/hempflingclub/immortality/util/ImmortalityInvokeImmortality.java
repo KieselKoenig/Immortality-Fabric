@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
@@ -49,6 +50,16 @@ public final class ImmortalityInvokeImmortality {
                         }
                         wolfEntity.setAngryAt(dmgSource.getSource().getUuid());
                         wolfEntity.chooseRandomAngerTime();
+                    }
+                } else if (immortalEntity instanceof HostileEntity hostileEntity && dmgSource.getSource().isPlayer()) {
+                    if (ImmortalityStatus.getSummonedTeleport(playerEntity)) {
+                        if (hostileEntity.getWorld() != playerEntity.getWorld() || hostileEntity.distanceTo(playerEntity) > 10) {
+                            hostileEntity.fallDistance = 0;
+                            FabricDimensions.teleport(hostileEntity, (ServerWorld) playerEntity.getWorld(), new TeleportTarget(playerEntity.getPos(), Vec3d.ZERO, hostileEntity.getYaw(), hostileEntity.getPitch()));
+                            ((ServerWorld) hostileEntity.getWorld()).spawnParticles(ParticleTypes.SOUL, hostileEntity.getX(), hostileEntity.getY(), hostileEntity.getZ(), 64, 0, 5, 0, 1);
+                        }
+                        hostileEntity.setAttacking((PlayerEntity) dmgSource.getSource());
+                        hostileEntity.setAttacking(true);
                     }
                 }
             }
