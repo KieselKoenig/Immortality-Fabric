@@ -84,3 +84,33 @@
 - [x] Bonus to Immortal Liver (Semi Immortality(Lose Hearts but never lose Semi Immortality, and slowly regain Hearts))
 - [x] Immortal Wither, killing him will drop the Heart of Immortality
 - [ ] Waiting for Feedback to decide other Features which should be added
+---
+## Version 2.0.0 (WIP)
+Thanks to driplock's suggestions on CurseForge I've come up with these following changes I plan on implementing for 2.0.0 after fixing existing Bugs (if everything goes as planned, otherwise it will be adjusted accordingly)
+  - ### New Item Soul Stone
+    - [ ] If held in Offhand when killing will absorb Soul Power
+    - [ ] It shows it's Soul Power in Tooltip
+    - [ ] Can hold up to 5 Soul Power
+    - [ ] Mobs give different amounts of Soul Power scaling based of Health
+      - Will not work on Players because of their Immutable Souls 
+    - Has 3 Durability of emptying it until it breaks
+    - [ ] Can Empty it's Soul Power into your SoulBound
+    - [ ] When Dropped in Powdered Snow will condense into 1/5 it's Soul Power's Immortal Essence
+      - If this happens below 5 Soul Power it will be nulled
+      - This Condesation uses Durability
+  - ### SoulBound integration with Soul Power mechanic
+    - [ ] SoulBounds will have some form of Indicator regarding their SoulPower
+    - [ ] They can hold a full Soul Stone charge (5) of Soul Power max regardless of the SoulBounds Entity Type
+    - [ ] Should a Semi Immortal now have a FINAL Death their SoulBound sacrifices 1 Soul Power to avoid it
+    - [ ] Should a Semi Immortal have a FINAL Death without their SoulBound having at least 1 Soul Power they will die and so will their SoulBound
+    - [ ] SoulBound's will be restricted to False Immortals having consumed enough Life Elixir to ready themselves for Semi Immortality and upwards in terms of Progression
+    - [ ] Semi Immortals will be False Immortals without a SoulBound (No Heart restoration every 5min)
+    - [ ] SoulBounds can be sacrificed by Immortals to reach the newly changed True Immortality for (Soul Power Sacrificed + Entity Value) in minutes
+      - [ ] This new True Immortality will also be invulnerable to Bane Of Life
+      - [ ] Will give glowing / Strength 3 / Speed 2 / Creative Flight
+      - [ ] Entity Value will range from 1-5 depending on their sacrificed worth
+      - [ ] After the Effect the Player will Permanently lose 2 Hearts, regardless if they choose to give up their Immortality afterwards
+      - [ ] After the Effect they will also be forcefully Mortal for 10 Minutes regardless of True Immortality Time achieved by the formula
+    - [ ] Any Type of Immortal can kill their own SoulBound without needing Bane Of Life, so beware
+    - [ ] For Every Immortal Type SoulBound's will use 1 Soul Power to save themselves from a Bane Of Life Death and then be force summoned to you, unless you're Offline
+  - [ ] Rework Existing True Immortality to be a Strong Immortal, and also give clear feedback regarding radiating Immortality healing Items (already in 1.0.0+) and add a toggle Command for it (maybe someone doesn't like their blinking pickaxe when mining)
